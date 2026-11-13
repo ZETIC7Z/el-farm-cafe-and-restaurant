@@ -163,6 +163,37 @@ const BASE_URL = (process.env.VERIFY_BASE_URL || 'http://localhost:5173').replac
   console.log('=== NEW TAB INTRO AUDIT ===\n', JSON.stringify(tab2Audit, null, 2));
   await tab2.close();
 
+  // Test Mobile Browser Tab: Intro MUST NOT play on mobile/tablet; must direct-load main site without downloading intro.mp4
+  console.log('2d. Testing Mobile Browser Tab (Intro MUST NOT display; direct load main site)...');
+  const mobileContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+    userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+  });
+  const mobilePage = await mobileContext.newPage();
+  let mobileVideoRequested = false;
+  mobilePage.on('request', (req) => {
+    if (req.url().includes('intro.mp4')) mobileVideoRequested = true;
+  });
+  await mobilePage.goto(`${BASE_URL}/`, { waitUntil: 'load', timeout: 45000 });
+  await mobilePage.waitForTimeout(800);
+  const mobileAudit = await mobilePage.evaluate(() => {
+    const overlay = document.getElementById('elfarm-intro-overlay');
+    const mainEl = document.getElementById('main');
+    return {
+      isMobileFlag: !!window.__elfarmIsMobile,
+      skipIntroFlag: !!window.__elfarmSkipIntro,
+      hasIntroLock: document.documentElement.classList.contains('elfarm-intro-lock'),
+      overlayPresent: !!overlay,
+      overlayVisible: !!overlay && window.getComputedStyle(overlay).display !== 'none',
+      mainOpacity: mainEl ? window.getComputedStyle(mainEl).opacity : null,
+    };
+  });
+  mobileAudit.mobileVideoRequested = mobileVideoRequested;
+  console.log('=== MOBILE BROWSER DIRECT-LOAD AUDIT ===\n', JSON.stringify(mobileAudit, null, 2));
+  await mobileContext.close();
+
   // Scroll through Home page to trigger appear animations
   const totalHeight = await page.evaluate(() => document.body.scrollHeight);
   for (let y = 0; y <= totalHeight; y += 700) {

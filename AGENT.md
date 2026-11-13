@@ -16,7 +16,8 @@
   - Preserves 100% of Framer's original layout, animations, fonts (`Cormorant Garamond`, `Jost`), and dark/gold color palette (`#0B1315`, `#0F1D22`, `#EFC9A4`).
 - **Full-Screen Landing Page Intro Animation Video (`#elfarm-intro-overlay` & `./assets/video/intro.mp4`)**:
   - Updated to `gemini_generated_video_d4afaf6d.mp4` (`4.66 MB`, `10.03s` duration) in `assets/video/intro.mp4`.
-  - Runs **once per browser tab session** via synchronous `<script id="elfarm-intro-boot">` + `sessionStorage.getItem('elfarm_intro_played')`: refreshing (`F5`) inside the same tab skips the intro cleanly, while opening a **new tab** or **different browser** replays the intro once.
+  - **Desktop / Laptop Only**: Runs **once per browser tab session** on PC/laptop browsers via synchronous `<script id="elfarm-intro-boot">` + `sessionStorage.getItem('elfarm_intro_played')`; **mobile, tablet, and touch devices** (`width < 1024px`, mobile/tablet UA, or coarse touch pointer `<= 1280px`) skip both the overlay and `intro.mp4` download (`data-src` lazy binding) and load directly into the main site.
+  - Refreshing (`F5`) inside the same desktop tab skips the intro cleanly, while opening a **new desktop tab** or **different browser** replays the intro once.
   - While active, `<html class="elfarm-intro-lock">` locks all scrollbars (`overflow: hidden !important; scrollbar-width: none !important`) and plays `#elfarm-intro-video` across the full viewport (`100vw × 100vh`, `object-fit: cover`).
   - Once finished (`ended` event), `#main` transitions smoothly from dark (`#070d0f`, `opacity: 0`) to light (`opacity: 1`), triggers deferred Framer appear effects + [`replayHeroEntranceAnimations`](scripts/transform_monkscrave_content.cjs) for the **3 circular Hero dishes** (`.framer-1j6fcxm`, `.framer-71xvpi`, `.framer-1qgz169`), floating leaves, and Hero copy with resting `opacity: 1`.
 - **Top Navbar Hover & Plate Micro-Interactions**:

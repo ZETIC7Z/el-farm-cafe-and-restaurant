@@ -784,13 +784,21 @@ const rawEnhanceJsContent = `(function () {
     });
   }
 
-  // Setup Full-Viewport Intro Animation Video on Landing Page (index.html) — Plays Once Per Tab Session
+  // Setup Full-Viewport Intro Animation Video on Landing Page (index.html) — Desktop/Laptop Only, Once Per Tab
   function initIntroVideo() {
     const overlay = document.getElementById('elfarm-intro-overlay');
     const video = document.getElementById('elfarm-intro-video');
 
     const params = new URLSearchParams(window.location.search);
-    const alreadyPlayed = !!window.__elfarmSkipIntro || sessionStorage.getItem('elfarm_intro_played') === '1' || params.get('skipIntro') === '1';
+    const isMobileOrTablet = !!window.__elfarmIsMobile
+      || window.innerWidth < 1024
+      || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i.test(navigator.userAgent || '')
+      || (typeof window.matchMedia === 'function' && window.matchMedia('(pointer: coarse)').matches && window.innerWidth <= 1280);
+
+    const alreadyPlayed = isMobileOrTablet
+      || !!window.__elfarmSkipIntro
+      || sessionStorage.getItem('elfarm_intro_played') === '1'
+      || params.get('skipIntro') === '1';
 
     if (alreadyPlayed) {
       document.documentElement.classList.remove('elfarm-intro-lock');
@@ -811,6 +819,11 @@ const rawEnhanceJsContent = `(function () {
       document.documentElement.classList.remove('elfarm-intro-lock');
       document.documentElement.classList.add('elfarm-intro-reveal');
       return;
+    }
+
+    if (!video.getAttribute('src') && video.getAttribute('data-src')) {
+      video.setAttribute('src', video.getAttribute('data-src'));
+      video.load();
     }
 
     // Mark tab session as having played the intro so F5 / page reload in same tab skips it,
@@ -2022,9 +2035,9 @@ for (const cfg of pageConfigs) {
   const seoHead = buildSeoHeadBlock(cfg.title, cfg.desc, cfg.canonical);
   html = html.replace(/(<meta name="viewport"[^>]*>)/i, `$1\n${seoHead}`);
 
-  // If landing page (index.html), inject synchronous sessionStorage check + fullscreen intro animation video (once per tab)
+  // If landing page (index.html), inject synchronous desktop-only + sessionStorage check + fullscreen intro animation video
   if (cfg.withIntroVideo) {
-    const introBootScript = `<script id="elfarm-intro-boot">(function(){try{var s=window.location.search.indexOf('skipIntro=1')!==-1||sessionStorage.getItem('elfarm_intro_played')==='1';window.__elfarmSkipIntro=s;if(!s){document.documentElement.classList.add('elfarm-intro-lock');}}catch(e){window.__elfarmSkipIntro=false;}})();</script>`;
+    const introBootScript = `<script id="elfarm-intro-boot">(function(){try{var isMob=(window.innerWidth<1024)||/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i.test(navigator.userAgent||'')||(typeof window.matchMedia==='function'&&window.matchMedia('(pointer: coarse)').matches&&window.innerWidth<=1280);var s=isMob||window.location.search.indexOf('skipIntro=1')!==-1||sessionStorage.getItem('elfarm_intro_played')==='1';window.__elfarmIsMobile=isMob;window.__elfarmSkipIntro=s;if(!s){document.documentElement.classList.add('elfarm-intro-lock');}}catch(e){window.__elfarmSkipIntro=false;}})();</script>`;
     html = html.replace('</head>', `${introBootScript}</head>`);
 
     // Defer Framer's initial appear script until after intro video ends when intro is playing
@@ -2040,18 +2053,20 @@ html.elfarm-intro-lock::-webkit-scrollbar,html.elfarm-intro-lock body::-webkit-s
 html.elfarm-intro-lock #main{opacity:0!important;filter:brightness(0.12)!important}
 html.elfarm-intro-reveal #main{opacity:1!important;filter:brightness(1)!important;transition:opacity 1.15s cubic-bezier(0.22,1,0.36,1),filter 1.25s cubic-bezier(0.22,1,0.36,1)!important}
 html:not(.elfarm-intro-lock) #elfarm-intro-overlay{display:none!important}
+@media (max-width: 1023px), (pointer: coarse) and (max-width: 1280px){#elfarm-intro-overlay{display:none!important}}
 #elfarm-intro-overlay{position:fixed;inset:0;width:100vw;height:100vh;background:#070d0f;z-index:2147483646;overflow:hidden;display:flex;align-items:center;justify-content:center;opacity:1;visibility:visible;transition:opacity 1.05s cubic-bezier(0.22,1,0.36,1),visibility 1.05s ease}
 #elfarm-intro-overlay.elfarm-intro-fadeout{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
 #elfarm-intro-video{width:100vw;height:100vh;object-fit:cover;display:block;pointer-events:none}
 </style>
 <div id="elfarm-intro-overlay" aria-label="El Farm Intro Animation">
-  <video id="elfarm-intro-video" src="./assets/video/intro.mp4" autoplay muted playsinline preload="auto"></video>
-</div>`;
+  <video id="elfarm-intro-video" data-src="./assets/video/intro.mp4" autoplay muted playsinline preload="none"></video>
+</div>
+<script>(function(){if(!window.__elfarmSkipIntro){var v=document.getElementById('elfarm-intro-video');if(v&&v.getAttribute('data-src')){v.setAttribute('preload','auto');v.setAttribute('src',v.getAttribute('data-src'));}}})();</script>`;
     html = html.replace('<body>', `<body>${introOverlayHtml}`);
   }
 
   // Inject protected elfarm-enhance.js right before </body>
-  html = html.replace('</body>', '<script src="./assets/js/elfarm-enhance.js?v=6"></script></body>');
+  html = html.replace('</body>', '<script src="./assets/js/elfarm-enhance.js?v=7"></script></body>');
 
   fs.writeFileSync(path.join(ROOT, cfg.out), html, 'utf8');
   console.log('Updated', cfg.out);
