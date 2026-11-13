@@ -41,7 +41,7 @@ const ARTIFACT_DIR = 'C:/Users/ZETICUZ/.gemini/antigravity/brain/f57633c0-7f74-4
         setTimeout(r, 3000);
       });
     }
-    video.currentTime = 4.5;
+    video.currentTime = Math.min(3.5, Math.max(1.0, (video.duration || 5) * 0.5));
     await new Promise(r => {
       video.addEventListener('seeked', r, { once: true });
       setTimeout(r, 1500);
