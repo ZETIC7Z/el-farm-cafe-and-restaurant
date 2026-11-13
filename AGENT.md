@@ -47,5 +47,5 @@
 
 ## 4. Developer Attribution Standard
 - Centered at the bottom of the footer (`#zeticuz-attribution-bar` appended after `#main` on all 5 pages):
-  - `[zeticuz-logo.svg] SITE DEVELOPED BY: Sam Pangilinan · © 2026`
+  - `SITE DEVELOPED BY: [zeticuz-logo.svg]`
   - Interactive button opening `https://www.zeticuz.xyz/` in a new tab without displaying the raw URL string.

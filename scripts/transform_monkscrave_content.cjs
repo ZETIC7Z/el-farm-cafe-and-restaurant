@@ -1352,8 +1352,10 @@ const rawEnhanceJsContent = `(function () {
         transform: translateY(-1px);
       }
       .zeticuz-dev-btn img {
-        width: 22px;
-        height: 22px;
+        height: 24px;
+        width: auto;
+        max-width: 120px;
+        display: block;
         object-fit: contain;
       }
     \`;
@@ -1833,9 +1835,9 @@ const rawEnhanceJsContent = `(function () {
     bar.id = 'zeticuz-attribution-bar';
     bar.className = 'zeticuz-dev-footer';
     bar.innerHTML = \`
-      <button type="button" class="zeticuz-dev-btn" id="zeticuz-portfolio-btn" aria-label="Site Developed by Sam Pangilinan">
+      <button type="button" class="zeticuz-dev-btn" id="zeticuz-portfolio-btn" aria-label="Site Developed by ZETICUZ">
+        <span>SITE DEVELOPED BY:</span>
         <img src="./assets/images/zeticuz-logo.svg" alt="ZETICUZ Logo">
-        <span>SITE DEVELOPED BY: Sam Pangilinan · © 2026</span>
       </button>
     \`;
     document.body.appendChild(bar);
