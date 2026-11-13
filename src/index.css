@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-espresso: #0b0806;
+  --bg-roast: #140e0a;
+  --surface-card: rgba(35, 23, 15, 0.72);
+  --surface-parchment: #f5efe6;
+  --text-cream: #faf6f0;
+  --text-muted: #cbbba6;
+  --accent-gold: #d4af37;
+  --accent-amber: #e5a93c;
+  --accent-sage: #6a7f3f;
+  --accent-olive: #4e5e30;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+body {
+  background-color: var(--bg-espresso);
+  color: var(--text-cream);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Subtle organic grain overlay */
+.bg-grain {
+  background-image: radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0806;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a2415;
+  border-radius: 9999px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* 3D Perspective utilities for the Cylindrical Customer Carousel and Tilt Cards */
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.perspective-2000 {
+  perspective: 2000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}

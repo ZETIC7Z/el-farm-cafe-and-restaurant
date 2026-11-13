@@ -1,0 +1,2 @@
+function e(a,t){return{description:"El Farm Cafe & Resto is a premium restaurant theme designed for interactive & conversion-driven websites. A clean layout, dark aesthetic, component library, and style guide help restaurants showcase menus, engage customers, and boost reservations effortlessly.",favicon:"https://framerusercontent.com/assets/W9kkqhMkOQdLjPhImluP8KmaLE.png",robots:"max-image-preview:large",socialImage:"https://framerusercontent.com/assets/Q8FfLxcPUJDO4u3iAeuJsBIrTE0.png",title:"El Farm Cafe & Resto"}}export{e as a};
+
