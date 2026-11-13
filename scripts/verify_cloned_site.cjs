@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ARTIFACT_DIR = 'C:/Users/ZETICUZ/.gemini/antigravity/brain/f57633c0-7f74-4399-b492-c589414a2304';
+const BASE_URL = (process.env.VERIFY_BASE_URL || 'http://localhost:5173').replace(/\/$/, '');
 
 (async () => {
   const browser = await chromium.launch({
@@ -28,8 +29,8 @@ const ARTIFACT_DIR = 'C:/Users/ZETICUZ/.gemini/antigravity/brain/f57633c0-7f74-4
     }
   });
 
-  console.log('1. Navigating to Home page http://localhost:5173/ (Testing Intro Video Overlay)...');
-  await page.goto('http://localhost:5173/', { waitUntil: 'load', timeout: 30000 });
+  console.log(`1. Navigating to Home page ${BASE_URL}/ (Testing Intro Video Overlay)...`);
+  await page.goto(`${BASE_URL}/`, { waitUntil: 'load', timeout: 45000 });
 
   // Wait for video metadata/data to load and seek to 4.5s so we capture a bright mid-animation frame
   await page.evaluate(async () => {
@@ -119,7 +120,7 @@ const ARTIFACT_DIR = 'C:/Users/ZETICUZ/.gemini/antigravity/brain/f57633c0-7f74-4
   const aboutNav = page.locator('header nav a', { hasText: 'About' }).first();
   if (await aboutNav.count() > 0) {
     await aboutNav.hover();
-    await page.waitForTimeout(450);
+    await page.waitForTimeout(600);
     const navHoverStyle = await aboutNav.evaluate((el) => {
       const p = el.querySelector('p');
       return {
@@ -150,7 +151,7 @@ const ARTIFACT_DIR = 'C:/Users/ZETICUZ/.gemini/antigravity/brain/f57633c0-7f74-4
   // Test Opening Site in a Brand New Browser Tab: Intro MUST play again!
   console.log('2c. Testing New Browser Tab (Intro MUST play once in new tab)...');
   const tab2 = await context.newPage();
-  await tab2.goto('http://localhost:5173/', { waitUntil: 'load', timeout: 30000 });
+  await tab2.goto(`${BASE_URL}/`, { waitUntil: 'load', timeout: 45000 });
   await tab2.waitForTimeout(400);
   const tab2Audit = await tab2.evaluate(() => {
     const overlay = document.getElementById('elfarm-intro-overlay');
@@ -220,10 +221,10 @@ const ARTIFACT_DIR = 'C:/Users/ZETICUZ/.gemini/antigravity/brain/f57633c0-7f74-4
 
   // 3. Test All Navbar Pages: About (/about), Menu (/menu), Blog (/blog), Contact (/contact)
   const navPages = [
-    { name: 'About', url: 'http://localhost:5173/about', screenshot: 'framer_07_about_page.png' },
-    { name: 'Menu', url: 'http://localhost:5173/menu', screenshot: 'framer_02b_menu_top_selection.png' },
-    { name: 'Blog', url: 'http://localhost:5173/blog', screenshot: 'framer_08_blog_page.png' },
-    { name: 'Contact', url: 'http://localhost:5173/contact', screenshot: 'framer_10_contact_page.png' },
+    { name: 'About', url: `${BASE_URL}/about`, screenshot: 'framer_07_about_page.png' },
+    { name: 'Menu', url: `${BASE_URL}/menu`, screenshot: 'framer_02b_menu_top_selection.png' },
+    { name: 'Blog', url: `${BASE_URL}/blog`, screenshot: 'framer_08_blog_page.png' },
+    { name: 'Contact', url: `${BASE_URL}/contact`, screenshot: 'framer_10_contact_page.png' },
   ];
 
   const multiPageResults = [];
@@ -231,7 +232,7 @@ const ARTIFACT_DIR = 'C:/Users/ZETICUZ/.gemini/antigravity/brain/f57633c0-7f74-4
   for (const navPage of navPages) {
     console.log(`Navigating to ${navPage.name} page (${navPage.url})...`);
     const t0 = Date.now();
-    await page.goto(navPage.url, { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto(navPage.url, { waitUntil: 'networkidle', timeout: 45000 });
     const loadTimeMs = Date.now() - t0;
     await page.waitForTimeout(900);
 

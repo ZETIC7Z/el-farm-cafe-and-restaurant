@@ -765,6 +765,10 @@ const rawEnhanceJsContent = `(function () {
       const startTransform = s.prefix + 'translate3d(' + ix + 'px, ' + iy + 'px, 0px) scale(' + s.scale + ') rotate(' + s.rot + 'deg)';
       const endTransform = s.prefix + 'translate3d(0px, 0px, 0px) scale(1) rotate(' + endRot + 'deg)';
 
+      // Lock resting opacity & transform before WAAPI (fill: 'backwards' still hides during delay & animates 0.001 -> 1 cleanly)
+      el.style.opacity = '1';
+      el.style.transform = endTransform;
+
       el.animate(
         [
           { opacity: 0.001, transform: startTransform },
@@ -792,6 +796,14 @@ const rawEnhanceJsContent = `(function () {
       document.documentElement.classList.remove('elfarm-intro-lock');
       document.documentElement.classList.add('elfarm-intro-reveal');
       if (overlay && overlay.parentNode) overlay.remove();
+      setTimeout(() => {
+        ['.framer-sk9zdg', '.framer-1j6fcxm', '.framer-71xvpi', '.framer-1qgz169', '.framer-qz7c8h', '.framer-1c16luy', '.framer-fcjafq', '.framer-10n4q2h'].forEach(sel => {
+          const node = document.querySelector(sel);
+          if (node && parseFloat(window.getComputedStyle(node).opacity || '1') < 0.5) {
+            node.style.opacity = '1';
+          }
+        });
+      }, 1500);
       return;
     }
 
@@ -2001,9 +2013,10 @@ for (const cfg of pageConfigs) {
   html = html.replace(/<link\s+rel="(?:icon|apple-touch-icon)"[^>]*>/gi, '');
   html = html.replace(/<link\s+rel="canonical"[^>]*>/gi, '');
 
-  // Strip the floating "Free 3 Month" container and Framer badge container from SSR HTML
+  // Strip the floating "Free 3 Month" container, Framer badge container, and Framer telemetry script (prevents /anonymous 404)
   html = html.replace(/<div class="framer-1r0dvt3-container"[\s\S]*?<\/a><!--\/\$--><\/div>/g, '');
   html = html.replace(/<div id="__framer-badge-container">[\s\S]*?<\/div><\/a><\/div><\/div>/g, '');
+  html = html.replace(/<script[^>]*src="\.\/assets\/js\/script-[^"]*"[^>]*><\/script>/gi, '');
 
   // Inject SEO + Favicon + OpenGraph + JSON-LD head block right after <meta name="viewport"...>
   const seoHead = buildSeoHeadBlock(cfg.title, cfg.desc, cfg.canonical);
