@@ -5,6 +5,7 @@ dist/
 .env.*
 scripts/dump/
 public/assets/video/
+assets/video/hero-main.mp4
 *.log
 .DS_Store
 Thumbs.db

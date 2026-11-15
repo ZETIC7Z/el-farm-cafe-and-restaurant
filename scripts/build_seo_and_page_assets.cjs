@@ -138,7 +138,7 @@ function createIcoFromPng(pngBuf, width = 64, height = 64) {
   const pageImageMappings = [
     // About page Banner & Journey & Chef images
     { prefix: '2xh8WnqDGhMUrwHlrwSqLrvKI7A', src: 'public/assets/resto-views/resto-1.jpg', w: 1600, h: 1000 },
-    { prefix: '1koQJbZb7xfDc5aFxDqcFJbpaQQ', src: 'public/assets/menu/crop-seafood-bilao-round.jpg', w: 900, h: 900 },
+    { prefix: '1koQJbZb7xfDc5aFxDqcFJbpaQQ', src: 'public/assets/menu/studio-seafood-bilao.jpg', w: 900, h: 900 },
     { prefix: 'wXTaZJVHaEnKDLdFV6x01YY6z6E', src: 'public/assets/resto-views/resto-2.jpg', w: 1200, h: 900 },
     { prefix: 'OuGE1AOr5ExxFgl7DC0CJoqVHQ', src: 'public/assets/resto-views/resto-5.jpg', w: 1200, h: 900 },
     { prefix: '3pz9AoUUN7lH2MexyxoigMikeY', src: 'public/assets/customers/customer-1.jpg', w: 400, h: 400 },

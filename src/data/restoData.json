@@ -111,554 +111,488 @@
     }
   ],
   "menuCategories": [
-    { "id": "all", "label": "All Offerings", "tagline": "Complete Curated Menu" },
-    { "id": "coffee", "label": "Signature Coffee", "tagline": "Freshly Pulled Espresso & Artisanal Lattes" },
-    { "id": "matcha-smoothies", "label": "Matcha & Smoothies", "tagline": "Ceremonial Matcha, Hojicha & Indulgent Blends" },
-    { "id": "non-pork", "label": "Non-Pork & Local Specials", "tagline": "Local Flavors, Timeless Basilan Traditions" },
-    { "id": "pork", "label": "Pork Favorites", "tagline": "Classic Comforts, Always a Good Idea" },
-    { "id": "everyday", "label": "Everyday Silogs & Goto", "tagline": "Simple Meals, Big Comfort" },
-    { "id": "snacks-desserts", "label": "Snacks & Desserts", "tagline": "Simple Flavors, Meaningful Moments" },
-    { "id": "feasts", "label": "Salu-Salo Bilaos", "tagline": "Bountiful Feasts Good for 6–8 Persons" }
+    {
+      "id": "all",
+      "label": "All Offerings",
+      "tagline": "Complete Curated Menu"
+    },
+    {
+      "id": "coffee",
+      "label": "Signature Coffee",
+      "tagline": "Freshly Pulled Espresso & Artisanal Lattes"
+    },
+    {
+      "id": "matcha-smoothies",
+      "label": "Matcha & Smoothies",
+      "tagline": "Ceremonial Matcha, Hojicha & Indulgent Blends"
+    },
+    {
+      "id": "non-pork",
+      "label": "Non-Pork & Local Specials",
+      "tagline": "Local Flavors, Timeless Basilan Traditions"
+    },
+    {
+      "id": "pork",
+      "label": "Pork Favorites",
+      "tagline": "Classic Comforts, Always a Good Idea"
+    },
+    {
+      "id": "everyday",
+      "label": "Everyday Silogs & Goto",
+      "tagline": "Simple Meals, Big Comfort"
+    },
+    {
+      "id": "snacks-desserts",
+      "label": "Snacks & Desserts",
+      "tagline": "Simple Flavors, Meaningful Moments"
+    },
+    {
+      "id": "feasts",
+      "label": "Salu-Salo Bilaos",
+      "tagline": "Bountiful Feasts Good for 6–8 Persons"
+    }
   ],
   "menuItems": [
     {
       "id": "dirty-coffee",
       "name": "Dirty Coffee (Iced Only)",
       "category": "coffee",
-      "price": 70,
+      "categoryLabel": "Signature Coffee",
       "priceDisplay": "₱70",
-      "badge": "BARISTA'S CHOICE",
-      "serving": "Frosted Glass · No Ice",
-      "description": "Freshly pulled hot espresso layered over ice-cold milk in a frosted glass. No ice cubes. No stirring. Just pure coffee magic.",
-      "image": "/assets/menu/dish-dirty-coffee.jpg",
-      "featured": true
+      "description": "Rich double-shot espresso poured over ice-cold creamy milk in a branded EL Farm clear cup — create your own swirl.",
+      "cleanImage": "./assets/menu/studio-dirty-coffee.jpg"
     },
     {
       "id": "butter-caramel-popcorn-latte",
       "name": "Butter Caramel Popcorn Latte",
       "category": "coffee",
-      "price": 130,
+      "categoryLabel": "Signature Coffee",
       "priceDisplay": "₱130",
-      "badge": "NEW SIGNATURE",
-      "serving": "Iced Specialty",
-      "description": "Rich espresso and velvety milk swirled with buttery caramel sauce, crowned with whipped cream and golden caramel popcorn crunch.",
-      "image": "/assets/menu/dish-popcorn-latte.jpg",
-      "featured": true
+      "description": "Buttery caramel espresso latte topped with velvety whipped cream and golden caramel popcorn crunch.",
+      "cleanImage": "./assets/menu/studio-popcorn-latte.jpg"
     },
     {
       "id": "lamitan-sunrise",
-      "name": "Lamitan Sunrise",
+      "name": "Lamitan Sunrise (Orange Espresso)",
       "category": "coffee",
-      "price": 95,
+      "categoryLabel": "Signature Coffee",
       "priceDisplay": "₱95",
-      "badge": "HOUSE ORIGINAL",
-      "serving": "Hot or Iced",
-      "description": "Our signature hometown coffee creation inspired by golden mornings at Sitio Nipa. Available hot or iced.",
-      "image": "/assets/menu/dish-dirty-coffee.jpg",
-      "featured": false
-    },
-    {
-      "id": "biscoff-latte",
-      "name": "Biscoff Latte",
-      "category": "coffee",
-      "price": 120,
-      "priceDisplay": "₱120",
-      "badge": "CROWD FAVORITE",
-      "serving": "Hot or Iced",
-      "description": "Creamy espresso latte infused with caramelized Lotus Biscoff spread and spiced speculoos cookie crumble.",
-      "image": "/assets/menu/dish-popcorn-latte.jpg",
-      "featured": false
-    },
-    {
-      "id": "honeycomb-latte",
-      "name": "Honeycomb Latte",
-      "category": "coffee",
-      "price": 110,
-      "priceDisplay": "₱110",
-      "serving": "Hot or Iced",
-      "description": "Smooth espresso paired with golden honeycomb sweetness and silky steamed or chilled milk. (Oat Milk add-on +₱30)",
-      "image": "/assets/menu/dish-dirty-coffee.jpg",
-      "featured": false
+      "description": "Refreshing citrus-infused iced espresso layered over bright golden-orange juice in our signature EL Farm cup.",
+      "cleanImage": "./assets/menu/studio-lamitan-sunrise.jpg"
     },
     {
       "id": "spanish-latte",
-      "name": "Spanish Latte",
+      "name": "Iced Spanish Latte",
       "category": "coffee",
-      "price": 100,
+      "categoryLabel": "Signature Coffee",
       "priceDisplay": "₱100",
-      "serving": "Hot or Iced",
-      "description": "Rich double-shot espresso balanced with sweetened condensed milk and textured fresh milk.",
-      "image": "/assets/menu/dish-dirty-coffee.jpg",
-      "featured": false
+      "description": "Smooth double-shot espresso blended with rich, silky sweetened condensed milk and fresh chilled milk over crystal ice.",
+      "cleanImage": "./assets/menu/studio-spanish-latte.jpg"
+    },
+    {
+      "id": "biscoff-latte",
+      "name": "Lotus Biscoff Latte",
+      "category": "coffee",
+      "categoryLabel": "Signature Coffee",
+      "priceDisplay": "₱120",
+      "description": "Creamy espresso latte swirled with caramelized Lotus Biscoff spread, whipped cream, and a whole Biscoff biscuit.",
+      "cleanImage": "./assets/menu/studio-biscoff-latte.jpg"
     },
     {
       "id": "salted-caramel-latte",
       "name": "Salted Caramel Latte",
       "category": "coffee",
-      "price": 100,
+      "categoryLabel": "Signature Coffee",
       "priceDisplay": "₱100",
-      "serving": "Hot or Iced",
-      "description": "Velvety espresso blended with house salted caramel drizzle and creamy milk.",
-      "image": "/assets/menu/dish-popcorn-latte.jpg",
-      "featured": false
+      "description": "Velvety espresso and milk ribboned with house-made sea-salted caramel sauce and cold milk foam.",
+      "cleanImage": "./assets/menu/studio-salted-caramel-latte.jpg"
+    },
+    {
+      "id": "honeycomb-latte",
+      "name": "Golden Honeycomb Latte",
+      "category": "coffee",
+      "categoryLabel": "Signature Coffee",
+      "priceDisplay": "₱110",
+      "description": "Handcrafted iced latte sweetened with wildflower honey and crowned with crisp golden honeycomb toffee crunch.",
+      "cleanImage": "./assets/menu/studio-honeycomb-latte.jpg"
     },
     {
       "id": "brown-sugar-cinnamon-latte",
       "name": "Brown Sugar Cinnamon Latte",
       "category": "coffee",
-      "price": 100,
+      "categoryLabel": "Signature Coffee",
       "priceDisplay": "₱100",
-      "serving": "Hot or Iced",
-      "description": "Warm aromatic cinnamon and caramelized dark brown sugar shaken with bold espresso and milk.",
-      "image": "/assets/menu/dish-dirty-coffee.jpg",
-      "featured": false
+      "description": "Aromatic espresso shaken with dark muscovado brown sugar syrup, warm Ceylon cinnamon dust, and creamy milk.",
+      "cleanImage": "./assets/menu/studio-brown-sugar-cinnamon-latte.jpg"
     },
     {
-      "id": "americano",
-      "name": "Classic Americano",
+      "id": "classic-americano",
+      "name": "Classic Iced Americano",
       "category": "coffee",
-      "price": 50,
+      "categoryLabel": "Signature Coffee",
       "priceDisplay": "₱50",
-      "serving": "Hot or Iced",
-      "description": "Pure, bold freshly pulled espresso shots lengthened with hot water or poured over crystal ice.",
-      "image": "/assets/menu/dish-dirty-coffee.jpg",
-      "featured": false
+      "description": "Bold, freshly pulled double-shot signature roast espresso poured over crystal-clear artisan ice with golden crema.",
+      "cleanImage": "./assets/menu/studio-americano.jpg"
     },
     {
       "id": "coconut-matcha-cloud",
-      "name": "Coconut Matcha Cloud Latte",
+      "name": "Coconut Matcha Cloud",
       "category": "matcha-smoothies",
-      "price": 140,
+      "categoryLabel": "Matcha & Smoothies",
       "priceDisplay": "₱140",
-      "badge": "SERVED IN REAL BUKO",
-      "serving": "Fresh Coconut Shell",
-      "description": "Refreshing young coconut water topped with a velvety ceremonial matcha cream cloud, served inside a real fresh buko shell with tender coconut meat.",
-      "image": "/assets/menu/dish-coconut-matcha.jpg",
-      "featured": true
+      "description": "Refreshing young coconut water crowned with a velvety ceremonial matcha cream cloud inside a real fresh buko shell.",
+      "cleanImage": "./assets/menu/studio-coconut-matcha-cloud.jpg"
     },
     {
-      "id": "el-special-matcha-dunya",
-      "name": "EL Special Matcha Latte – Dunya",
+      "id": "el-special-matcha",
+      "name": "EL Special Matcha (Dunya)",
       "category": "matcha-smoothies",
-      "price": 140,
+      "categoryLabel": "Matcha & Smoothies",
       "priceDisplay": "₱140",
-      "badge": "HOUSE SPECIAL",
-      "serving": "Hot or Iced",
-      "description": "Our signature elevated ceremonial matcha creation crafted with rich layered notes and silky texture.",
-      "image": "/assets/menu/dish-coconut-matcha.jpg",
-      "featured": false
-    },
-    {
-      "id": "hojicha-earl-grey-latte",
-      "name": "Hojicha Earl Grey Latte",
-      "category": "matcha-smoothies",
-      "price": 120,
-      "priceDisplay": "₱120",
-      "serving": "Hot or Iced",
-      "description": "Roasted Japanese green tea harmonized with aromatic bergamot Earl Grey infusion and creamy milk.",
-      "image": "/assets/menu/dish-coconut-matcha.jpg",
-      "featured": false
+      "description": "Our signature ceremonial-grade Uji matcha layered over velvety vanilla sweet cream with roasted nutty notes.",
+      "cleanImage": "./assets/menu/studio-el-special-matcha.jpg"
     },
     {
       "id": "matcha-latte",
-      "name": "Classic Matcha Latte",
+      "name": "Ceremonial Matcha Latte",
       "category": "matcha-smoothies",
-      "price": 110,
+      "categoryLabel": "Matcha & Smoothies",
       "priceDisplay": "₱110",
-      "serving": "Hot or Iced",
-      "description": "Whisked earthy Japanese green tea poured over velvety milk. (Oat Milk add-on +₱30)",
-      "image": "/assets/menu/dish-coconut-matcha.jpg",
-      "featured": false
+      "description": "Whisked ceremonial green tea matcha poured over chilled creamy milk for a vibrant, earthy, and smooth pick-me-up.",
+      "cleanImage": "./assets/menu/studio-matcha-latte.jpg"
     },
     {
       "id": "hojicha-latte",
       "name": "Roasted Hojicha Latte",
       "category": "matcha-smoothies",
-      "price": 110,
+      "categoryLabel": "Matcha & Smoothies",
       "priceDisplay": "₱110",
-      "serving": "Hot or Iced",
-      "description": "Toasty, nutty Japanese roasted green tea latte with a smooth, comforting finish.",
-      "image": "/assets/menu/dish-coconut-matcha.jpg",
-      "featured": false
+      "description": "Slow-roasted Japanese green tea latte with comforting notes of toasted cocoa, caramel, and warm nutty aroma.",
+      "cleanImage": "./assets/menu/studio-hojicha-latte.jpg"
+    },
+    {
+      "id": "hojicha-earl-grey",
+      "name": "Hojicha Earl Grey Latte",
+      "category": "matcha-smoothies",
+      "categoryLabel": "Matcha & Smoothies",
+      "priceDisplay": "₱120",
+      "description": "Artisanal fusion of roasted Japanese hojicha and fragrant bergamot-infused Earl Grey tea layered with silky milk.",
+      "cleanImage": "./assets/menu/studio-hojicha-earl-grey.jpg"
+    },
+    {
+      "id": "smores-smoothie",
+      "name": "S'mores Campfire Smoothie",
+      "category": "matcha-smoothies",
+      "categoryLabel": "Matcha & Smoothies",
+      "priceDisplay": "₱140",
+      "description": "Decadent dark-chocolate smoothie blend topped with flame-toasted marshmallows, rich fudge drizzle, and graham crunch.",
+      "cleanImage": "./assets/menu/studio-smores-smoothie.jpg"
     },
     {
       "id": "dubai-chewy-cookie-smoothie",
       "name": "Dubai Chewy Cookie Smoothie",
       "category": "matcha-smoothies",
-      "price": 160,
+      "categoryLabel": "Matcha & Smoothies",
       "priceDisplay": "₱160",
-      "badge": "NEW INDULGENCE",
-      "serving": "Ice-Blended",
-      "description": "A rich chocolate smoothie blended with chewy cookie crumble and a luxurious hint of roasted pistachio.",
-      "image": "/assets/menu/crop-dubai-cookie-smoothie.jpg",
-      "featured": true
+      "description": "Rich Belgian chocolate smoothie layered with roasted pistachio cream, chewy cookie crumble, and crushed pistachios.",
+      "cleanImage": "./assets/menu/studio-dubai-chewy-cookie-smoothie.jpg"
     },
     {
-      "id": "smores-smoothie",
-      "name": "S'mores Smoothie",
+      "id": "mulberry-yoghurt",
+      "name": "Mulberry Yoghurt Refresher",
       "category": "matcha-smoothies",
-      "price": 140,
-      "priceDisplay": "₱140",
-      "badge": "NEW",
-      "serving": "Ice-Blended",
-      "description": "A decadent chocolatey ice-blended drink crowned with torched marshmallows and buttery graham cracker crunch.",
-      "image": "/assets/menu/crop-smores-smoothie.jpg",
-      "featured": false
-    },
-    {
-      "id": "yoghurt-drinks",
-      "name": "Artisanal Fruit Yoghurt Drinks",
-      "category": "matcha-smoothies",
-      "price": 85,
+      "categoryLabel": "Matcha & Smoothies",
       "priceDisplay": "₱85",
-      "serving": "Mulberry · Blueberry · Strawberry",
-      "description": "Tangy, probiotic-rich chilled yoghurt refreshers swirled with real Mulberry, Blueberry, or Strawberry compote.",
-      "image": "/assets/menu/crop-smores-smoothie.jpg",
-      "featured": false
+      "description": "Tangy probiotic farm yoghurt swirled with house-simmered dark mulberry compote in our signature EL Farm cup.",
+      "cleanImage": "./assets/menu/studio-mulberry-yoghurt.jpg"
+    },
+    {
+      "id": "blueberry-yoghurt",
+      "name": "Blueberry Yoghurt Refresher",
+      "category": "matcha-smoothies",
+      "categoryLabel": "Matcha & Smoothies",
+      "priceDisplay": "₱85",
+      "description": "Creamy non-caffeinated yoghurt drink ribboned with sweet wild blueberry preserves and real berry fruit.",
+      "cleanImage": "./assets/menu/studio-blueberry-yoghurt.jpg"
+    },
+    {
+      "id": "strawberry-yoghurt",
+      "name": "Strawberry Yoghurt Refresher",
+      "category": "matcha-smoothies",
+      "categoryLabel": "Matcha & Smoothies",
+      "priceDisplay": "₱85",
+      "description": "Refreshing chilled probiotic yoghurt layered with ruby-red strawberry puree and sweet fruit chunks.",
+      "cleanImage": "./assets/menu/studio-strawberry-yoghurt.jpg"
+    },
+    {
+      "id": "tapsilog",
+      "name": "Classic Beef Topsilog / Tapsilog",
+      "category": "everyday",
+      "categoryLabel": "Everyday Silogs & Goto",
+      "priceDisplay": "₱120",
+      "description": "Tender sweet-savory marinated beef tapa pan-seared to perfection and served with golden garlic sinangag rice and sunny-side-up egg.",
+      "cleanImage": "./assets/menu/studio-tapsilog.jpg"
+    },
+    {
+      "id": "sisig-silog",
+      "name": "Crispy Sisig Silog",
+      "category": "everyday",
+      "categoryLabel": "Everyday Silogs & Goto",
+      "priceDisplay": "₱150",
+      "description": "Solo serving of our signature crispy sizzling sisig paired with fragrant garlic fried rice and a sunny-side-up farm egg.",
+      "cleanImage": "./assets/menu/studio-sisig-silog.jpg"
+    },
+    {
+      "id": "hotsilog",
+      "name": "Classic Pinoy Hotsilog",
+      "category": "everyday",
+      "categoryLabel": "Everyday Silogs & Goto",
+      "priceDisplay": "₱100",
+      "description": "Two plump, juicy red hotdogs diamond-scored and pan-fried, served alongside golden garlic fried rice and a fried egg.",
+      "cleanImage": "./assets/menu/studio-hotsilog.jpg"
+    },
+    {
+      "id": "putok-batok-goto",
+      "name": "Putok Batok Bone Marrow Goto",
+      "category": "everyday",
+      "categoryLabel": "Everyday Silogs & Goto",
+      "priceDisplay": "₱150",
+      "description": "Velvety ginger-infused rice porridge crowned with a whole torched beef bone marrow canoe, toasted garlic, and scallions.",
+      "cleanImage": "./assets/menu/studio-putok-batok-goto.jpg"
+    },
+    {
+      "id": "goto-overload",
+      "name": "Special Goto Overload",
+      "category": "everyday",
+      "categoryLabel": "Everyday Silogs & Goto",
+      "priceDisplay": "₱120",
+      "description": "Hearty lugaw rice porridge loaded with tender beef tripe, boiled egg, crispy garlic bits, spring onions, and calamansi.",
+      "cleanImage": "./assets/menu/studio-goto-overload.jpg"
+    },
+    {
+      "id": "samyang-wrap",
+      "name": "Spicy Samyang Buldak Wrap",
+      "category": "everyday",
+      "categoryLabel": "Everyday Silogs & Goto",
+      "priceDisplay": "₱130",
+      "description": "Fiery Korean Samyang buldak noodles, melted mozzarella cheese, and savory meat wrapped inside a warm toasted tortilla.",
+      "cleanImage": "./assets/menu/studio-samyang-wrap.jpg"
     },
     {
       "id": "tiyula-itum",
-      "name": "Tiyula Itum (Traditional Black Beef Soup)",
+      "name": "Tiyula Itum (Heirloom Black Beef Soup)",
       "category": "non-pork",
-      "price": 220,
+      "categoryLabel": "Non-Pork Specials",
       "priceDisplay": "₱220",
-      "badge": "BASILAN HERITAGE",
-      "serving": "Good for Sharing",
-      "description": "Basilan's iconic black beef soup, slow-cooked with toasted coconut, burnt spices, lemongrass, and traditional heirloom aromatics.",
-      "image": "/assets/menu/crop-tiyula-itum.jpg",
-      "featured": true
+      "description": "Basilan's iconic black beef soup slow-cooked with roasted coconut flesh, lemongrass, galangal, ginger, and native spices.",
+      "cleanImage": "./assets/menu/studio-tiyula-itum.jpg"
     },
     {
       "id": "chicken-kaliya",
-      "name": "Chicken Kaliya",
+      "name": "Festive Chicken Kaliya",
       "category": "non-pork",
-      "price": 320,
-      "priceDisplay": "₱320",
-      "badge": "LOCAL FAVORITE",
-      "serving": "Good for Sharing",
-      "description": "Tender chicken simmered in a rich and fragrant spiced coconut sauce — a beloved Yakan & Basilan culinary treasure.",
-      "image": "/assets/menu/crop-chicken-kaliya.jpg",
-      "featured": true
+      "categoryLabel": "Non-Pork Specials",
+      "priceDisplay": "₱350",
+      "description": "Traditional Yakan festive chicken stew simmered in rich golden turmeric, toasted coconut, paminta, and heirloom herbs.",
+      "cleanImage": "./assets/menu/studio-chicken-kaliya.jpg"
     },
     {
       "id": "native-chicken-tinola",
       "name": "Native Chicken Tinola",
       "category": "non-pork",
-      "price": 380,
-      "priceDisplay": "₱380",
-      "badge": "FARM FRESH",
-      "serving": "Family Bowl",
-      "description": "Free-range native chicken slow-simmered in aromatic ginger, lemongrass, green papaya, and fresh chili leaves.",
-      "image": "/assets/menu/dish-native-tinola.jpg",
-      "featured": true
+      "categoryLabel": "Non-Pork Specials",
+      "priceDisplay": "₱350",
+      "description": "Free-range native farm chicken slow-simmered in fragrant ginger and lemongrass broth with green papaya and chili leaves.",
+      "cleanImage": "./assets/menu/studio-native-tinola.jpg"
     },
     {
       "id": "karekareng-hito",
-      "name": "Kare-Kareng Hito",
+      "name": "Crispy Kare-Kareng Hito",
       "category": "non-pork",
-      "price": 320,
-      "priceDisplay": "₱320",
-      "serving": "With Bagoong Alamang",
-      "description": "Crispy deep-fried catfish simmered in a rich, velvety roasted peanut sauce, served with fresh farm vegetables and savory bagoong alamang.",
-      "image": "/assets/menu/crop-karekare-hito.jpg",
-      "featured": false
-    },
-    {
-      "id": "kambing-papaitan",
-      "name": "Kambing Papaitan",
-      "category": "non-pork",
-      "price": 350,
-      "priceDisplay": "₱350",
-      "serving": "Good for Sharing",
-      "description": "A hearty, citrusy, and deeply flavorful goat stew simmered with ginger, green chilies, and traditional spices.",
-      "image": "/assets/menu/crop-papaitan.jpg",
-      "featured": false
-    },
-    {
-      "id": "adobing",
-      "name": "Traditional Adobing",
-      "category": "non-pork",
-      "price": 350,
-      "priceDisplay": "₱350",
-      "serving": "Good for Sharing",
-      "description": "Tender chicken cooked to savory perfection with a traditional blend of soy, native vinegar, crushed garlic, and whole spices.",
-      "image": "/assets/menu/crop-adobing.jpg",
-      "featured": false
+      "categoryLabel": "Non-Pork Specials",
+      "priceDisplay": "₱300",
+      "description": "Crispy whole freshwater catfish ladled with thick roasted peanut kare-kare sauce, eggplant, string beans, and pechay.",
+      "cleanImage": "./assets/menu/studio-karekareng-hito.jpg"
     },
     {
       "id": "crispy-fried-hito",
-      "name": "Crispy Fried Hito",
+      "name": "Crispy Fried Whole Hito",
       "category": "non-pork",
-      "price": 260,
-      "priceDisplay": "₱260",
-      "serving": "Whole Catfish",
-      "description": "Fresh local hito (catfish), deep-fried to a golden crackle on the outside while staying tender and flaky inside.",
-      "image": "/assets/menu/crop-crispy-hito.jpg",
-      "featured": false
+      "categoryLabel": "Non-Pork Specials",
+      "priceDisplay": "₱250",
+      "description": "Whole fresh hito (catfish) deep-fried until golden and crackling, served with spiced cane vinegar and soy-calamansi dip.",
+      "cleanImage": "./assets/menu/studio-crispy-fried-hito.jpg"
     },
     {
-      "id": "bangus-sisig",
-      "name": "Sizzling Bangus Sisig",
+      "id": "kambing-papaitan",
+      "name": "Authentic Kambing Papaitan",
       "category": "non-pork",
-      "price": 250,
+      "categoryLabel": "Non-Pork Specials",
       "priceDisplay": "₱250",
-      "serving": "Hot Sizzling Plate",
-      "description": "Sizzling boneless milkfish tossed with diced onions, chilies, a zesty Filipino-style dressing, and a fresh egg on top.",
-      "image": "/assets/menu/crop-bangus-sisig.jpg",
-      "featured": false
+      "description": "Tender goat meat and innards simmered in a bold, savory-citrusy ginger and garlic broth with green finger chilies.",
+      "cleanImage": "./assets/menu/studio-kambing-papaitan.jpg"
+    },
+    {
+      "id": "adobing",
+      "name": "Adobing (Slow-Braised Goat Adobo)",
+      "category": "non-pork",
+      "categoryLabel": "Non-Pork Specials",
+      "priceDisplay": "₱250",
+      "description": "Succulent goat meat slow-braised until fork-tender in soy sauce, cane vinegar, crushed garlic, bay leaves, and peppercorns.",
+      "cleanImage": "./assets/menu/studio-adobing.jpg"
     },
     {
       "id": "chicken-sisig",
       "name": "Sizzling Chicken Sisig",
       "category": "non-pork",
-      "price": 230,
-      "priceDisplay": "₱230",
-      "serving": "Hot Sizzling Plate",
-      "description": "Sizzling chopped chicken seasoned with onions, chilies, a tangy savory house dressing, and crowned with a fresh egg.",
-      "image": "/assets/menu/crop-chicken-sisig.jpg",
-      "featured": false
+      "categoryLabel": "Non-Pork Specials",
+      "priceDisplay": "₱200",
+      "description": "Finely chopped grilled chicken tossed with red onions, finger chilies, calamansi, and creamy house dressing on a sizzling plate.",
+      "cleanImage": "./assets/menu/studio-chicken-sisig.jpg"
+    },
+    {
+      "id": "bangus-sisig",
+      "name": "Sizzling Bangus Sisig",
+      "category": "non-pork",
+      "categoryLabel": "Non-Pork Specials",
+      "priceDisplay": "₱200",
+      "description": "Flaked crispy golden milkfish (bangus) belly sizzled with diced onions, ginger, chili peppers, and fresh calamansi juice.",
+      "cleanImage": "./assets/menu/studio-bangus-sisig.jpg"
     },
     {
       "id": "crispy-pata",
       "name": "Golden Crispy Pata",
       "category": "pork",
-      "price": 850,
+      "categoryLabel": "Pork Favorites",
       "priceDisplay": "₱850",
-      "badge": "HOUSE BESTSELLER",
-      "serving": "1.0 KG · Good for 4–5 (₱65/100g excess)",
-      "description": "Deep-fried whole pork knuckle with ultra-crispy golden blistered skin and tender, juicy meat. Served with our signature soy-vinegar dipping sauce.",
-      "image": "/assets/menu/crop-crispy-pata.jpg",
-      "featured": true
+      "description": "Deep-fried whole pork knuckle with ultra-crispy golden crackling skin and juicy meat, served with spiced soy-vinegar dip.",
+      "cleanImage": "./assets/menu/studio-crispy-pata.jpg"
     },
     {
       "id": "sizzling-sisig",
-      "name": "Classic Sizzling Pork Sisig",
+      "name": "Sizzling Pork Sisig",
       "category": "pork",
-      "price": 280,
-      "priceDisplay": "₱280",
-      "badge": "MUST TRY",
-      "serving": "250–300 G · Good for 2",
-      "description": "Classic Filipino sizzling sisig made with finely chopped pork, seasoned with onions, chili, calamansi, and special spices on a hot cast-iron plate with a fresh egg.",
-      "image": "/assets/menu/crop-sizzling-sisig.jpg",
-      "featured": true
+      "categoryLabel": "Pork Favorites",
+      "priceDisplay": "₱220",
+      "description": "Savory chopped crispy pork mask and belly sizzled with onions, chili peppers, calamansi, and a fresh cracked egg on top.",
+      "cleanImage": "./assets/menu/studio-sizzling-sisig.jpg"
     },
     {
       "id": "dinuguan",
-      "name": "Rich Savory Dinuguan",
+      "name": "Special Pork Dinuguan",
       "category": "pork",
-      "price": 260,
-      "priceDisplay": "₱260",
-      "serving": "250–300 G · Good for 2",
-      "description": "A classic Filipino dish of tender pork cuts simmered in a rich and velvety savory gravy with a bright hint of native vinegar, garlic, and green chili.",
-      "image": "/assets/menu/crop-dinuguan.jpg",
-      "featured": false
-    },
-    {
-      "id": "putok-batok-goto",
-      "name": "Putok Batok sa Goto (Bone Marrow Goto)",
-      "category": "everyday",
-      "price": 150,
+      "categoryLabel": "Pork Favorites",
       "priceDisplay": "₱150",
-      "badge": "TORCHED MARROW",
-      "serving": "1 Hearty Bowl",
-      "description": "Rich ginger-infused rice porridge topped with a massive torched beef bone marrow canoe, crispy toasted garlic, and spring onions.",
-      "image": "/assets/menu/dish-bone-marrow-goto.jpg",
-      "featured": true
+      "description": "Rich, savory pork stew slow-simmered in dark spiced gravy with crushed garlic, cane vinegar, and green finger chilies.",
+      "cleanImage": "./assets/menu/studio-dinuguan.jpg"
     },
     {
-      "id": "goto-overload",
-      "name": "Goto Overload (Rich Beef Goto)",
-      "category": "everyday",
-      "price": 150,
-      "priceDisplay": "₱150",
-      "badge": "MON · WED · FRI",
-      "serving": "1 Serving",
-      "description": "Comforting ginger rice porridge loaded with tender beef tripe, boiled egg, chicharon crumbs, toasted garlic, and scallions.",
-      "image": "/assets/menu/dish-bone-marrow-goto.jpg",
-      "featured": false
-    },
-    {
-      "id": "sisig-silog",
-      "name": "Sisig Silog",
-      "category": "everyday",
-      "price": 100,
-      "priceDisplay": "₱100",
-      "serving": "With Garlic Rice & Egg",
-      "description": "Sizzling Kapampangan-style sisig served with fragrant sinangag (garlic fried rice) and a sunny-side-up egg.",
-      "image": "/assets/menu/crop-sisigsilog.jpg",
-      "featured": false
-    },
-    {
-      "id": "samyang-wrap",
-      "name": "Spicy Samyang Wrap",
-      "category": "everyday",
-      "price": 100,
-      "priceDisplay": "₱100",
-      "serving": "Grilled Tortilla Wrap",
-      "description": "Fiery and creamy Samyang buldak noodles wrapped in a warm tortilla with crisp greens, cheese, and savory filling.",
-      "image": "/assets/menu/crop-samyang-wrap.jpg",
-      "featured": false
-    },
-    {
-      "id": "tapsilog",
-      "name": "Classic Beef Tapsilog",
-      "category": "everyday",
-      "price": 95,
-      "priceDisplay": "₱95",
-      "serving": "With Garlic Rice & Egg",
-      "description": "Savory marinated beef tapa strips pan-seared and served with toasted garlic rice, sunny-side egg, and spiced vinegar.",
-      "image": "/assets/menu/crop-tapsilog.jpg",
-      "featured": false
-    },
-    {
-      "id": "hotsilog",
-      "name": "Pinoy Hotsilog",
-      "category": "everyday",
-      "price": 79,
-      "priceDisplay": "₱79",
-      "serving": "With Garlic Rice & Egg",
-      "description": "Classic juicy red hotdogs served with golden garlic rice and a farm-fresh fried egg.",
-      "image": "/assets/menu/crop-hotsilog.jpg",
-      "featured": false
-    },
-    {
-      "id": "brownie-cupcakes",
-      "name": "S'mores & Walnut Brownie Cupcakes",
+      "id": "chix-n-fries",
+      "name": "Crispy Chix N' Fries Basket",
       "category": "snacks-desserts",
-      "price": 95,
-      "priceDisplay": "₱95",
-      "badge": "BAKED FRESH",
-      "serving": "Pastries & Desserts",
-      "description": "Fudgy dark chocolate brownie cupcakes crowned with either torched campfire marshmallow & graham or roasted California walnuts.",
-      "image": "/assets/menu/dish-brownie-cupcakes.jpg",
-      "featured": true
+      "categoryLabel": "Snacks & Delicacies",
+      "priceDisplay": "₱120",
+      "description": "Golden crispy fried chicken bites paired with seasoned crinkle-cut French fries, house cheese dip, and tangy ketchup.",
+      "cleanImage": "./assets/menu/studio-chix-n-fries.jpg"
+    },
+    {
+      "id": "crispy-calamares",
+      "name": "Crispy Golden Calamares",
+      "category": "snacks-desserts",
+      "categoryLabel": "Snacks & Delicacies",
+      "priceDisplay": "₱150",
+      "description": "Tender squid rings battered in seasoned flour and fried to a light, golden crunch, served with garlic mayo and spiced vinegar.",
+      "cleanImage": "./assets/menu/studio-calamares.jpg?v=2"
     },
     {
       "id": "barkadahan-special",
       "name": "Barkadahan Special Platter",
       "category": "snacks-desserts",
-      "price": 220,
+      "categoryLabel": "Snacks & Delicacies",
       "priceDisplay": "₱220",
-      "badge": "GOOD FOR 3–4 PAX",
-      "serving": "Sharing Platter",
-      "description": "A crowd-pleasing sharing platter of golden kikiam, squid balls, fishballs, siomai, and crispy squid with sweet-spicy street sauces.",
-      "image": "/assets/menu/board-snacks.jpg",
-      "featured": false
-    },
-    {
-      "id": "calamares",
-      "name": "Crispy Calamares",
-      "category": "snacks-desserts",
-      "price": 150,
-      "priceDisplay": "₱150",
-      "serving": "With Garlic Aioli",
-      "description": "Crispy battered and tender calamari squid rings fried golden and served with house creamy garlic aioli.",
-      "image": "/assets/menu/board-snacks.jpg",
-      "featured": false
-    },
-    {
-      "id": "chix-n-fries",
-      "name": "Chix N' Fries",
-      "category": "snacks-desserts",
-      "price": 120,
-      "priceDisplay": "₱120",
-      "serving": "With Dipping Sauce",
-      "description": "Crispy golden chicken bites paired with seasoned shoestring fries and signature dipping sauce.",
-      "image": "/assets/menu/board-snacks.jpg",
-      "featured": false
-    },
-    {
-      "id": "kamanting-con-haleya",
-      "name": "Kamanting Con Haleya",
-      "category": "snacks-desserts",
-      "price": 120,
-      "priceDisplay": "₱120",
-      "badge": "LOCAL DELICACY",
-      "serving": "Traditional Merienda",
-      "description": "Soft boiled cassava (kamanting) drizzled with rich, slow-caramelized coconut cream and dark brown sugar haleya.",
-      "image": "/assets/menu/board-snacks.jpg",
-      "featured": false
+      "description": "Loaded sharing platter for 3–4 guests featuring crispy chicken strips, fries, golden lumpia, kropek, and trio of dips.",
+      "cleanImage": "./assets/menu/studio-barkadahan-special.jpg"
     },
     {
       "id": "saging-con-ginamus",
       "name": "Saging Con Ginamus",
       "category": "snacks-desserts",
-      "price": 90,
+      "categoryLabel": "Snacks & Delicacies",
       "priceDisplay": "₱90",
-      "badge": "LOCAL CLASSIC",
-      "serving": "Traditional Merienda",
-      "description": "Warm boiled saba bananas paired with savory-umami traditional ginamus dipped in calamansi and chili.",
-      "image": "/assets/menu/board-snacks.jpg",
-      "featured": false
+      "description": "Golden fried saba plantains served hot with traditional savory-spicy fermented fish dip (ginamus) squeezed with calamansi.",
+      "cleanImage": "./assets/menu/studio-saging-con-ginamus.jpg"
+    },
+    {
+      "id": "kamanting-con-haleya",
+      "name": "Kamanting Con Haleya",
+      "category": "snacks-desserts",
+      "categoryLabel": "Snacks & Delicacies",
+      "priceDisplay": "₱120",
+      "description": "Traditional Basilan delicacy of tender steamed cassava (kamanting) topped with rich caramelized coconut jam (haleya).",
+      "cleanImage": "./assets/menu/studio-kamanting-con-haleya.jpg"
+    },
+    {
+      "id": "brownie-cupcakes",
+      "name": "Fudgy Brownie Cupcakes",
+      "category": "snacks-desserts",
+      "categoryLabel": "Snacks & Delicacies",
+      "priceDisplay": "₱45",
+      "description": "Rich, fudgy dark-chocolate brownie cupcakes with a crinkly top, studded with chocolate chips and festive sprinkles.",
+      "cleanImage": "./assets/menu/studio-brownie-cupcakes.jpg"
     },
     {
       "id": "seafood-feast-bilao",
       "name": "Seafood Feast Bilao",
       "category": "feasts",
-      "price": 1599,
+      "categoryLabel": "Salu-Salo Feasts",
       "priceDisplay": "₱1,599",
-      "badge": "CURACHA & SHRIMP",
-      "serving": "Good for 6–8 Persons · Pre-Order",
-      "description": "Steamed Garlic Rice, prized Zamboanga/Basilan Curacha (Spanner Crab), Crispy Garlic Shrimps, Crispy Calamares, and Seasonal Fresh Fruits.",
-      "image": "/assets/menu/dish-seafood-bilao.jpg",
-      "featured": true
+      "description": "Bountiful coastal bilao loaded with Basilan Curacha crab, garlic butter shrimp, crispy calamares, grilled fish, rice, and fruits.",
+      "cleanImage": "./assets/menu/studio-seafood-bilao.jpg"
     },
     {
       "id": "all-time-favorites-combo",
       "name": "All-Time Favorites Combo Feast",
       "category": "feasts",
-      "price": 1599,
-      "priceDisplay": "₱1,599",
-      "badge": "ULTIMATE FEAST",
-      "serving": "Good for 6–8 Persons · Pre-Order",
-      "description": "Crispy Fried Chicken (6 pcs), Assorted Inihaw Grilled Meats, Savory Pancit Miki, Steamed Garlic Rice, and Seasonal Fresh Fruits.",
-      "image": "/assets/menu/crop-combo-feast.jpg",
-      "featured": false
+      "categoryLabel": "Salu-Salo Feasts",
+      "priceDisplay": "₱1,299",
+      "description": "Full family feast combining a Pancit Miki Special bilao, golden Crispy Fried Chicken platter, lumpia shanghai, and hot soup.",
+      "cleanImage": "./assets/menu/studio-all-time-favorites-combo.jpg"
     },
     {
       "id": "chicken-pancit-miki-combo",
       "name": "Chicken & Pancit Miki Combo",
       "category": "feasts",
-      "price": 1399,
-      "priceDisplay": "₱1,399",
-      "serving": "Good for 6–8 Persons · Pre-Order",
-      "description": "Crispy Juicy Fried Chicken (12 pcs), Classic Pancit Miki Bilao, Steamed Garlic Rice, and Seasonal Fresh Fruits.",
-      "image": "/assets/menu/crop-chicken-bilao.jpg",
-      "featured": false
+      "categoryLabel": "Salu-Salo Feasts",
+      "priceDisplay": "₱1,199",
+      "description": "Golden crispy fried chicken paired with a generous bilao of Pancit Miki Special, crispy lumpia shanghai, and boiled eggs.",
+      "cleanImage": "./assets/menu/studio-chicken-miki-combo.jpg"
     },
     {
       "id": "pinoy-favorites-bilao",
       "name": "Pinoy Favorites Bilao",
       "category": "feasts",
-      "price": 1199,
-      "priceDisplay": "₱1,199",
-      "serving": "Good for 6–8 Persons · Pre-Order",
-      "description": "Steamed Garlic Rice, Assorted Inihaw Meat, Crispy Deep-Fried Hito, Fresh Mango/Tomato Ensalada, Salted Egg, and Seasonal Fresh Fruits.",
-      "image": "/assets/menu/crop-pinoy-bilao.jpg",
-      "featured": true
+      "categoryLabel": "Salu-Salo Feasts",
+      "priceDisplay": "₱999",
+      "description": "Grilled barbecue skewers, salted duck eggs, ensalada, steamed white rice, and fresh watermelon & pineapple on banana leaves.",
+      "cleanImage": "./assets/menu/studio-pinoy-bilao.jpg"
     },
     {
       "id": "chicken-bilao",
-      "name": "Crispy Chicken Bilao (12 Pcs)",
+      "name": "Golden Chicken Bilao",
       "category": "feasts",
-      "price": 1199,
-      "priceDisplay": "₱1,199",
-      "serving": "Good for 6–8 Persons · Pre-Order",
-      "description": "Twelve pieces of golden-fried, juicy marinated chicken served with homemade gravy and dipping sauces.",
-      "image": "/assets/menu/crop-chicken-bilao.jpg",
-      "featured": false
+      "categoryLabel": "Salu-Salo Feasts",
+      "priceDisplay": "₱749",
+      "description": "Crispy golden fried chicken pieces surrounded by airy prawn crackers (kropek) and served with house gravy and dips.",
+      "cleanImage": "./assets/menu/studio-chicken-bilao.jpg"
     },
     {
       "id": "pancit-miki-bilao",
-      "name": "Classic Pancit Miki Bilao",
+      "name": "Pancit Miki Special Bilao",
       "category": "feasts",
-      "price": 250,
-      "priceDisplay": "₱250",
-      "badge": "BEST VALUE",
-      "serving": "Good for 6–8 Persons",
-      "description": "Our classic stir-fried thick egg noodles loaded with savory meat, crispy toppings, fresh vegetables, and calamansi.",
-      "image": "/assets/menu/dish-pancit-miki.jpg",
-      "featured": true
+      "categoryLabel": "Salu-Salo Feasts",
+      "priceDisplay": "₱500",
+      "description": "Stir-fried heirloom Basilan miki noodles topped with savory meats, vegetables, crispy lumpia shanghai, and sliced eggs.",
+      "cleanImage": "./assets/menu/studio-pancit-miki-bilao.jpg"
     }
   ],
   "restoViews": [
