@@ -13,3 +13,7 @@ index.vite.bak.html
 AGENT.md
 .git
 .gitignore
+.env
+.env*
+assets/video/hero-main.mp4
+.playwright-mcp
