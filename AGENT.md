@@ -114,16 +114,17 @@
 - **Hero HUD Control Swap**: Reordered `#elfarm-palazzo-hud` so `"Drag or scroll the table to turn it"` renders on the LEFT and `DISH XX / 21 | ... | ₱...` renders on the RIGHT (`flex-wrap: nowrap`, `max-width: min(720px, 58vw)` on desktop; `column-reverse` on mobile).
 - **Book a Table Clean Phone Input**: Removed `"0917 123 4567"` placeholder text from all `Phone*` fields (`placeholder=""`).
 - **Sora-Style Animated Dark Vector Map (`injectMiniMapSection`)**: Replaced the Google Maps `<iframe>` with a minimalist dark vector canvas (`#050708`), road grid, green farm sanctuary plot, curved bottom-right `Maloong Canal` water bay, vignette fades into `#0b1315`, animated `#f4161c` pulsing radar rings & teardrop pin (`6.6582° N, 122.1457° E`), and floating obsidian card (`EL Farm Café & Resto — Sitio Nipa, Maloong Canal, Lamitan`) linking directly to Google Maps.
-- **Calamares Studio Upgrade & Queued AI Regeneration List (November 16, 2026)**:
-  - **Completed & Verified (`?v=2` + `elfarm-enhance.js?v=18`)**: Regenerated `Crispy Golden Calamares` (`studio-calamares.jpg?v=2` & `plates/plated-crispy-calamares.jpg`, `1024×1024`), added `'crispy-calamares'` to `AI_VERIFIED_PLATED_IDS` (`22` Hero table dishes), and verified live in Playwright on `http://localhost:5173/menu.html` with `0` console errors/warnings.
-  - **Pending `gemini-3.1-flash-image` Quota Reset (~`2026-11-15T22:10:28Z` / 6:10 AM PHT — 429 `RESOURCE_EXHAUSTED`)**:
-    1. `Butter Caramel Popcorn Latte` (`studio-popcorn-latte.jpg`) — replace low-res crop with sharp `EL FARM CAFÉ & RESTO` studio cup.
-    2. `Coconut Matcha Cloud` (`studio-coconut-matcha-cloud.jpg`) — recreate clean studio photo inside a real carved young buko shell matching user's 2nd reference photo (no poster text overlays).
-    3. `Saging Con Ginamus` (`studio-saging-con-ginamus.jpg` & `plates/plated-saging-con-ginamus.jpg`) — replace white gingham crop with dark walnut stoneware studio plate.
-    4. `Seafood Feast Bilao` (`studio-seafood-bilao.jpg` & `plates/plated-seafood-feast-bilao.jpg`) — full circular overhead bilao on dark walnut wood.
-    5. `Chicken & Pancit Miki Combo` (`studio-chicken-miki-combo.jpg` & `plates/plated-chicken-pancit-miki-combo.jpg`) — full circular overhead bilao matching `All-Time Favorites Combo Feast`.
-    6. `Pinoy Favorites Bilao` (`studio-pinoy-bilao.jpg` & `plates/plated-pinoy-favorites-bilao.jpg`) — full circular overhead bilao on dark walnut wood.
-    7. `Golden Chicken Bilao` (`studio-chicken-bilao.jpg` & `plates/plated-chicken-bilao.jpg`) — full circular overhead bilao + kropek + gravy/chili dip.
+- **Calamares, Coconut Matcha Cloud & Chicken Miki Bilao Studio Upgrades (November 16, 2026)**:
+  - **Completed & Verified Live on Production (`https://el-farm-official.vercel.app`)**:
+    1. `Crispy Golden Calamares` (`studio-calamares.jpg` & `plated-crispy-calamares.jpg`).
+    2. `Coconut Matcha Cloud` (`studio-coconut-matcha-cloud.jpg`, `805 KB`): Real carved young green buko shell, creamy iced ceremonial matcha, bamboo straw, rattan coaster on rustic cafe wood table (matching reference photo).
+    3. `Chicken & Pancit Miki Combo` (`studio-chicken-miki-combo.jpg` & `plated-chicken-pancit-miki-combo.jpg`, `915 KB`): Traditional circular woven bamboo bilao with fresh banana leaves, stir-fried pancit miki, crispy golden fried chicken, garlic rice dome, watermelon, and house gravy.
+  - **Remaining Queued Menu Dishes (to generate on next quota window)**:
+    1. `Butter Caramel Popcorn Latte` (`studio-popcorn-latte.jpg`)
+    2. `Saging Con Ginamus` (`studio-saging-con-ginamus.jpg` & `plated-saging-con-ginamus.jpg`)
+    3. `Seafood Feast Bilao` (`studio-seafood-bilao.jpg` & `plated-seafood-feast-bilao.jpg`)
+    4. `Pinoy Favorites Bilao` (`studio-pinoy-bilao.jpg` & `plated-pinoy-favorites-bilao.jpg`)
+    5. `Golden Chicken Bilao` (`studio-chicken-bilao.jpg` & `plated-chicken-bilao.jpg`)
     8. *(Visual Audit Findings — Mismatched Legacy Assets)*: `Strawberry Yoghurt Refresher` (`studio-strawberry-yoghurt.jpg`, currently shows dark berries), `Crispy Chix N' Fries Basket` (`studio-chix-n-fries.jpg`, missing fries), `Barkadahan Special Platter` (`studio-barkadahan-special.jpg`, currently shows dumplings/gyoza), and optional polish for `Kamanting Con Haleya` (`studio-kamanting-con-haleya.jpg`).
 - **Git Push Policy**: Staged locally only (`git add -A`) — **HOLDING `git push`** pending user confirmation because remaining AI menu image regenerations (`Butter Caramel Popcorn Latte`, `Coconut Matcha Cloud` in buko shell, `Saging Con Ginamus`, 4 Bilao feasts, and 3-4 mismatched items) remain blocked by both Google AI Studio Free Tier (`projects/369924699716`, `generate_content_free_tier_requests, limit: 0` without GCP Billing) and Antigravity `image-generator` quota reset (`~6:10 AM PHT`).
 
