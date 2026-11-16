@@ -169,7 +169,7 @@
       "categoryLabel": "Signature Coffee",
       "priceDisplay": "₱130",
       "description": "Buttery caramel espresso latte topped with velvety whipped cream and golden caramel popcorn crunch.",
-      "cleanImage": "./assets/menu/studio-popcorn-latte.jpg"
+      "cleanImage": "./assets/menu/studio-popcorn-latte.jpg?v=22"
     },
     {
       "id": "lamitan-sunrise",
@@ -241,7 +241,7 @@
       "categoryLabel": "Matcha & Smoothies",
       "priceDisplay": "₱140",
       "description": "Refreshing young coconut water crowned with a velvety ceremonial matcha cream cloud inside a real fresh buko shell.",
-      "cleanImage": "./assets/menu/studio-coconut-matcha-cloud.jpg"
+      "cleanImage": "./assets/menu/studio-coconut-matcha-cloud.jpg?v=21"
     },
     {
       "id": "el-special-matcha",
@@ -313,7 +313,7 @@
       "categoryLabel": "Matcha & Smoothies",
       "priceDisplay": "₱85",
       "description": "Creamy non-caffeinated yoghurt drink ribboned with sweet wild blueberry preserves and real berry fruit.",
-      "cleanImage": "./assets/menu/studio-blueberry-yoghurt.jpg"
+      "cleanImage": "./assets/menu/studio-blueberry-yoghurt.jpg?v=21"
     },
     {
       "id": "strawberry-yoghurt",
@@ -502,7 +502,7 @@
       "categoryLabel": "Snacks & Delicacies",
       "priceDisplay": "₱150",
       "description": "Tender squid rings battered in seasoned flour and fried to a light, golden crunch, served with garlic mayo and spiced vinegar.",
-      "cleanImage": "./assets/menu/studio-calamares.jpg?v=2"
+      "cleanImage": "./assets/menu/studio-calamares.jpg?v=21"
     },
     {
       "id": "barkadahan-special",
@@ -511,7 +511,7 @@
       "categoryLabel": "Snacks & Delicacies",
       "priceDisplay": "₱220",
       "description": "Loaded sharing platter for 3–4 guests featuring crispy chicken strips, fries, golden lumpia, kropek, and trio of dips.",
-      "cleanImage": "./assets/menu/studio-barkadahan-special.jpg"
+      "cleanImage": "./assets/menu/studio-barkadahan-special.jpg?v=21"
     },
     {
       "id": "saging-con-ginamus",
@@ -520,7 +520,7 @@
       "categoryLabel": "Snacks & Delicacies",
       "priceDisplay": "₱90",
       "description": "Golden fried saba plantains served hot with traditional savory-spicy fermented fish dip (ginamus) squeezed with calamansi.",
-      "cleanImage": "./assets/menu/studio-saging-con-ginamus.jpg"
+      "cleanImage": "./assets/menu/studio-saging-con-ginamus.jpg?v=21"
     },
     {
       "id": "kamanting-con-haleya",
@@ -547,7 +547,7 @@
       "categoryLabel": "Salu-Salo Feasts",
       "priceDisplay": "₱1,599",
       "description": "Bountiful coastal bilao loaded with Basilan Curacha crab, garlic butter shrimp, crispy calamares, grilled fish, rice, and fruits.",
-      "cleanImage": "./assets/menu/studio-seafood-bilao.jpg"
+      "cleanImage": "./assets/menu/studio-seafood-bilao.jpg?v=22"
     },
     {
       "id": "all-time-favorites-combo",
@@ -565,7 +565,7 @@
       "categoryLabel": "Salu-Salo Feasts",
       "priceDisplay": "₱1,199",
       "description": "Golden crispy fried chicken paired with a generous bilao of Pancit Miki Special, crispy lumpia shanghai, and boiled eggs.",
-      "cleanImage": "./assets/menu/studio-chicken-miki-combo.jpg"
+      "cleanImage": "./assets/menu/studio-chicken-miki-combo.jpg?v=21"
     },
     {
       "id": "pinoy-favorites-bilao",
@@ -574,7 +574,7 @@
       "categoryLabel": "Salu-Salo Feasts",
       "priceDisplay": "₱999",
       "description": "Grilled barbecue skewers, salted duck eggs, ensalada, steamed white rice, and fresh watermelon & pineapple on banana leaves.",
-      "cleanImage": "./assets/menu/studio-pinoy-bilao.jpg"
+      "cleanImage": "./assets/menu/studio-pinoy-bilao.jpg?v=21"
     },
     {
       "id": "chicken-bilao",
@@ -583,7 +583,7 @@
       "categoryLabel": "Salu-Salo Feasts",
       "priceDisplay": "₱749",
       "description": "Crispy golden fried chicken pieces surrounded by airy prawn crackers (kropek) and served with house gravy and dips.",
-      "cleanImage": "./assets/menu/studio-chicken-bilao.jpg"
+      "cleanImage": "./assets/menu/studio-chicken-bilao.jpg?v=22"
     },
     {
       "id": "pancit-miki-bilao",

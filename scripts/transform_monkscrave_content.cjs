@@ -63,7 +63,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Signature Coffee',
     priceDisplay: '₱130',
     description: 'Buttery caramel espresso latte topped with velvety whipped cream and golden caramel popcorn crunch.',
-    cleanImage: './assets/menu/studio-popcorn-latte.jpg',
+    cleanImage: './assets/menu/studio-popcorn-latte.jpg?v=22',
   },
   {
     id: 'lamitan-sunrise',
@@ -137,7 +137,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Matcha & Smoothies',
     priceDisplay: '₱140',
     description: 'Refreshing young coconut water crowned with a velvety ceremonial matcha cream cloud inside a real fresh buko shell.',
-    cleanImage: './assets/menu/studio-coconut-matcha-cloud.jpg',
+    cleanImage: './assets/menu/studio-coconut-matcha-cloud.jpg?v=21',
   },
   {
     id: 'el-special-matcha',
@@ -209,7 +209,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Matcha & Smoothies',
     priceDisplay: '₱85',
     description: 'Creamy non-caffeinated yoghurt drink ribboned with sweet wild blueberry preserves and real berry fruit.',
-    cleanImage: './assets/menu/studio-blueberry-yoghurt.jpg',
+    cleanImage: './assets/menu/studio-blueberry-yoghurt.jpg?v=21',
   },
   {
     id: 'strawberry-yoghurt',
@@ -406,7 +406,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Snacks & Delicacies',
     priceDisplay: '₱150',
     description: 'Tender squid rings battered in seasoned flour and fried to a light, golden crunch, served with garlic mayo and spiced vinegar.',
-    cleanImage: './assets/menu/studio-calamares.jpg?v=2',
+    cleanImage: './assets/menu/studio-calamares.jpg?v=21',
   },
   {
     id: 'barkadahan-special',
@@ -415,7 +415,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Snacks & Delicacies',
     priceDisplay: '₱220',
     description: 'Loaded sharing platter for 3–4 guests featuring crispy chicken strips, fries, golden lumpia, kropek, and trio of dips.',
-    cleanImage: './assets/menu/studio-barkadahan-special.jpg',
+    cleanImage: './assets/menu/studio-barkadahan-special.jpg?v=21',
   },
   {
     id: 'saging-con-ginamus',
@@ -424,7 +424,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Snacks & Delicacies',
     priceDisplay: '₱90',
     description: 'Golden fried saba plantains served hot with traditional savory-spicy fermented fish dip (ginamus) squeezed with calamansi.',
-    cleanImage: './assets/menu/studio-saging-con-ginamus.jpg',
+    cleanImage: './assets/menu/studio-saging-con-ginamus.jpg?v=21',
   },
   {
     id: 'kamanting-con-haleya',
@@ -453,7 +453,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Salu-Salo Feasts',
     priceDisplay: '₱1,599',
     description: 'Bountiful coastal bilao loaded with Basilan Curacha crab, garlic butter shrimp, crispy calamares, grilled fish, rice, and fruits.',
-    cleanImage: './assets/menu/studio-seafood-bilao.jpg',
+    cleanImage: './assets/menu/studio-seafood-bilao.jpg?v=22',
   },
   {
     id: 'all-time-favorites-combo',
@@ -471,7 +471,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Salu-Salo Feasts',
     priceDisplay: '₱1,199',
     description: 'Golden crispy fried chicken paired with a generous bilao of Pancit Miki Special, crispy lumpia shanghai, and boiled eggs.',
-    cleanImage: './assets/menu/studio-chicken-miki-combo.jpg',
+    cleanImage: './assets/menu/studio-chicken-miki-combo.jpg?v=21',
   },
   {
     id: 'pinoy-favorites-bilao',
@@ -480,7 +480,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Salu-Salo Feasts',
     priceDisplay: '₱999',
     description: 'Grilled barbecue skewers, salted duck eggs, ensalada, steamed white rice, and fresh watermelon & pineapple on banana leaves.',
-    cleanImage: './assets/menu/studio-pinoy-bilao.jpg',
+    cleanImage: './assets/menu/studio-pinoy-bilao.jpg?v=21',
   },
   {
     id: 'chicken-bilao',
@@ -489,7 +489,7 @@ const ACCURATE_MENU_ITEMS = [
     categoryLabel: 'Salu-Salo Feasts',
     priceDisplay: '₱749',
     description: 'Crispy golden fried chicken pieces surrounded by airy prawn crackers (kropek) and served with house gravy and dips.',
-    cleanImage: './assets/menu/studio-chicken-bilao.jpg',
+    cleanImage: './assets/menu/studio-chicken-bilao.jpg?v=22',
   },
   {
     id: 'pancit-miki-bilao',
@@ -844,13 +844,33 @@ for (const srcDir of uncageDirs) {
   }
 }
 
+function safeWriteIfChanged(filePath, data, enc) {
+  try {
+    if (fs.existsSync(filePath)) {
+      const prev = enc ? fs.readFileSync(filePath, enc) : fs.readFileSync(filePath);
+      if (enc ? prev === data : prev.equals(data)) return;
+    }
+  } catch (e) {}
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      if (enc) fs.writeFileSync(filePath, data, enc);
+      else fs.writeFileSync(filePath, data);
+      return;
+    } catch (e) {
+      if (attempt === 3) throw e;
+      const waitUntil = Date.now() + 80;
+      while (Date.now() < waitUntil) {}
+    }
+  }
+}
+
 for (const f of fs.readdirSync(rawJsBackupDir)) {
   if (f === 'swiper-bundle.min.js' || f === 'gsap.min.js') continue;
   const rawPath = path.join(rawJsBackupDir, f);
   const rawBuf = fs.readFileSync(rawPath);
   const isBinaryCms = rawBuf.includes(0) || f.endsWith('.framercms') || f.includes('-chunk-default-') || f.includes('-indexes-default-');
   if (isBinaryCms) {
-    fs.writeFileSync(path.join(jsDir, f), rawBuf);
+    safeWriteIfChanged(path.join(jsDir, f), rawBuf);
     continue;
   }
   if (f.endsWith('.js') || f.endsWith('.mjs')) {
@@ -863,7 +883,7 @@ for (const f of fs.readdirSync(rawJsBackupDir)) {
       updated = updated.replace('function i(n,s,l=!0){', 'function i(n,s,l=!0){if(l)return;');
     }
     updated = updated.replace(/\/\/# sourceMappingURL=.*$/gm, '');
-    fs.writeFileSync(path.join(jsDir, f), updated, 'utf8');
+    safeWriteIfChanged(path.join(jsDir, f), updated, 'utf8');
   }
 }
 console.log('Updated all JS/MJS bundles and preserved uncorrupted binary FRAMERCMS files in assets/js!');
@@ -932,6 +952,7 @@ const rawEnhanceJsContent = `(function () {
   ];
 
   let activeMenuTab = 'all-menu';
+  let menuSearchQuery = '';
   let currentLightboxList = MENU_ITEMS;
   let currentLightboxIndex = 0;
 
@@ -1002,18 +1023,330 @@ const rawEnhanceJsContent = `(function () {
     });
   }
 
-  // Intro splash animation disabled for immediate page reveal
+  // Brand Splash Intro Cover (EL Gold Logo Fade-In -> CodePen vELoNXr Gooey Spinner -> True Main-Site Preload -> Fade-to-Black Outro -> Smooth Reveal)
+  // Uses per-tab sessionStorage('elfarm_intro_played') so it plays once per tab/new open and skips cleanly on refreshes.
+  let introBootStarted = false;
   function initIntroVideo() {
-    const overlay = document.getElementById('elfarm-intro-overlay');
-    if (overlay && overlay.parentNode) overlay.remove();
-    document.documentElement.classList.remove('elfarm-intro-lock');
-    document.documentElement.classList.add('elfarm-intro-reveal');
-    setTimeout(() => {
-      ['.framer-sk9zdg', '.framer-qz7c8h', '.framer-1c16luy', '.framer-fcjafq', '.framer-10n4q2h'].forEach(sel => {
-        const node = document.querySelector(sel);
-        if (node) node.style.opacity = '1';
+    if (introBootStarted) return;
+    introBootStarted = true;
+
+    let alreadyPlayed = false;
+    try {
+      alreadyPlayed = sessionStorage.getItem('elfarm_intro_played') === '1';
+    } catch (e) {}
+
+    if (alreadyPlayed) {
+      const stale = document.getElementById('elfarm-intro-overlay');
+      if (stale && stale.parentNode) stale.remove();
+      document.documentElement.classList.remove('elfarm-intro-lock', 'elfarm-intro-pending');
+      document.documentElement.classList.add('elfarm-intro-reveal');
+      return;
+    }
+
+    document.documentElement.classList.add('elfarm-intro-lock');
+
+    let overlay = document.getElementById('elfarm-intro-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'elfarm-intro-overlay';
+      overlay.setAttribute('aria-label', 'Loading El Farm Cafe and Restaurant');
+      overlay.innerHTML = \`
+        <div class="elfarm-splash-stack">
+          <div class="elfarm-splash-logo-wrap" id="elfarm-splash-logo-wrap">
+            <img id="elfarm-splash-logo" src="./assets/images/el-splash-logo.jpg" alt="El Farm Cafe and Restaurant Logo" fetchpriority="high" decoding="sync" loading="eager">
+          </div>
+          <div class="elfarm-splash-loader-wrap" id="elfarm-splash-loader-wrap" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <defs>
+                <filter id="elfarm-splash-goo">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+                  <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="goo" />
+                  <feBlend in="SourceGraphic" in2="goo" />
+                </filter>
+              </defs>
+              <g id="elfarm-splash-gooey" filter="url(#elfarm-splash-goo)">
+                <circle class="elfarm-splash-dot" cx="100" cy="100" r="6" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      \`;
+      document.body.appendChild(overlay);
+    }
+
+    // Overlay has painted: remove the pre-DOM ::before curtain so logo fade-in is visible cleanly
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove('elfarm-intro-pending');
+    });
+
+    const startTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+    const logoEl = document.getElementById('elfarm-splash-logo');
+    const logoWrap = document.getElementById('elfarm-splash-logo-wrap');
+    const loaderWrap = document.getElementById('elfarm-splash-loader-wrap');
+    const svgGroup = overlay.querySelector('#elfarm-splash-gooey');
+
+    let spinnerActive = true;
+    const spinnerTimers = [];
+    const trackTimer = (fn, ms) => {
+      const id = setTimeout(() => {
+        if (spinnerActive) fn();
+      }, ms);
+      spinnerTimers.push(id);
+      return id;
+    };
+
+    function clearSpinnerTimers() {
+      spinnerActive = false;
+      while (spinnerTimers.length) {
+        clearTimeout(spinnerTimers.pop());
+      }
+    }
+
+    // Exact CodePen (kazmi066/pen/vELoNXr) Gooey Circular Spinner Animation
+    const spacing = 25;
+    function createDot(cx, cy) {
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('cx', cx);
+      dot.setAttribute('cy', cy);
+      dot.setAttribute('r', 1);
+      dot.classList.add('elfarm-splash-dot');
+      svgGroup.appendChild(dot);
+      return dot;
+    }
+
+    function animateSpinner() {
+      if (!spinnerActive || !svgGroup) return;
+      svgGroup.querySelectorAll('.elfarm-splash-dot').forEach((dot) => dot.remove());
+      svgGroup.style.transition = 'none';
+      svgGroup.style.transform = 'rotate(0deg)';
+      createDot(100, 100);
+
+      const first4 = [
+        { cx: 100, cy: 100 - spacing },
+        { cx: 100, cy: 100 + spacing },
+        { cx: 100 - spacing, cy: 100 },
+        { cx: 100 + spacing, cy: 100 }
+      ];
+      const allDots = [];
+
+      first4.forEach((pos) => {
+        const dot = createDot(100, 100);
+        allDots.push(dot);
+        const midX = (100 + pos.cx) / 2;
+        const midY = (100 + pos.cy) / 2;
+        trackTimer(() => {
+          dot.setAttribute('r', 8);
+          dot.setAttribute('cx', midX);
+          dot.setAttribute('cy', midY);
+        }, 50);
+        trackTimer(() => {
+          dot.setAttribute('r', 6);
+          dot.setAttribute('cx', pos.cx);
+          dot.setAttribute('cy', pos.cy);
+        }, 500);
       });
-    }, 180);
+
+      trackTimer(() => {
+        const diagSpacing = spacing / Math.sqrt(2);
+        const diagonal = [
+          { cx: 100 - diagSpacing, cy: 100 - diagSpacing },
+          { cx: 100 + diagSpacing, cy: 100 - diagSpacing },
+          { cx: 100 - diagSpacing, cy: 100 + diagSpacing },
+          { cx: 100 + diagSpacing, cy: 100 + diagSpacing }
+        ];
+        diagonal.forEach((pos) => {
+          const dot = createDot(100, 100);
+          allDots.push(dot);
+          const midX = (100 + pos.cx) / 2;
+          const midY = (100 + pos.cy) / 2;
+          trackTimer(() => {
+            dot.setAttribute('r', 8);
+            dot.setAttribute('cx', midX);
+            dot.setAttribute('cy', midY);
+          }, 50);
+          trackTimer(() => {
+            dot.setAttribute('r', 6);
+            dot.setAttribute('cx', pos.cx);
+            dot.setAttribute('cy', pos.cy);
+          }, 500);
+        });
+      }, 1000);
+
+      trackTimer(() => {
+        svgGroup.style.transition = 'transform 0.5s linear';
+        svgGroup.style.transform = 'rotate(360deg)';
+      }, 2500);
+
+      trackTimer(() => {
+        svgGroup.style.transition = 'transform 0.5s linear';
+        svgGroup.style.transform = 'rotate(0deg)';
+        allDots.forEach((dot) => {
+          dot.setAttribute('cx', 100);
+          dot.setAttribute('cy', 100);
+          dot.setAttribute('r', 6);
+        });
+      }, 3000);
+
+      trackTimer(() => {
+        animateSpinner();
+      }, 4000);
+    }
+
+    // Step 1: Wait briefly for splash logo image decode then fade Logo in FIRST, followed by Loader
+    const startEntranceChoreography = () => {
+      requestAnimationFrame(() => {
+        if (logoWrap) logoWrap.classList.add('is-visible');
+        setTimeout(() => {
+          if (loaderWrap) loaderWrap.classList.add('is-visible');
+          animateSpinner();
+        }, 360);
+      });
+    };
+
+    if (logoEl && !logoEl.complete) {
+      let fired = false;
+      const onLogoReady = () => {
+        if (fired) return;
+        fired = true;
+        startEntranceChoreography();
+      };
+      logoEl.addEventListener('load', () => {
+        if (logoEl.decode) logoEl.decode().catch(() => {}).finally(onLogoReady);
+        else onLogoReady();
+      }, { once: true });
+      logoEl.addEventListener('error', onLogoReady, { once: true });
+      setTimeout(onLogoReady, 1200);
+    } else if (logoEl && logoEl.decode) {
+      logoEl.decode().catch(() => {}).finally(startEntranceChoreography);
+    } else {
+      startEntranceChoreography();
+    }
+
+    // Step 2: True background asset preloading & main-site readiness checks while cover holds pure black
+    const waitWindowLoad = new Promise((resolve) => {
+      if (document.readyState === 'complete') resolve();
+      else window.addEventListener('load', resolve, { once: true });
+    });
+
+    const waitFonts = (document.fonts && document.fonts.ready)
+      ? Promise.race([document.fonts.ready.catch(() => {}), new Promise(r => setTimeout(r, 3500))])
+      : Promise.resolve();
+
+    const waitForDomStability = () => new Promise((resolve) => {
+      const deadline = Date.now() + 5500;
+      const isHome = !!(document.querySelector('[data-framer-name^="Hero Section"], .framer-1myb8ii'));
+      const checkReady = () => {
+        const timedOut = Date.now() > deadline;
+        let domReady = true;
+        if (isHome) {
+          const tableReady = !!document.querySelector('#elfarm-palazzo-table-root .elfarm-palazzo-plate-circle img');
+          const sliderHost = document.querySelector('#elfarm-xxmpvqe-showcase, .elfarm-xxmpvqe-swiper');
+          const sliderReady = !sliderHost || !!sliderHost.classList.contains('swiper-initialized') || !!document.querySelector('.swiper-initialized');
+          domReady = tableReady && sliderReady;
+        }
+        if (domReady || timedOut) {
+          const visibleImgs = Array.from(document.querySelectorAll('#elfarm-palazzo-table-root img, #main img')).slice(0, 32);
+          Promise.all(visibleImgs.map((img) => {
+            const pLoad = img.complete
+              ? Promise.resolve()
+              : Promise.race([
+                  new Promise((r) => {
+                    img.addEventListener('load', r, { once: true });
+                    img.addEventListener('error', r, { once: true });
+                  }),
+                  new Promise((r) => setTimeout(r, 3000))
+                ]);
+            return pLoad.then(() => (img.decode ? img.decode().catch(() => {}) : undefined));
+          })).then(() => {
+            requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(resolve, 260)));
+          });
+        } else {
+          setTimeout(checkReady, 120);
+        }
+      };
+      checkReady();
+    });
+
+    const preloadCoreAssets = () => {
+      const isHome = !!(document.querySelector('[data-framer-name^="Hero Section"], .framer-1myb8ii'));
+      const preloadUrls = isHome
+        ? [
+            './assets/images/9EbxgnnItr5IyHLUac9iSjrocis-64b569cd.svg',
+            './assets/images/palazzo-walnut-table.png',
+            './assets/menu/plates/plated-tapsilog.jpg?v=27',
+            './assets/menu/plates/plated-sisig-silog.jpg?v=27',
+            './assets/menu/plates/plated-hotsilog.jpg?v=27',
+            './assets/menu/plates/plated-crispy-pata.jpg?v=27',
+            './assets/menu/plates/plated-seafood-feast-bilao.jpg?v=27',
+            './assets/menu/plates/plated-chicken-bilao.jpg?v=27',
+            './assets/menu/plates/plated-pinoy-favorites-bilao.jpg?v=27',
+            './assets/menu/plates/plated-all-time-favorites-combo.jpg?v=27'
+          ]
+        : [
+            './assets/images/9EbxgnnItr5IyHLUac9iSjrocis-64b569cd.svg'
+          ];
+      const imgTasks = preloadUrls.map((src) => new Promise((res) => {
+        const im = new Image();
+        im.onload = () => (im.decode ? im.decode().catch(() => {}).finally(res) : res());
+        im.onerror = () => res();
+        im.src = src;
+        if (im.complete) (im.decode ? im.decode().catch(() => {}).finally(res) : res());
+      }));
+      const vid = document.querySelector('.elfarm-hero-nature-video');
+      const vidTask = vid
+        ? Promise.race([
+            new Promise((res) => {
+              if (vid.readyState >= 3) return res();
+              vid.addEventListener('canplaythrough', res, { once: true });
+              vid.addEventListener('canplay', res, { once: true });
+              vid.addEventListener('loadeddata', res, { once: true });
+              vid.addEventListener('error', res, { once: true });
+            }),
+            new Promise((r) => setTimeout(r, 3400))
+          ])
+        : Promise.resolve();
+
+      return Promise.race([
+        Promise.all([...imgTasks, vidTask, waitForDomStability()]),
+        new Promise((r) => setTimeout(r, 6200))
+      ]);
+    };
+
+    const MIN_DISPLAY_MS = 3800;
+    const MAX_WAIT_MS = 9500;
+    let outroStarted = false;
+
+    function runFadeToBlackOutro() {
+      if (outroStarted) return;
+      outroStarted = true;
+      try { sessionStorage.setItem('elfarm_intro_played', '1'); } catch (e) {}
+
+      // Step 3a: Logo + Loader smoothly fade to pure #000000 black first (540ms)
+      overlay.classList.add('is-outro-content');
+
+      setTimeout(() => {
+        clearSpinnerTimers();
+        // Step 3b: Unlock page scroll & fade pure black curtain smoothly into the fully ready main site
+        document.documentElement.classList.remove('elfarm-intro-lock', 'elfarm-intro-pending');
+        document.documentElement.classList.add('elfarm-intro-reveal');
+        overlay.classList.add('is-outro-curtain');
+
+        setTimeout(() => {
+          if (overlay && overlay.parentNode) overlay.remove();
+        }, 700);
+      }, 560);
+    }
+
+    const safetyTimeout = setTimeout(runFadeToBlackOutro, MAX_WAIT_MS);
+
+    Promise.all([waitWindowLoad, waitFonts, preloadCoreAssets()]).then(() => {
+      const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+      const remaining = Math.max(0, MIN_DISPLAY_MS - (now - startTime));
+      setTimeout(() => {
+        clearTimeout(safetyTimeout);
+        runFadeToBlackOutro();
+      }, remaining);
+    });
   }
 
   /**
@@ -1132,7 +1465,7 @@ const rawEnhanceJsContent = `(function () {
     const style = document.createElement('style');
     style.id = 'elfarm-framer-styles';
     style.textContent = \`
-      /* Phase 1: Zero Startup Layout Shift & Smooth Transitions */
+      /* Phase 1: Zero Startup Layout Shift, Splash Intro Cover & Plain Pure-Black Transitions */
       html, body {
         background-color: #0b1315;
         overflow-x: hidden;
@@ -1140,7 +1473,13 @@ const rawEnhanceJsContent = `(function () {
       html.elfarm-intro-lock,
       html.elfarm-intro-lock body {
         overflow: hidden !important;
-        height: 100vh !important;
+        overflow-x: hidden !important;
+        overflow-y: hidden !important;
+        width: 100% !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        background: #000000 !important;
+        overscroll-behavior: none !important;
         scrollbar-width: none !important;
         -ms-overflow-style: none !important;
       }
@@ -1150,41 +1489,97 @@ const rawEnhanceJsContent = `(function () {
         width: 0 !important;
         height: 0 !important;
       }
-      html.elfarm-intro-lock #main {
-        opacity: 0 !important;
-        filter: brightness(0.12) !important;
-      }
-      html.elfarm-intro-reveal #main {
-        opacity: 1 !important;
-        filter: brightness(1) !important;
-        transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), filter 0.95s cubic-bezier(0.22, 1, 0.36, 1) !important;
-      }
       #elfarm-intro-overlay {
         position: fixed !important;
         inset: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        background: #070d0f !important;
+        width: 100% !important;
+        height: 100dvh !important;
+        margin: 0 !important;
+        padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 20px) env(safe-area-inset-bottom, 16px) env(safe-area-inset-left, 20px) !important;
+        box-sizing: border-box !important;
+        background: #000000 !important;
+        background-color: #000000 !important;
         z-index: 2147483646 !important;
         overflow: hidden !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        touch-action: none !important;
         opacity: 1;
         visibility: visible;
-        transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.95s ease;
+        transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.65s ease;
       }
-      #elfarm-intro-overlay.elfarm-intro-fadeout {
+      #elfarm-intro-overlay.is-outro-curtain {
         opacity: 0 !important;
         visibility: hidden !important;
         pointer-events: none !important;
       }
-      #elfarm-intro-video {
-        width: 100vw !important;
-        height: 100vh !important;
-        object-fit: cover !important;
-        display: block !important;
-        pointer-events: none !important;
+      .elfarm-splash-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 420px;
+        gap: clamp(8px, 2dvh, 18px);
+        transition: opacity 0.52s cubic-bezier(0.22, 1, 0.36, 1), transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      #elfarm-intro-overlay.is-outro-content .elfarm-splash-stack {
+        opacity: 0 !important;
+        transform: scale(0.965);
+      }
+      .elfarm-splash-logo-wrap {
+        width: min(clamp(142px, 34vw, 240px), 34dvh);
+        height: min(clamp(142px, 34vw, 240px), 34dvh);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: scale(0.95);
+        transition: opacity 0.68s cubic-bezier(0.22, 1, 0.36, 1), transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
+        pointer-events: none;
+      }
+      .elfarm-splash-logo-wrap.is-visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+      #elfarm-splash-logo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        mix-blend-mode: lighten;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+      .elfarm-splash-loader-wrap {
+        width: min(clamp(84px, 18vw, 128px), 20dvh);
+        height: min(clamp(84px, 18vw, 128px), 20dvh);
+        display: grid;
+        place-items: center;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        pointer-events: none;
+      }
+      .elfarm-splash-loader-wrap.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .elfarm-splash-loader-wrap svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .elfarm-splash-dot {
+        fill: #ffffff;
+        transition: cx 0.5s cubic-bezier(0.3, 1.4, 0.4, 1),
+          cy 0.5s cubic-bezier(0.3, 1.4, 0.4, 1),
+          r 0.5s cubic-bezier(0.3, 1.4, 0.4, 1);
+      }
+      #elfarm-splash-gooey {
+        transform-origin: 100px 100px;
+        transition: transform 0.5s linear;
       }
 
       /* Permanently Hide Framer Promo Badges & Gift Voucher Floating Pill */
@@ -1568,11 +1963,74 @@ const rawEnhanceJsContent = `(function () {
       /* ============================================================================
          AOMI NATURE HERO VIDEO BACKGROUND & TRANSPARENT TOP HEADER
          ============================================================================ */
-      header,
-      .framer-atzvB,
+      html {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: clip !important;
+        overflow-y: auto !important;
+        height: auto !important;
+      }
+      body {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: clip !important;
+        overflow-y: visible !important;
+        height: auto !important;
+      }
+      div#main,
+      #main {
+        filter: none !important;
+        backdrop-filter: none !important;
+        transform: none !important;
+        will-change: auto !important;
+      }
       .framer-2nqvvj-container {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        z-index: 120 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        border-bottom: 1px solid transparent !important;
+        pointer-events: none !important;
+        isolation: isolate !important;
+      }
+      /* GPU-composited pseudo backdrop prevents Chromium backdrop-filter scroll flicker */
+      .framer-2nqvvj-container::before {
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        z-index: -1 !important;
+        background: rgba(11, 19, 21, 0.94) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        border-bottom: 1px solid rgba(239, 201, 164, 0.16) !important;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42) !important;
+        opacity: 0 !important;
+        transition: opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        pointer-events: none !important;
+      }
+      .framer-2nqvvj-container.is-scrolled::before {
+        opacity: 1 !important;
+      }
+      body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container::before {
+        opacity: 0.78 !important;
+      }
+      body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container.is-scrolled::before {
+        opacity: 1 !important;
+      }
+      header,
+      .framer-atzvB {
         position: relative !important;
-        z-index: 40 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        z-index: 120 !important;
         background: transparent !important;
         background-color: transparent !important;
         backdrop-filter: none !important;
@@ -1588,8 +2046,141 @@ const rawEnhanceJsContent = `(function () {
       .framer-2nqvvj-container a,
       .framer-2nqvvj-container button,
       header [data-framer-name="Logo"],
-      header [data-framer-name="Menu"] {
+      header [data-framer-name="Brand Logo"],
+      header [data-framer-name="Menu"],
+      header [data-framer-name="Primary Header"],
+      .framer-pc5vzg-container,
+      header [data-framer-name="Primary Header"] {
         pointer-events: auto !important;
+      }
+      header [data-framer-name="Primary Header"] * {
+        pointer-events: none !important;
+      }
+      #elfarm-mobile-burger-btn,
+      #elfarm-mobile-burger-btn *,
+      header [data-framer-name="Hamburger"],
+      header [data-framer-name="Hamburger"] *,
+      header [data-framer-name="Burger"],
+      header [data-framer-name="Burger"] *,
+      .framer-r826j9,
+      .framer-r826j9 * {
+        pointer-events: auto !important;
+      }
+      header [data-framer-name="Primary Header"],
+      #elfarm-mobile-burger-btn,
+      header [data-framer-name="Hamburger"],
+      header [data-framer-name="Burger"],
+      .framer-r826j9 {
+        cursor: pointer !important;
+      }
+      /* Prevent "Download App" or any nav link from ever wrapping letter-by-letter vertically */
+      header nav,
+      header [data-framer-name="Menu"] {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        width: auto !important;
+        max-width: none !important;
+        overflow: visible !important;
+        gap: clamp(12px, 1.8vw, 28px) !important;
+      }
+      header nav > div,
+      header [data-framer-name="Menu"] > div {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: max-content !important;
+        margin: 0 !important;
+      }
+      header nav a,
+      header nav a div,
+      header nav a p,
+      header [data-framer-name="Menu"] a,
+      header [data-framer-name="Menu"] a div,
+      header [data-framer-name="Menu"] a p {
+        white-space: nowrap !important;
+        width: auto !important;
+        min-width: max-content !important;
+        word-break: normal !important;
+        flex-shrink: 0 !important;
+      }
+      /* Inner Subpage Top Clearance below fixed Header Navbar */
+      @media (min-width: 1025px) {
+        #elfarm-mobile-burger-btn,
+        .framer-r826j9 {
+          display: none !important;
+          pointer-events: none !important;
+        }
+        header .framer-pc5vzg-container,
+        header [data-framer-name="Primary Header"] {
+          display: flex !important;
+          pointer-events: auto !important;
+        }
+        [data-framer-name="Menu Section"],
+        [data-framer-name="About Banner Section"],
+        [data-framer-name="Blog Tab Section"],
+        [data-framer-name="Contact  Section"] {
+          padding-top: max(154px, 16vh) !important;
+        }
+      }
+      @media (max-width: 1024px) {
+        header,
+        .framer-atzvB,
+        .framer-2nqvvj-container {
+          width: 100% !important;
+          max-width: 100% !important;
+          min-height: 76px !important;
+          height: auto !important;
+          padding: 0 !important;
+          display: flex !important;
+          align-items: center !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          z-index: 120 !important;
+        }
+        header .framer-1vd02cg {
+          width: 100% !important;
+          max-width: 100% !important;
+          padding: 14px 20px !important;
+          margin: 0 !important;
+        }
+        header .framer-44446i,
+        header [data-framer-name="Brand Logo"] {
+          width: 68px !important;
+          height: 48px !important;
+        }
+        header .framer-pwnhug {
+          width: 100% !important;
+          max-width: 100% !important;
+          display: flex !important;
+          flex-direction: row !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+          padding: 0 !important;
+        }
+        .framer-1k980me-container,
+        .framer-1k980me-container *,
+        header .framer-pc5vzg-container,
+        header .framer-pc5vzg-container *,
+        header [data-framer-name="Primary Header"],
+        header .framer-1g6xkw5,
+        header [data-framer-name="Header Button"],
+        header .framer-r826j9,
+        header .framer-r826j9 * {
+          display: none !important;
+          pointer-events: none !important;
+        }
+        [data-framer-name="Menu Section"],
+        [data-framer-name="About Banner Section"],
+        [data-framer-name="Blog Tab Section"],
+        [data-framer-name="Contact  Section"] {
+          padding-top: 106px !important;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 1024px) {
+        header .framer-1vd02cg {
+          padding: 16px 28px !important;
+        }
       }
       header[data-framer-name],
       header [data-framer-name="Container"],
@@ -1598,19 +2189,82 @@ const rawEnhanceJsContent = `(function () {
         background-color: transparent !important;
       }
       body:has([data-framer-name^="Hero Section"]) .framer-2nqvvj-container {
-        position: absolute !important;
+        position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 40 !important;
-        background: transparent !important;
+        z-index: 120 !important;
       }
-      @media (min-width: 810px) {
+      @media (min-width: 1600px) {
+        [data-framer-name="Container"],
+        .framer-yak54d {
+          max-width: 1480px !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+        }
+      }
+      @media (min-width: 810px) and (max-width: 1024px) {
         [data-framer-name^="Hero Section"],
         .framer-1myb8ii {
-          width: 100vw !important;
-          max-width: none !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          height: 100dvh !important;
+          min-height: 620px !important;
+          max-height: 920px !important;
+          padding: 86px 28px 36px !important;
+          display: flex !important;
+          flex-direction: column !important;
+          justify-content: center !important;
+          align-items: stretch !important;
+          overflow: hidden !important;
+        }
+        [data-framer-name^="Hero Section"] [data-framer-name="Container"],
+        .framer-1myb8ii .framer-yak54d {
+          position: relative !important;
+          z-index: 30 !important;
+          width: 100% !important;
+          max-width: 960px !important;
+          height: auto !important;
+          margin: 0 auto !important;
+          padding: 0 !important;
+          display: flex !important;
+          flex-direction: row !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+        }
+        [data-framer-name^="Hero Section"] .framer-sk9zdg {
+          max-width: 410px !important;
+          gap: 16px !important;
+        }
+        [data-framer-name^="Hero Section"] h1 {
+          font-size: clamp(38px, 5.2vw, 54px) !important;
+          line-height: 1.04 !important;
+        }
+        [data-framer-name^="Hero Section"] [data-framer-name="Hero Heading Block"] p {
+          font-size: 14px !important;
+          line-height: 1.46 !important;
+          max-width: 390px !important;
+        }
+        [data-framer-name="Hero Image Block"],
+        .framer-c688wi,
+        .framer-lEb4X .framer-c688wi {
+          position: absolute !important;
+          inset: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          transform: none !important;
+          z-index: 22 !important;
+          pointer-events: none !important;
+        }
+      }
+      @media (min-width: 1025px) {
+        [data-framer-name^="Hero Section"],
+        .framer-1myb8ii {
+          width: 100% !important;
+          max-width: 100% !important;
           margin-left: 0 !important;
           margin-right: 0 !important;
           height: 100vh !important;
@@ -1720,11 +2374,12 @@ const rawEnhanceJsContent = `(function () {
       }
       .elfarm-hero-nature-bg-layer {
         position: absolute !important;
-        left: 50% !important;
+        left: 0 !important;
+        right: 0 !important;
         top: 0 !important;
         bottom: 0 !important;
-        width: 100vw !important;
-        transform: translateX(-50%) !important;
+        width: 100% !important;
+        max-width: 100% !important;
         overflow: hidden !important;
         z-index: 1 !important;
         pointer-events: none !important;
@@ -1760,18 +2415,18 @@ const rawEnhanceJsContent = `(function () {
           flex-direction: column !important;
           align-items: center !important;
           text-align: center !important;
-          gap: clamp(8px, 1.4vh, 14px) !important;
+          gap: clamp(8px, 1.3vh, 13px) !important;
           width: 100% !important;
           max-width: 360px !important;
           margin: 0 auto !important;
-          padding: 8px 16px 4px !important;
+          padding: 4px 16px 4px !important;
           position: relative !important;
           z-index: 35 !important;
           pointer-events: auto !important;
         }
         .elfarm-mobile-hero-title {
           font-family: "Cormorant Garamond", serif !important;
-          font-size: clamp(32px, 8.8vw, 40px) !important;
+          font-size: clamp(32px, 8.6vw, 40px) !important;
           font-weight: 500 !important;
           line-height: 1.04 !important;
           color: #ffffff !important;
@@ -1780,7 +2435,7 @@ const rawEnhanceJsContent = `(function () {
         .elfarm-mobile-hero-sub {
           font-family: "Jost", sans-serif !important;
           font-size: 13px !important;
-          line-height: 1.42 !important;
+          line-height: 1.4 !important;
           color: rgba(238, 231, 219, 0.9) !important;
           margin: 0 !important;
         }
@@ -1788,7 +2443,7 @@ const rawEnhanceJsContent = `(function () {
           display: inline-flex !important;
           align-items: center !important;
           justify-content: center !important;
-          padding: 10px 20px !important;
+          padding: 9px 20px !important;
           border: 2px solid rgb(239, 201, 164) !important;
           background: rgba(15, 29, 34, 0.85) !important;
           color: rgb(239, 201, 164) !important;
@@ -1803,15 +2458,22 @@ const rawEnhanceJsContent = `(function () {
         .elfarm-mobile-table-host {
           position: absolute !important;
           inset: 0 !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
           width: 100% !important;
           height: 100% !important;
           overflow: hidden !important;
+          z-index: 22 !important;
           pointer-events: none !important;
         }
         [data-framer-name^="Hero Section"],
         .framer-1myb8ii {
-          width: 100vw !important;
-          max-width: none !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
           padding: 78px 0 0 !important;
           height: 100vh !important;
           height: 100dvh !important;
@@ -1830,6 +2492,7 @@ const rawEnhanceJsContent = `(function () {
           align-items: center !important;
           gap: 6px !important;
           width: 100% !important;
+          max-width: 100% !important;
           height: auto !important;
           padding-top: clamp(6px, 1.5vh, 18px) !important;
           z-index: 30 !important;
@@ -1862,6 +2525,7 @@ const rawEnhanceJsContent = `(function () {
         [data-framer-name^="Hero Section"] .framer-sk9zdg p {
           text-align: center !important;
         }
+        [data-framer-name^="Hero Section"] .ssr-variant:has([data-framer-name="Phone Hero Image Block"]),
         [data-framer-name="Hero Image Block"].hidden-1k7gghl,
         .framer-c688wi.hidden-1k7gghl,
         [data-framer-name="Phone Hero Image Block"] {
@@ -1869,7 +2533,9 @@ const rawEnhanceJsContent = `(function () {
           position: absolute !important;
           inset: 0 !important;
           left: 0 !important;
+          right: 0 !important;
           top: 0 !important;
+          bottom: 0 !important;
           transform: none !important;
           width: 100% !important;
           max-width: 100% !important;
@@ -1878,6 +2544,18 @@ const rawEnhanceJsContent = `(function () {
           overflow: hidden !important;
           z-index: 22 !important;
           pointer-events: none !important;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 809px) {
+        header [data-framer-name="Navbar Block"],
+        header .framer-pwnhug {
+          width: 100% !important;
+          max-width: 100% !important;
+          padding-left: 28px !important;
+          padding-right: 28px !important;
+        }
+        [data-framer-name^="Hero Section"] .framer-sk9zdg {
+          max-width: 540px !important;
         }
       }
       /* Hide ALL old static plate bowls AND table-pinned Framer leaf layers across Desktop & Mobile */
@@ -1912,7 +2590,10 @@ const rawEnhanceJsContent = `(function () {
       @keyframes elfarmPalazzoTableEntranceDesktop {
         0% {
           opacity: 0;
-          transform: translate3d(22%, 0, 0) rotate(-35deg) scale(0.95);
+          transform: translate3d(14%, 0, 0) rotate(-28deg) scale(0.96);
+        }
+        25% {
+          opacity: 1;
         }
         100% {
           opacity: 1;
@@ -1922,7 +2603,10 @@ const rawEnhanceJsContent = `(function () {
       @keyframes elfarmPalazzoTableEntranceMobile {
         0% {
           opacity: 0;
-          transform: translate3d(0, 16%, 0) rotate(-35deg) scale(0.95);
+          transform: translate3d(0, 10%, 0) rotate(-28deg) scale(0.96);
+        }
+        25% {
+          opacity: 1;
         }
         100% {
           opacity: 1;
@@ -1932,7 +2616,10 @@ const rawEnhanceJsContent = `(function () {
       @keyframes elfarmPalazzoPlateStaggerIn {
         0% {
           opacity: 0;
-          transform: scale(1.12);
+          transform: scale(1.08);
+        }
+        35% {
+          opacity: 1;
         }
         100% {
           opacity: 1;
@@ -1949,7 +2636,7 @@ const rawEnhanceJsContent = `(function () {
         user-select: none !important;
         z-index: 22 !important;
         transform-origin: center center !important;
-        animation: elfarmPalazzoTableEntranceDesktop 2.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both !important;
+        animation: elfarmPalazzoTableEntranceDesktop 1.35s cubic-bezier(0.22, 1, 0.36, 1) 0s both !important;
       }
       .elfarm-palazzo-wheel {
         position: absolute !important;
@@ -1958,7 +2645,7 @@ const rawEnhanceJsContent = `(function () {
         height: 100% !important;
         border-radius: 50% !important;
         cursor: grab !important;
-        touch-action: none !important;
+        touch-action: pan-y !important;
         z-index: 3 !important;
         pointer-events: auto !important;
       }
@@ -2001,6 +2688,7 @@ const rawEnhanceJsContent = `(function () {
         position: absolute !important;
         pointer-events: auto !important;
         cursor: pointer !important;
+        touch-action: pan-y !important;
         will-change: transform, left, top;
       }
       .elfarm-palazzo-plate-entrance {
@@ -2015,7 +2703,7 @@ const rawEnhanceJsContent = `(function () {
         border-radius: 50% !important;
         overflow: hidden !important;
         box-shadow: 0 28px 48px rgba(0, 0, 0, 0.55), 0 6px 14px rgba(0, 0, 0, 0.38) !important;
-        background: #14181a !important;
+        background: transparent !important;
         position: relative !important;
         transition: box-shadow 0.3s ease !important;
       }
@@ -2033,7 +2721,7 @@ const rawEnhanceJsContent = `(function () {
         height: 100% !important;
         object-fit: cover !important;
         border-radius: 50% !important;
-        transform: scale(1.08) !important;
+        transform: scale(1) !important;
         display: block !important;
         user-select: none !important;
         pointer-events: none !important;
@@ -2187,6 +2875,78 @@ const rawEnhanceJsContent = `(function () {
         width: 100% !important;
         margin-bottom: 24px !important;
       }
+      #elfarm-menu-search-wrap {
+        display: none;
+        width: 100%;
+        max-width: 640px;
+        margin: 0 auto 12px auto;
+        position: relative;
+        align-items: center;
+      }
+      #elfarm-menu-search {
+        width: 100%;
+        height: 44px;
+        padding: 0 42px 0 40px;
+        border-radius: 999px;
+        border: 1px solid rgba(239, 201, 164, 0.24);
+        background: rgba(15, 29, 34, 0.92);
+        color: #f5f5f5;
+        font-family: "Jost", sans-serif;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      #elfarm-menu-search:focus {
+        border-color: rgb(239, 201, 164);
+        box-shadow: 0 0 0 3px rgba(239, 201, 164, 0.14);
+      }
+      #elfarm-menu-search::placeholder {
+        color: rgba(245, 245, 245, 0.5);
+      }
+      .elfarm-menu-search-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(239, 201, 164, 0.78);
+        pointer-events: none;
+        font-size: 14px;
+      }
+      #elfarm-menu-search-clear {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(239, 201, 164, 0.14);
+        color: rgb(239, 201, 164);
+        font-size: 15px;
+        line-height: 1;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      #elfarm-menu-search-clear.is-visible {
+        display: inline-flex;
+      }
+      .elfarm-pwb-mobile-foot {
+        display: none;
+      }
+      .elfarm-menu-empty {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 40px 20px;
+        border-radius: 16px;
+        border: 1px dashed rgba(239, 201, 164, 0.28);
+        background: rgba(15, 29, 34, 0.65);
+        color: rgba(245, 245, 245, 0.78);
+        font-family: "Jost", sans-serif;
+        font-size: 15px;
+      }
       .elfarm-native-tab {
         cursor: pointer !important;
         text-decoration: none !important;
@@ -2213,14 +2973,138 @@ const rawEnhanceJsContent = `(function () {
         max-width: 1264px !important;
         margin: 0 auto !important;
       }
+      @media (max-width: 1024px) {
+        #elfarm-menu-search-wrap {
+          display: flex !important;
+        }
+        .framer-1bh56fl {
+          flex-wrap: nowrap !important;
+          justify-content: flex-start !important;
+          overflow-x: auto !important;
+          overflow-y: hidden !important;
+          gap: 8px !important;
+          padding: 2px 2px 10px !important;
+          margin-bottom: 14px !important;
+          -webkit-overflow-scrolling: touch !important;
+          scrollbar-width: none !important;
+        }
+        .framer-1bh56fl::-webkit-scrollbar {
+          display: none !important;
+        }
+        .elfarm-native-tab {
+          flex: 0 0 auto !important;
+        }
+        .elfarm-native-tab .framer-BLYYx {
+          height: auto !important;
+          min-height: 0 !important;
+          padding: 7px 14px !important;
+          border-radius: 999px !important;
+        }
+        .elfarm-native-tab .framer-1e08qxj p {
+          font-size: 13px !important;
+          line-height: 1.2 !important;
+          white-space: nowrap !important;
+        }
+        .elfarm-pwb-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+          gap: 14px !important;
+        }
+        .elfarm-pwb-card {
+          border-radius: 14px !important;
+          box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34) !important;
+        }
+        .elfarm-pwb-img-container {
+          height: auto !important;
+          aspect-ratio: 4 / 3 !important;
+        }
+        .elfarm-pwb-cat-badge {
+          top: 8px !important;
+          left: 8px !important;
+          padding: 3px 8px !important;
+          font-size: 9.5px !important;
+          letter-spacing: 0.05em !important;
+          max-width: calc(100% - 16px) !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+        }
+        .elfarm-pwb-zoom-pill,
+        .elfarm-pwb-number,
+        .elfarm-pwb-header-row .elfarm-pwb-price,
+        .elfarm-pwb-title::after {
+          display: none !important;
+        }
+        .elfarm-pwb-content {
+          padding: 10px 11px 12px !important;
+        }
+        .elfarm-pwb-header-row {
+          margin-bottom: 4px !important;
+        }
+        .elfarm-pwb-title {
+          font-size: 16px !important;
+          line-height: 1.2 !important;
+          padding-bottom: 0 !important;
+          display: -webkit-box !important;
+          -webkit-line-clamp: 2 !important;
+          -webkit-box-orient: vertical !important;
+          overflow: hidden !important;
+        }
+        .elfarm-pwb-desc {
+          font-size: 12px !important;
+          line-height: 1.35 !important;
+          display: -webkit-box !important;
+          -webkit-line-clamp: 1 !important;
+          -webkit-box-orient: vertical !important;
+          overflow: hidden !important;
+          margin-bottom: 8px !important;
+        }
+        .elfarm-pwb-mobile-foot {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          gap: 6px !important;
+          margin-top: auto !important;
+          padding-top: 6px !important;
+          border-top: 1px solid rgba(239, 201, 164, 0.1) !important;
+        }
+        .elfarm-pwb-mprice {
+          font-family: "Cormorant Garamond", serif !important;
+          font-size: 17px !important;
+          font-weight: 700 !important;
+          color: rgb(239, 201, 164) !important;
+          line-height: 1 !important;
+        }
+        .elfarm-pwb-mplus {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          height: 26px !important;
+          padding: 0 10px !important;
+          border-radius: 999px !important;
+          background: rgb(239, 201, 164) !important;
+          color: rgb(11, 19, 21) !important;
+          font-family: "Jost", sans-serif !important;
+          font-size: 11px !important;
+          font-weight: 700 !important;
+          letter-spacing: 0.03em !important;
+          white-space: nowrap !important;
+        }
+      }
       @media (max-width: 767px) {
         .framer-scnc0m:not(.elfarm-pwb-grid) {
-        opacity: 0 !important;
-        pointer-events: none !important;
-      }
-      .elfarm-pwb-grid {
-          grid-template-columns: 1fr !important;
-          gap: 24px !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+        }
+        .elfarm-pwb-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          gap: 11px !important;
+        }
+        .elfarm-pwb-desc {
+          display: none !important;
+        }
+        .elfarm-pwb-title {
+          font-size: 15px !important;
+          min-height: 36px !important;
         }
       }
 
@@ -2235,8 +3119,6 @@ const rawEnhanceJsContent = `(function () {
         cursor: pointer;
         display: flex;
         flex-direction: column;
-        will-change: transform;
-        transform-style: preserve-3d;
       }
       .elfarm-pwb-card::before {
         content: "";
@@ -3075,7 +3957,6 @@ const rawEnhanceJsContent = `(function () {
       html.elfarm-zoom-locked body {
         touch-action: pan-x pan-y !important;
         -webkit-text-size-adjust: 100% !important;
-        overscroll-behavior-y: contain !important;
       }
       html.elfarm-desktop-site-zoom,
       html.elfarm-desktop-site-zoom body {
@@ -3101,7 +3982,7 @@ const rawEnhanceJsContent = `(function () {
         position: relative;
         width: 100%;
         min-height: calc(100dvh - 120px);
-        padding: clamp(36px, 4.5vh, 58px) clamp(18px, 4vw, 56px) clamp(56px, 7vh, 84px);
+        padding: clamp(132px, 15vh, 168px) clamp(18px, 4vw, 56px) clamp(56px, 7vh, 84px);
         background:
           radial-gradient(680px 380px at 14% 12%, rgba(239, 201, 164, 0.09), transparent 72%),
           radial-gradient(620px 360px at 86% 24%, rgba(28, 72, 62, 0.22), transparent 74%),
@@ -3109,6 +3990,11 @@ const rawEnhanceJsContent = `(function () {
         color: rgb(245, 245, 245);
         z-index: 8;
         box-sizing: border-box;
+      }
+      @media (max-width: 1024px) {
+        #elfarm-download-hub {
+          padding-top: 104px !important;
+        }
       }
       .elfarm-dl-inner {
         max-width: 1180px;
@@ -3290,6 +4176,19 @@ const rawEnhanceJsContent = `(function () {
         align-items: center;
         gap: 5px;
         flex-shrink: 0;
+        cursor: pointer;
+        border-radius: 12px;
+        padding: 4px;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+        outline: none;
+      }
+      .elfarm-dl-qr-box:hover,
+      .elfarm-dl-qr-box:focus-visible {
+        transform: translateY(-2px) scale(1.03);
+        background: rgba(239, 201, 164, 0.08);
+      }
+      .elfarm-dl-qr-box:hover .elfarm-dl-qr-canvas-wrap {
+        box-shadow: 0 14px 32px rgba(239, 201, 164, 0.22), 0 0 0 2px rgba(239, 201, 164, 0.6);
       }
       .elfarm-dl-qr-canvas-wrap {
         width: 108px;
@@ -3301,6 +4200,7 @@ const rawEnhanceJsContent = `(function () {
         align-items: center;
         justify-content: center;
         box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+        transition: box-shadow 0.2s ease;
       }
       .elfarm-dl-qr-canvas-wrap canvas,
       .elfarm-dl-qr-canvas-wrap svg {
@@ -3314,6 +4214,14 @@ const rawEnhanceJsContent = `(function () {
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: rgba(245, 245, 245, 0.62);
+      }
+      .elfarm-dl-qr-hint {
+        font-family: "Jost", sans-serif;
+        font-size: 9.5px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(239, 201, 164, 0.88);
       }
       .elfarm-dl-steps-grid {
         display: grid;
@@ -3451,6 +4359,282 @@ const rawEnhanceJsContent = `(function () {
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
+      }
+
+      /* Floating QR Zoom Modal (/download) */
+      #elfarm-qr-zoom-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 100020;
+        background: rgba(5, 10, 12, 0.86);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease;
+      }
+      #elfarm-qr-zoom-modal.is-open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .elfarm-qr-zoom-card {
+        width: 100%;
+        max-width: 410px;
+        background: linear-gradient(160deg, rgba(16, 30, 34, 0.98) 0%, rgba(11, 19, 21, 0.99) 100%);
+        border: 1px solid rgba(239, 201, 164, 0.34);
+        border-radius: 24px;
+        padding: 26px 24px 24px 24px;
+        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.72);
+        color: rgb(245, 245, 245);
+        font-family: "Jost", sans-serif;
+        position: relative;
+        text-align: center;
+        transform: scale(0.95);
+        transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      #elfarm-qr-zoom-modal.is-open .elfarm-qr-zoom-card {
+        transform: scale(1);
+      }
+      .elfarm-qr-zoom-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1px solid rgba(239, 201, 164, 0.35);
+        background: rgba(255, 255, 255, 0.06);
+        color: #f5f5f5;
+        font-size: 20px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .elfarm-qr-zoom-close:hover {
+        background: rgba(239, 201, 164, 0.2);
+      }
+      .elfarm-qr-zoom-badge {
+        display: inline-block;
+        max-width: calc(100% - 52px);
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: rgba(239, 201, 164, 0.14);
+        border: 1px solid rgba(239, 201, 164, 0.34);
+        color: rgb(239, 201, 164);
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        line-height: 1.35;
+        text-transform: uppercase;
+        margin: 2px auto 12px auto;
+      }
+      .elfarm-qr-zoom-title {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 28px;
+        font-weight: 600;
+        color: #ffffff;
+        margin: 0 0 14px 0;
+      }
+      .elfarm-qr-zoom-stage {
+        width: 318px;
+        max-width: 100%;
+        aspect-ratio: 1 / 1;
+        margin: 0 auto 14px auto;
+        padding: 14px;
+        border-radius: 18px;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
+      }
+      .elfarm-qr-zoom-stage canvas {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 290px;
+        max-height: 290px;
+        display: block;
+      }
+      .elfarm-qr-zoom-url {
+        font-size: 12px;
+        color: rgba(245, 245, 245, 0.65);
+        word-break: break-all;
+        margin: 0 0 16px 0;
+      }
+      .elfarm-qr-zoom-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      /* Original Framer-Matched Animated Hamburger-to-X Toggle & Persistent Mobile Logo (<= 1024px) */
+      #elfarm-mobile-brand-logo {
+        display: none;
+        position: fixed;
+        top: calc(env(safe-area-inset-top, 0px) + 14px);
+        left: 20px;
+        width: 68px;
+        height: 48px;
+        align-items: center;
+        justify-content: flex-start;
+        pointer-events: auto !important;
+        z-index: 125;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+      #elfarm-mobile-brand-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        pointer-events: none;
+      }
+      #elfarm-mobile-burger-btn {
+        display: none;
+        position: fixed;
+        top: calc(env(safe-area-inset-top, 0px) + 17px);
+        right: 18px;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border: none;
+        border-radius: 10px;
+        background: transparent;
+        cursor: pointer;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        pointer-events: auto !important;
+        z-index: 125;
+        -webkit-tap-highlight-color: transparent;
+      }
+      @media (max-width: 1024px) {
+        #elfarm-mobile-brand-logo,
+        #elfarm-mobile-burger-btn {
+          display: inline-flex !important;
+        }
+        header .framer-44446i,
+        header [data-framer-name="Brand Logo"] {
+          opacity: 0 !important;
+          pointer-events: none !important;
+        }
+      }
+      @media (min-width: 768px) and (max-width: 1024px) {
+        #elfarm-mobile-brand-logo {
+          top: calc(env(safe-area-inset-top, 0px) + 16px);
+          left: 28px;
+        }
+        #elfarm-mobile-burger-btn {
+          top: calc(env(safe-area-inset-top, 0px) + 19px);
+          right: 26px;
+        }
+      }
+      #elfarm-mobile-burger-btn .elfarm-burger-line {
+        display: block;
+        width: 24px;
+        height: 1.8px;
+        border-radius: 2px;
+        background: rgb(245, 245, 245);
+        transform-origin: center center;
+        transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease, background-color 0.24s ease;
+      }
+      #elfarm-mobile-burger-btn.is-open .elfarm-burger-line-1 {
+        transform: translateY(7.8px) rotate(45deg);
+        background: rgb(239, 201, 164);
+      }
+      #elfarm-mobile-burger-btn.is-open .elfarm-burger-line-2 {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      #elfarm-mobile-burger-btn.is-open .elfarm-burger-line-3 {
+        transform: translateY(-7.8px) rotate(-45deg);
+        background: rgb(239, 201, 164);
+      }
+      #elfarm-mobile-nav-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 118;
+        background: rgba(6, 12, 14, 0.56);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.28s ease;
+      }
+      #elfarm-mobile-nav-backdrop.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      #elfarm-mobile-nav-drawer {
+        position: fixed;
+        top: calc(env(safe-area-inset-top, 0px) + 84px);
+        left: 50%;
+        width: calc(100vw - 40px);
+        max-width: 440px;
+        max-height: calc(100dvh - 104px);
+        border-radius: 16px;
+        z-index: 119;
+        background: rgba(16, 26, 29, 0.96);
+        border: 1px solid rgba(239, 201, 164, 0.14);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.68);
+        padding: 16px 24px;
+        display: flex;
+        flex-direction: column;
+        transform-origin: top center;
+        transform: translate3d(-50%, -14px, 0) scaleY(0.92);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.26s ease, visibility 0.26s ease;
+        overflow-y: auto;
+        font-family: "Jost", sans-serif;
+      }
+      #elfarm-mobile-nav-drawer.is-open {
+        transform: translate3d(-50%, 0, 0) scaleY(1);
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      .elfarm-mnav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin: 0;
+      }
+      .elfarm-mnav-link {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px 4px;
+        border-radius: 8px;
+        color: rgb(245, 245, 245);
+        text-decoration: none;
+        font-family: "Jost", sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        opacity: 0;
+        transform: translate3d(0, -6px, 0);
+        transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1), transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), color 0.18s ease;
+        transition-delay: calc(0.03s + var(--mnav-idx, 0) * 0.04s);
+      }
+      #elfarm-mobile-nav-drawer.is-open .elfarm-mnav-link {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+      .elfarm-mnav-link:hover,
+      .elfarm-mnav-link.is-active {
+        color: rgb(239, 201, 164);
       }
 
       /* ZETICUZ Developer Footer Attribution */
@@ -3611,7 +4795,7 @@ const rawEnhanceJsContent = `(function () {
       <article class="elfarm-pwb-card" data-dish-id="\${item.id}" data-dish-index="\${idx}" tabindex="0" role="button" aria-label="View \${item.name.replace(/"/g, '&quot;')}">
         <div class="elfarm-pwb-img-container">
           <span class="elfarm-pwb-cat-badge">\${item.categoryLabel || 'Menu'}</span>
-          <img class="elfarm-pwb-img" decoding="async" loading="eager" width="900" height="900" src="\${item.cleanImage}" alt="\${item.name.replace(/"/g, '&quot;')}">
+          <img class="elfarm-pwb-img" decoding="\${idx < 9 ? 'sync' : 'async'}" loading="\${idx < 9 ? 'eager' : 'lazy'}" \${idx < 9 ? 'fetchpriority="high"' : ''} width="900" height="900" src="\${item.cleanImage}" alt="\${item.name.replace(/"/g, '&quot;')}">
           <span class="elfarm-pwb-zoom-pill">🔍 Click to Inspect Dish</span>
         </div>
         <div class="elfarm-pwb-content">
@@ -3621,6 +4805,10 @@ const rawEnhanceJsContent = `(function () {
             <span class="elfarm-pwb-price">\${item.priceDisplay}</span>
           </div>
           <p class="elfarm-pwb-desc">\${item.description}</p>
+          <div class="elfarm-pwb-mobile-foot">
+            <span class="elfarm-pwb-mprice">\${item.priceDisplay}</span>
+            <span class="elfarm-pwb-mplus" aria-hidden="true">+ View</span>
+          </div>
         </div>
       </article>
     \`;
@@ -3957,13 +5145,26 @@ const rawEnhanceJsContent = `(function () {
   let palazzoTableController = null;
 
   function getActiveHeroTableHost() {
-    const isVisible = (el) => el && getComputedStyle(el).display !== 'none' && getComputedStyle(el).visibility !== 'hidden';
+    const heroSection = document.querySelector('[data-framer-name^="Hero Section"], .framer-1myb8ii');
+    if (window.innerWidth <= 809 && heroSection) {
+      let mobHost = document.getElementById('elfarm-mobile-table-host');
+      if (!mobHost) {
+        mobHost = document.createElement('div');
+        mobHost.id = 'elfarm-mobile-table-host';
+        mobHost.className = 'elfarm-mobile-table-host';
+        heroSection.appendChild(mobHost);
+      } else if (mobHost.parentElement !== heroSection) {
+        heroSection.appendChild(mobHost);
+      }
+      return mobHost;
+    }
+    const isVisible = (el) => el && getComputedStyle(el).display !== 'none' && getComputedStyle(el).visibility !== 'hidden' && el.getBoundingClientRect().height >= 400;
     const desktopHost = document.querySelector('[data-framer-name="Hero Image Block"]') || document.querySelector('.framer-c688wi');
     if (isVisible(desktopHost) && window.innerWidth >= 810) return desktopHost;
     const phoneHost = document.querySelector('[data-framer-name="Phone Hero Image Block"]');
     if (isVisible(phoneHost)) return phoneHost;
     if (isVisible(desktopHost)) return desktopHost;
-    return document.getElementById('elfarm-mobile-table-host') || phoneHost || desktopHost;
+    return heroSection || desktopHost || phoneHost;
   }
 
   function ensureHeroRevolvingTableMounted() {
@@ -4013,7 +5214,12 @@ const rawEnhanceJsContent = `(function () {
       'crispy-calamares',
       'barkadahan-special',
       'saging-con-ginamus',
-      'all-time-favorites-combo'
+      'all-time-favorites-combo',
+      'chicken-pancit-miki-combo',
+      'pinoy-favorites-bilao',
+      'seafood-feast-bilao',
+      'chicken-bilao',
+      'pancit-miki-bilao'
     ]);
     const platedFoodItems = MENU_ITEMS.filter(item =>
       AI_VERIFIED_PLATED_IDS.has(item.id)
@@ -4022,7 +5228,7 @@ const rawEnhanceJsContent = `(function () {
       name: item.name,
       categoryLabel: item.categoryLabel,
       priceDisplay: item.priceDisplay,
-      platedSrc: \`./assets/menu/plates/plated-\${item.id}.jpg\`,
+      platedSrc: \`./assets/menu/plates/plated-\${item.id}.jpg?v=27\`,
       fallbackSrc: item.cleanImage
     }));
 
@@ -4401,6 +5607,8 @@ const rawEnhanceJsContent = `(function () {
       return (Math.atan2(clientY - cy, clientX - cx) * 180) / Math.PI;
     }
 
+    let touchPending = false;
+
     wheelEl.addEventListener('pointerdown', (e) => {
       if (e.button !== 0 && e.pointerType === 'mouse') return;
       isPointerDown = true;
@@ -4409,17 +5617,43 @@ const rawEnhanceJsContent = `(function () {
       downY = e.clientY;
       const clickedSlotEl = e.target && e.target.closest ? e.target.closest('.elfarm-palazzo-plate-slot') : null;
       pointerDownSlot = clickedSlotEl ? parseInt(clickedSlotEl.getAttribute('data-slot-index'), 10) : null;
-      mode = 'dragging';
       vel = 0;
       prevPointerAngle = getPointerAngleFromCenter(e.clientX, e.clientY);
       prevPointerTime = performance.now();
       lastInteractionTime = prevPointerTime;
       nextAutoSpinAt = prevPointerTime + DISH_HOLD_MS + 3200;
-      try { wheelEl.setPointerCapture(e.pointerId); } catch (err) {}
+
+      if (e.pointerType === 'touch') {
+        // Wait for initial touch gesture direction so vertical scrolling on mobile is never hijacked
+        touchPending = true;
+        mode = 'holding';
+      } else {
+        touchPending = false;
+        mode = 'dragging';
+        try { wheelEl.setPointerCapture(e.pointerId); } catch (err) {}
+      }
     });
 
     wheelEl.addEventListener('pointermove', (e) => {
-      if (!isPointerDown || mode !== 'dragging') return;
+      if (!isPointerDown) return;
+      if (touchPending) {
+        const dx = Math.abs(e.clientX - downX);
+        const dy = Math.abs(e.clientY - downY);
+        if (dx < 6 && dy < 6) return;
+        if (dy > dx * 1.1) {
+          // Vertical swipe -> abort wheel capture immediately so page scrolls naturally
+          isPointerDown = false;
+          touchPending = false;
+          mode = 'holding';
+          return;
+        }
+        touchPending = false;
+        mode = 'dragging';
+        prevPointerAngle = getPointerAngleFromCenter(e.clientX, e.clientY);
+        prevPointerTime = performance.now();
+        try { wheelEl.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+      if (mode !== 'dragging') return;
       const now = performance.now();
       const curAngle = getPointerAngleFromCenter(e.clientX, e.clientY);
       const delta = normAngle180(curAngle - prevPointerAngle);
@@ -4442,7 +5676,12 @@ const rawEnhanceJsContent = `(function () {
     function onPointerEnd(e) {
       if (!isPointerDown) return;
       isPointerDown = false;
+      touchPending = false;
       try { wheelEl.releasePointerCapture(e.pointerId); } catch (err) {}
+      if (e.type === 'pointercancel') {
+        mode = 'holding';
+        return;
+      }
       const now = performance.now();
       lastInteractionTime = now;
       nextAutoSpinAt = now + DISH_HOLD_MS + 2200;
@@ -4474,16 +5713,18 @@ const rawEnhanceJsContent = `(function () {
     wheelEl.addEventListener('pointerup', onPointerEnd);
     wheelEl.addEventListener('pointercancel', onPointerEnd);
 
-    // Mouse wheel & trackpad scroll over the walnut table spins it smoothly (keeps left-side Hero scroll untouched!)
+    // Horizontal trackpad/wheel over the table spins it smoothly while leaving vertical page scroll completely free
     wheelEl.addEventListener('wheel', (e) => {
+      const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) * 1.4;
+      if (!horizontal) return;
+
       const rect = wheelEl.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
       const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
       if (dist > rect.width * 0.5) return;
 
-      const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) * 1.2;
-      const rawDelta = horizontal ? e.deltaX : e.deltaY;
+      const rawDelta = e.deltaX;
       if (Math.abs(rawDelta) < 4) return;
 
       e.preventDefault();
@@ -4622,12 +5863,45 @@ const rawEnhanceJsContent = `(function () {
       return;
     }
 
-    // CASE 2: MENU PAGE (/menu) -> Full 49-Item Inventory + CodePen PwbGLmL 3D Hover Cards + Floating Lightbox Modal
+    // CASE 2: MENU PAGE (/menu) -> Full 49-Item Inventory + CodePen PwbGLmL 3D Hover Cards + Mobile Grab/Coffee-App 2-Col Search Grid
     if (menuPageGrid) {
+      let searchWrap = document.getElementById('elfarm-menu-search-wrap');
+      if (!searchWrap && origTabRow && origTabRow.parentNode) {
+        searchWrap = document.createElement('div');
+        searchWrap.id = 'elfarm-menu-search-wrap';
+        searchWrap.innerHTML =
+          '<span class="elfarm-menu-search-icon" aria-hidden="true">&#x1F50D;</span>' +
+          '<input id="elfarm-menu-search" type="search" autocomplete="off" placeholder="Search dishes, coffee, bilao..." aria-label="Search El Farm menu">' +
+          '<button id="elfarm-menu-search-clear" type="button" aria-label="Clear search">&times;</button>';
+        origTabRow.parentNode.insertBefore(searchWrap, origTabRow);
+
+        const searchInput = searchWrap.querySelector('#elfarm-menu-search');
+        const clearBtn = searchWrap.querySelector('#elfarm-menu-search-clear');
+        const onSearchChange = () => {
+          menuSearchQuery = (searchInput.value || '').trim().toLowerCase();
+          clearBtn.classList.toggle('is-visible', menuSearchQuery.length > 0);
+          renderMenuPage(true);
+        };
+        searchInput.addEventListener('input', onSearchChange);
+        clearBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          onSearchChange();
+          searchInput.focus();
+        });
+      }
+
       function renderMenuPage(force) {
         const tabObj = MENU_PAGE_TABS.find(t => t.id === activeMenuTab) || MENU_PAGE_TABS[0];
-        const visibleItems = tabObj.items;
-        const stateKey = activeMenuTab + '-full-' + visibleItems.length;
+        const q = (typeof menuSearchQuery === 'string') ? menuSearchQuery.trim() : '';
+        const baseItems = q ? MENU_ITEMS : tabObj.items;
+        const visibleItems = q
+          ? baseItems.filter(i =>
+              (i.name && i.name.toLowerCase().includes(q)) ||
+              (i.categoryLabel && i.categoryLabel.toLowerCase().includes(q)) ||
+              (i.description && i.description.toLowerCase().includes(q))
+            )
+          : baseItems;
+        const stateKey = activeMenuTab + '-' + q + '-full-' + visibleItems.length;
 
         if (origTabRow) {
           origTabRow.style.display = 'flex';
@@ -4642,6 +5916,11 @@ const rawEnhanceJsContent = `(function () {
                 const newTabId = tabLink.getAttribute('data-tab-id');
                 if (newTabId) {
                   activeMenuTab = newTabId;
+                  menuSearchQuery = '';
+                  const inp = document.getElementById('elfarm-menu-search');
+                  const clr = document.getElementById('elfarm-menu-search-clear');
+                  if (inp) inp.value = '';
+                  if (clr) clr.classList.remove('is-visible');
                   renderMenuPage(true);
                 }
               });
@@ -4652,9 +5931,11 @@ const rawEnhanceJsContent = `(function () {
         const currentCards = menuPageGrid.querySelectorAll('.elfarm-pwb-card');
         if (force || menuPageGrid.getAttribute('data-elfarm-state') !== stateKey || currentCards.length !== visibleItems.length) {
           menuPageGrid.classList.add('elfarm-pwb-grid');
-          menuPageGrid.innerHTML = visibleItems.map((item, idx) => buildPwbMenuCard(item, idx)).join('');
+          menuPageGrid.innerHTML = visibleItems.length > 0
+            ? visibleItems.map((item, idx) => buildPwbMenuCard(item, idx)).join('')
+            : '<div class="elfarm-menu-empty">No menu items matched your search. Tap a category tab above to browse all dishes.</div>';
           menuPageGrid.setAttribute('data-elfarm-state', stateKey);
-          bindPwbCards(menuPageGrid, visibleItems);
+          if (visibleItems.length > 0) bindPwbCards(menuPageGrid, visibleItems);
         }
       }
 
@@ -5189,7 +6470,115 @@ const rawEnhanceJsContent = `(function () {
     });
   }
 
+  let navDelegationBound = false;
+  let primaryHeaderPress = null;
+  let primaryHeaderFallbackTimer = null;
+
+  function resolveLinkRoute(a) {
+    if (!a ||
+      a.classList.contains('elfarm-native-tab') ||
+      a.classList.contains('elfarm-map-btn-primary') ||
+      a.classList.contains('elfarm-map-btn-secondary') ||
+      a.classList.contains('elfarm-fb-card-ready') ||
+      a.dataset.elfarmBlogBound === '1'
+    ) return null;
+    const href = (a.getAttribute('href') || '').trim();
+    if (a.closest('#elfarm-download-hub, #elfarm-pwa-modal') || a.hasAttribute('download') || href.toLowerCase().endsWith('.apk')) {
+      return null;
+    }
+    const txt = a.textContent.trim().toLowerCase();
+    const fname = (a.getAttribute('data-framer-name') || '').trim().toLowerCase();
+    if (fname === 'primary header' || txt === 'view all menu' || txt === 'view menu' || txt === 'menu' || href.includes('menu.html') || href === './menu') {
+      return { target: './menu.html', slug: 'menu' };
+    }
+    if (txt === 'about' || href.includes('about.html') || href === './about') {
+      return { target: './about.html', slug: 'about' };
+    }
+    if (txt === 'blog' || txt === 'explore sanctuary' || href.includes('blog.html') || href === './blog') {
+      return { target: './blog.html', slug: 'blog' };
+    }
+    if (txt === 'download app' || href.includes('download.html') || href === './download' || href === '/download') {
+      return { target: './download.html', slug: 'download' };
+    }
+    if (txt === 'contact us' || href.includes('contact.html') || href === './contact') {
+      return { target: './contact.html', slug: 'contact' };
+    }
+    if (txt === 'book your table') {
+      return { target: '#contact-section', slug: '__book__' };
+    }
+    if (txt === 'home' || fname === 'brand logo' || fname === 'logo' || href === './index.html' || href === './' || href === '/') {
+      return { target: './index.html', slug: 'index' };
+    }
+    return null;
+  }
+
+  function executeRoute(route) {
+    if (!route) return;
+    if (route.slug === '__book__') {
+      const sec = document.querySelector('[data-framer-name="Contact  Section"]');
+      if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+      else window.location.href = './contact.html';
+      return;
+    }
+    if (route.target === './index.html') {
+      try { sessionStorage.setItem('elfarm_intro_played', '1'); } catch (err) {}
+    }
+    const curPath = window.location.pathname.toLowerCase();
+    const isAlreadyOnPage = route.slug === 'index'
+      ? (curPath === '/' || curPath.endsWith('/index.html'))
+      : curPath.includes(route.slug);
+    if (isAlreadyOnPage) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.location.assign(route.target);
+    }
+  }
+
+  function bindGlobalNavDelegation() {
+    if (navDelegationBound) return;
+    navDelegationBound = true;
+
+    document.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      const a = e.target && e.target.closest ? e.target.closest('a, header [data-framer-name="Primary Header"]') : null;
+      if (!a) return;
+      if (primaryHeaderFallbackTimer) {
+        clearTimeout(primaryHeaderFallbackTimer);
+        primaryHeaderFallbackTimer = null;
+      }
+      const route = resolveLinkRoute(a);
+      if (!route) return;
+      e.preventDefault();
+      e.stopPropagation();
+      executeRoute(route);
+    }, true);
+
+    // Resilience guard: if Framer hydration swaps a child node between pointerdown & mouseup on Desktop Header CTA
+    document.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0 || window.innerWidth <= 1024) return;
+      const cta = e.target && e.target.closest ? e.target.closest('header [data-framer-name="Primary Header"]') : null;
+      if (cta) primaryHeaderPress = { x: e.clientX, y: e.clientY, t: Date.now() };
+    }, true);
+
+    document.addEventListener('pointerup', (e) => {
+      if (!primaryHeaderPress || window.innerWidth <= 1024) return;
+      const press = primaryHeaderPress;
+      primaryHeaderPress = null;
+      if (Date.now() - press.t > 5000) return;
+      if (Math.hypot(e.clientX - press.x, e.clientY - press.y) > 24) return;
+      const cta = e.target && e.target.closest ? e.target.closest('header [data-framer-name="Primary Header"]') : null;
+      if (!cta) return;
+      clearTimeout(primaryHeaderFallbackTimer);
+      primaryHeaderFallbackTimer = setTimeout(() => {
+        primaryHeaderFallbackTimer = null;
+        executeRoute({ target: './menu.html', slug: 'menu' });
+      }, 45);
+    }, true);
+  }
+
   function lockUhdImagesAndLinks() {
+    bindGlobalNavDelegation();
+
     document.querySelectorAll('img').forEach(img => {
       const src = img.getAttribute('src') || '';
       if (src.includes('framerusercontent.com/images/')) {
@@ -5227,75 +6616,20 @@ const rawEnhanceJsContent = `(function () {
       }
     });
 
-    // Bind all 5 Navbar & Footer Page Links (Home, About, Menu, Blog, Contact us) cleanly
+    const curPathLower = window.location.pathname.toLowerCase();
+    // Normalize all Navbar & Footer links and remove stale current-page marker on VIEW MENU button
     document.querySelectorAll('a').forEach(a => {
-      if (
-        a.classList.contains('elfarm-native-tab') ||
-        a.classList.contains('elfarm-map-btn-primary') ||
-        a.classList.contains('elfarm-map-btn-secondary') ||
-        a.classList.contains('elfarm-fb-card-ready') ||
-        a.dataset.elfarmBlogBound === '1'
-      ) return;
-      const txt = a.textContent.trim().toLowerCase();
-      const href = a.getAttribute('href') || '';
-
-      function bindPageNav(targetFile, checkSlug) {
-        a.setAttribute('href', targetFile);
-        if (a.dataset.elfarmPageNav !== targetFile) {
-          a.dataset.elfarmPageNav = targetFile;
-          a.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (targetFile === './index.html') {
-              try { sessionStorage.setItem('elfarm_intro_played', '1'); } catch (err) {}
-            }
-            const curPath = window.location.pathname.toLowerCase();
-            const isAlreadyOnPage = checkSlug === 'index'
-              ? (curPath === '/' || curPath.endsWith('/index.html'))
-              : curPath.includes(checkSlug);
-            if (isAlreadyOnPage) {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-              window.location.href = targetFile;
-            }
-          }, true);
+      const route = resolveLinkRoute(a);
+      if (route) {
+        a.setAttribute('href', route.target);
+        a.dataset.elfarmPageNav = route.target;
+        if (route.slug === 'menu' && !curPathLower.includes('menu') && a.hasAttribute('data-framer-page-link-current')) {
+          a.removeAttribute('data-framer-page-link-current');
         }
-      }
-
-      if (a.closest('#elfarm-download-hub, #elfarm-pwa-modal') || a.hasAttribute('download') || href.toLowerCase().endsWith('.apk')) {
         return;
       }
-
-      if (txt === 'view all menu' || txt === 'view menu' || txt === 'menu' || href.includes('menu.html') || href === './menu') {
-        bindPageNav('./menu.html', 'menu');
-      } else if (txt === 'about' || href.includes('about.html') || href === './about') {
-        bindPageNav('./about.html', 'about');
-      } else if (txt === 'blog' || txt === 'explore sanctuary' || href.includes('blog.html') || href === './blog') {
-        bindPageNav('./blog.html', 'blog');
-      } else if (txt === 'download app' || href.includes('download.html') || href === './download' || href === '/download') {
-        bindPageNav('./download.html', 'download');
-      } else if (txt === 'contact us' || href.includes('contact.html') || href === './contact') {
-        bindPageNav('./contact.html', 'contact');
-      } else if (txt === 'book your table') {
-        a.setAttribute('href', '#contact-section');
-        if (!a.dataset.elfarmBookBound) {
-          a.dataset.elfarmBookBound = '1';
-          a.addEventListener('click', (e) => {
-            const sec = document.querySelector('[data-framer-name="Contact  Section"]');
-            if (sec) {
-              e.preventDefault();
-              e.stopPropagation();
-              sec.scrollIntoView({ behavior: 'smooth' });
-            } else {
-              e.preventDefault();
-              e.stopPropagation();
-              window.location.href = './contact.html';
-            }
-          }, true);
-        }
-      } else if (txt === 'home' || a.getAttribute('data-framer-name') === 'Brand Logo' || a.getAttribute('data-framer-name') === 'Logo' || href === './index.html' || href === './' || href === '/') {
-        bindPageNav('./index.html', 'index');
-      } else if (href.includes('facebook.com') || href.includes('instagram.com') || href.includes('linkedin.com') || href.includes('twitter.com')) {
+      const href = a.getAttribute('href') || '';
+      if (href.includes('facebook.com') || href.includes('instagram.com') || href.includes('linkedin.com') || href.includes('twitter.com')) {
         a.setAttribute('href', RESTO.facebookUrl);
         a.setAttribute('target', '_blank');
       } else if (href.includes('google.com/maps')) {
@@ -5386,7 +6720,7 @@ const rawEnhanceJsContent = `(function () {
         natureHeroState.heroVideo.play().catch(() => {});
       }
 
-      // 2. Mobile Hero Hydration Guard (ensures hero headline, CTA & revolving table show on <= 809px viewports even when Framer unmounts desktop SSR variants)
+      // 2. Mobile Hero Hydration Guard (ensures hero headline, CTA & revolving table show on <= 809px viewports without clipping)
       const heroContainer = heroSection.querySelector('.framer-yak54d') || heroSection;
       const existingVisibleH1 = Array.from(heroSection.querySelectorAll('h1')).find(h => h.offsetParent !== null && !h.closest('.elfarm-mobile-hero-content'));
       if (!existingVisibleH1 && !document.getElementById('elfarm-mobile-hero-content')) {
@@ -5397,7 +6731,6 @@ const rawEnhanceJsContent = `(function () {
           <h1 class="elfarm-mobile-hero-title">Where <span style="color:rgb(239,201,164)">Farm</span> Charm Meets <span style="color:rgb(239,201,164)">Culinary Bliss</span></h1>
           <p class="elfarm-mobile-hero-sub">Escape the ordinary in Sitio Nipa, Lamitan City — savor specialty coffee, ceremonial matcha, heirloom Basilan cuisine, Salu-Salo bilaos, and night pickleball under the palms.</p>
           <a class="elfarm-mobile-hero-cta" href="#contact-section">Book Your Table</a>
-          <div id="elfarm-mobile-table-host" class="elfarm-mobile-table-host"></div>
         \`;
         heroContainer.appendChild(mobHero);
         mobHero.querySelector('.elfarm-mobile-hero-cta').addEventListener('click', (e) => {
@@ -5407,6 +6740,12 @@ const rawEnhanceJsContent = `(function () {
             sec.scrollIntoView({ behavior: 'smooth' });
           }
         });
+      }
+      if (window.innerWidth <= 809 && !document.getElementById('elfarm-mobile-table-host')) {
+        const mobHost = document.createElement('div');
+        mobHost.id = 'elfarm-mobile-table-host';
+        mobHost.className = 'elfarm-mobile-table-host';
+        heroSection.appendChild(mobHost);
       }
     }
   }
@@ -5446,13 +6785,11 @@ const rawEnhanceJsContent = `(function () {
       ? navigator.userAgentData.mobile
       : null;
 
-    // When a mobile/tablet browser switches "Desktop site" ON:
-    // 1) Phone/compact tablet (minPhysical < 740) switches layout viewport >= 920px, OR drops Mobile UA while client hints report mobile=false
-    // 2) Tablet / iPad ("Request Desktop Website") sends Macintosh UA with touchpoints > 1 and desktop-width >= 980px
+    // When a mobile/tablet browser switches "Desktop site" ON, Chromium/Safari widens layout viewport >= 920px
+    // (on narrow <920px mobile viewports, keep pinch-zoom locked consistently)
     const isPhoneHardware = minPhysical < 740;
     const desktopSiteOn = Boolean(
-      (isPhoneHardware && (window.innerWidth >= 920 || (!isMobileUa && clientMobileHint === false))) ||
-      (isPhoneHardware && !isMobileUa && !isIpadUa && !/Linux/i.test(ua) && hasTouch) ||
+      (isPhoneHardware && window.innerWidth >= 920) ||
       (isIpadDesktopUa && window.innerWidth >= 980 && minPhysical <= 1080)
     );
     return { isTouchDevice: true, desktopSiteOn, allowZoom: desktopSiteOn };
@@ -5514,19 +6851,6 @@ const rawEnhanceJsContent = `(function () {
       if (smartZoomLocked && e.touches && e.touches.length > 1) {
         e.preventDefault();
       }
-    }, { passive: false });
-
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', (e) => {
-      if (!smartZoomLocked) return;
-      const now = Date.now();
-      if (now - lastTouchEnd <= 290 && e.touches.length === 0) {
-        const tag = (e.target && e.target.tagName) || '';
-        if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT' && !e.target.closest('.elfarm-palazzo-table-root')) {
-          e.preventDefault();
-        }
-      }
-      lastTouchEnd = now;
     }, { passive: false });
 
     ['gesturestart', 'gesturechange', 'gestureend'].forEach((evtName) => {
@@ -5673,6 +6997,7 @@ const rawEnhanceJsContent = `(function () {
     const isDownloadPage = window.location.pathname.toLowerCase().includes('download');
 
     document.querySelectorAll('nav').forEach((nav) => {
+      if (nav.closest('#elfarm-mobile-nav-drawer')) return;
       if (nav.querySelector('[data-elfarm-nav="download"]')) {
         if (isDownloadPage) {
           nav.querySelectorAll('a[data-framer-page-link-current="true"]').forEach((cur) => {
@@ -5744,18 +7069,158 @@ const rawEnhanceJsContent = `(function () {
   }
 
   // ============================================================================
+  // ORIGINAL FRAMER-MATCHED MOBILE/TABLET NAVIGATION DRAWER (<= 1024px ONLY)
+  // - Animated Hamburger <-> X morph icon (#elfarm-mobile-burger-btn)
+  // - Clean dark slide-down dropdown panel matching monkscrave.framer.website
+  // - NEVER intercepts Desktop (> 1024px) header "VIEW MENU" CTA!
+  // ============================================================================
+  let mobileDrawerBound = false;
+
+  function ensureMobileBurgerButton() {
+    let mobLogo = document.getElementById('elfarm-mobile-brand-logo');
+    if (!mobLogo) {
+      mobLogo = document.createElement('a');
+      mobLogo.id = 'elfarm-mobile-brand-logo';
+      mobLogo.href = './index.html';
+      mobLogo.setAttribute('data-framer-name', 'Brand Logo');
+      mobLogo.setAttribute('aria-label', 'El Farm Cafe and Restaurant Home');
+      mobLogo.innerHTML = '<img decoding="sync" src="./assets/images/9EbxgnnItr5IyHLUac9iSjrocis-64b569cd.svg" alt="El Farm Cafe and Restaurant" width="68" height="48">';
+      document.body.appendChild(mobLogo);
+    }
+    let burger = document.getElementById('elfarm-mobile-burger-btn');
+    if (!burger) {
+      burger = document.createElement('button');
+      burger.id = 'elfarm-mobile-burger-btn';
+      burger.type = 'button';
+      burger.setAttribute('aria-label', 'Toggle navigation menu');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.innerHTML =
+        '<span class="elfarm-burger-line elfarm-burger-line-1"></span>' +
+        '<span class="elfarm-burger-line elfarm-burger-line-2"></span>' +
+        '<span class="elfarm-burger-line elfarm-burger-line-3"></span>';
+      document.body.appendChild(burger);
+    }
+    return burger;
+  }
+
+  function initMobileNavDrawer() {
+    const burgerBtn = ensureMobileBurgerButton();
+    let backdrop = document.getElementById('elfarm-mobile-nav-backdrop');
+    let drawer = document.getElementById('elfarm-mobile-nav-drawer');
+
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'elfarm-mobile-nav-backdrop';
+      document.body.appendChild(backdrop);
+    }
+
+    if (!drawer) {
+      const pathLower = window.location.pathname.toLowerCase();
+      const navItems = [
+        { label: 'Home', href: './index.html', match: (p) => p === '/' || p.endsWith('/index.html') || p.endsWith('index.html') },
+        { label: 'About', href: './about.html', match: (p) => p.includes('about') },
+        { label: 'Blog', href: './blog.html', match: (p) => p.includes('blog') },
+        { label: 'Download App', href: './download.html', match: (p) => p.includes('download') },
+        { label: 'Contact us', href: './contact.html', match: (p) => p.includes('contact') },
+        { label: 'Menu', href: './menu.html', match: (p) => p.includes('menu') },
+      ];
+
+      drawer = document.createElement('aside');
+      drawer.id = 'elfarm-mobile-nav-drawer';
+      drawer.setAttribute('aria-label', 'Mobile Navigation');
+      drawer.setAttribute('aria-hidden', 'true');
+      drawer.innerHTML =
+        '<nav class="elfarm-mnav-links">' +
+        navItems.map((item, idx) =>
+          '<a class="elfarm-mnav-link' + (item.match(pathLower) ? ' is-active' : '') + '" style="--mnav-idx:' + idx + ';" href="' + item.href + '">' + item.label + '</a>'
+        ).join('') +
+        '</nav>';
+      document.body.appendChild(drawer);
+    }
+
+    const syncBurgerState = (isOpen) => {
+      const btn = document.getElementById('elfarm-mobile-burger-btn');
+      if (btn) {
+        btn.classList.toggle('is-open', isOpen);
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        btn.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      }
+    };
+
+    const openDrawer = () => {
+      if (window.innerWidth > 1024) return;
+      backdrop.classList.add('is-open');
+      drawer.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      syncBurgerState(true);
+    };
+
+    const closeDrawer = () => {
+      backdrop.classList.remove('is-open');
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      syncBurgerState(false);
+    };
+
+    if (window.innerWidth > 1024 && drawer.classList.contains('is-open')) {
+      closeDrawer();
+    }
+
+    if (!mobileDrawerBound) {
+      mobileDrawerBound = true;
+      backdrop.addEventListener('click', closeDrawer);
+      drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+          closeDrawer();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024 && drawer.classList.contains('is-open')) {
+          closeDrawer();
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth > 1024) return;
+        const primaryDesktopCta = e.target && e.target.closest ? e.target.closest('[data-framer-name="Primary Header"], .framer-pc5vzg-container') : null;
+        if (primaryDesktopCta) return;
+        const burgerTarget = e.target && e.target.closest
+          ? e.target.closest('#elfarm-mobile-burger-btn, .framer-r826j9, [data-framer-name="Hamburger"], [data-framer-name="Burger"]')
+          : null;
+        if (!burgerTarget) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (drawer.classList.contains('is-open')) closeDrawer();
+        else openDrawer();
+      }, true);
+    }
+
+    // Ensure any Desktop [data-framer-name="Header Button"] keeps direct navigation behavior without burger attributes
+    document.querySelectorAll('header .framer-1g6xkw5, header [data-framer-name="Header Button"]').forEach(el => {
+      if (el.getAttribute('role') === 'button') el.removeAttribute('role');
+      if (el.getAttribute('aria-label') === 'Open navigation menu') el.removeAttribute('aria-label');
+      if (el.hasAttribute('tabindex')) el.removeAttribute('tabindex');
+    });
+    if (burgerBtn) syncBurgerState(drawer.classList.contains('is-open'));
+  }
+
+  // ============================================================================
   // DEDICATED /download PAGE: ANDROID APK AUTO-DOWNLOAD + iOS PWA + QR CODES
   // ============================================================================
   let downloadHubAutoHandled = false;
 
-  function renderQrIntoElement(el, urlText) {
+  function renderQrIntoElement(el, urlText, qrWidth) {
     if (!el) return;
+    const width = qrWidth || 94;
     if (window.ElFarmQR && typeof window.ElFarmQR.toCanvas === 'function') {
       const canvas = document.createElement('canvas');
       window.ElFarmQR.toCanvas(
         canvas,
         urlText,
-        { width: 94, margin: 1, errorCorrectionLevel: 'M', color: { dark: '#0b1315', light: '#ffffff' } },
+        { width, margin: 1, errorCorrectionLevel: 'M', color: { dark: '#0b1315', light: '#ffffff' } },
         (err) => {
           if (!err) {
             el.innerHTML = '';
@@ -5764,6 +7229,56 @@ const rawEnhanceJsContent = `(function () {
         }
       );
     }
+  }
+
+  function openQrZoomModal(opts) {
+    let modal = document.getElementById('elfarm-qr-zoom-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'elfarm-qr-zoom-modal';
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
+      modal.innerHTML =
+        '<div class="elfarm-qr-zoom-card">' +
+        '  <button type="button" class="elfarm-qr-zoom-close" aria-label="Close enlarged QR code">&times;</button>' +
+        '  <div class="elfarm-qr-zoom-badge"></div>' +
+        '  <h2 class="elfarm-qr-zoom-title"></h2>' +
+        '  <div class="elfarm-qr-zoom-stage" id="elfarm-qr-zoom-stage"></div>' +
+        '  <p class="elfarm-qr-zoom-url"></p>' +
+        '  <div class="elfarm-qr-zoom-actions"></div>' +
+        '</div>';
+      document.body.appendChild(modal);
+
+      const closeModal = () => modal.classList.remove('is-open');
+      modal.querySelector('.elfarm-qr-zoom-close').addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
+    }
+
+    modal.querySelector('.elfarm-qr-zoom-badge').textContent = opts.badge || 'Scan with Camera';
+    modal.querySelector('.elfarm-qr-zoom-title').textContent = opts.title || 'Scan QR Code';
+    modal.querySelector('.elfarm-qr-zoom-url').textContent = opts.url || '';
+
+    const actionsWrap = modal.querySelector('.elfarm-qr-zoom-actions');
+    actionsWrap.innerHTML = '';
+    if (opts.actionLabel && typeof opts.onAction === 'function') {
+      const actionBtn = document.createElement('button');
+      actionBtn.type = 'button';
+      actionBtn.className = 'elfarm-dl-pill-btn';
+      actionBtn.textContent = opts.actionLabel;
+      actionBtn.addEventListener('click', () => opts.onAction());
+      actionsWrap.appendChild(actionBtn);
+    }
+
+    const stage = modal.querySelector('#elfarm-qr-zoom-stage');
+    stage.innerHTML = '';
+    renderQrIntoElement(stage, opts.url, 300);
+
+    requestAnimationFrame(() => modal.classList.add('is-open'));
   }
 
   function startAndroidApkDownload() {
@@ -5826,9 +7341,10 @@ const rawEnhanceJsContent = `(function () {
       '          <button type="button" class="elfarm-dl-pill-btn" id="elfarm-smart-dl-btn">Download</button>' +
       '          <span class="elfarm-dl-pill-meta">Auto-detects Android APK or iOS PWA</span>' +
       '        </div>' +
-      '        <div class="elfarm-dl-qr-box">' +
+      '        <div class="elfarm-dl-qr-box" id="elfarm-qr-box-smart" role="button" tabindex="0" aria-label="Enlarge Smart Universal QR code">' +
       '          <div class="elfarm-dl-qr-canvas-wrap" id="elfarm-qr-smart"></div>' +
       '          <span class="elfarm-dl-qr-cap">Scan Any Phone</span>' +
+      '          <span class="elfarm-dl-qr-hint">Tap to enlarge</span>' +
       '        </div>' +
       '      </div>' +
       '    </div>' +
@@ -5843,9 +7359,10 @@ const rawEnhanceJsContent = `(function () {
       '          <a href="./assets/downloads/el-farm-cafe.apk" download="El-Farm-Cafe-and-Resto.apk" class="elfarm-dl-pill-btn" id="elfarm-android-apk-btn">Download</a>' +
       '          <span class="elfarm-dl-pill-meta">Android 8.0+ · v1.0 · 9.97 MB</span>' +
       '        </div>' +
-      '        <div class="elfarm-dl-qr-box">' +
+      '        <div class="elfarm-dl-qr-box" id="elfarm-qr-box-android" role="button" tabindex="0" aria-label="Enlarge Android APK QR code">' +
       '          <div class="elfarm-dl-qr-canvas-wrap" id="elfarm-qr-android"></div>' +
       '          <span class="elfarm-dl-qr-cap">Android APK QR</span>' +
+      '          <span class="elfarm-dl-qr-hint">Tap to enlarge</span>' +
       '        </div>' +
       '      </div>' +
       '    </div>' +
@@ -5860,9 +7377,10 @@ const rawEnhanceJsContent = `(function () {
       '          <button type="button" class="elfarm-dl-pill-btn" id="elfarm-pwa-install-btn">Download</button>' +
       '          <span class="elfarm-dl-pill-meta">iOS 16–18+ · Chrome · Safari · Edge</span>' +
       '        </div>' +
-      '        <div class="elfarm-dl-qr-box">' +
+      '        <div class="elfarm-dl-qr-box" id="elfarm-qr-box-ios" role="button" tabindex="0" aria-label="Enlarge iOS and PWA QR code">' +
       '          <div class="elfarm-dl-qr-canvas-wrap" id="elfarm-qr-ios"></div>' +
       '          <span class="elfarm-dl-qr-cap">iOS &amp; PWA QR</span>' +
+      '          <span class="elfarm-dl-qr-hint">Tap to enlarge</span>' +
       '        </div>' +
       '      </div>' +
       '    </div>' +
@@ -5902,6 +7420,43 @@ const rawEnhanceJsContent = `(function () {
     renderQrIntoElement(hub.querySelector('#elfarm-qr-ios'), iosQrUrl);
 
     const plat = detectClientPlatform();
+    const bindQrBox = (selector, modalConfig) => {
+      const box = hub.querySelector(selector);
+      if (!box) return;
+      const launch = () => openQrZoomModal(modalConfig);
+      box.addEventListener('click', launch);
+      box.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          launch();
+        }
+      });
+    };
+    bindQrBox('#elfarm-qr-box-smart', {
+      badge: 'Smart Universal QR · Auto Detects OS',
+      title: 'Scan to Install El Farm App',
+      url: smartQrUrl,
+      actionLabel: plat.isAndroid ? 'Download Android APK' : 'Install Web App',
+      onAction: () => {
+        if (plat.isAndroid) startAndroidApkDownload();
+        else triggerElFarmPwaInstall(plat.isIOS ? 'ios' : undefined);
+      }
+    });
+    bindQrBox('#elfarm-qr-box-android', {
+      badge: 'Android · Official Signed APK',
+      title: 'Android App QR Code',
+      url: androidQrUrl,
+      actionLabel: 'Download APK (9.97 MB)',
+      onAction: startAndroidApkDownload
+    });
+    bindQrBox('#elfarm-qr-box-ios', {
+      badge: 'iPhone, iPad & Desktop · Edge-to-Edge PWA',
+      title: 'iOS & Web App QR Code',
+      url: iosQrUrl,
+      actionLabel: 'Install Web App',
+      onAction: () => triggerElFarmPwaInstall(plat.isIOS ? 'ios' : undefined)
+    });
+
     const smartBtn = hub.querySelector('#elfarm-smart-dl-btn');
     const pwaBtn = hub.querySelector('#elfarm-pwa-install-btn');
     if (pwaDeferredPrompt && !plat.isIOS) {
@@ -5959,6 +7514,7 @@ const rawEnhanceJsContent = `(function () {
     try { injectStyles(); } catch (e) {}
     try { applySmartViewportZoomState(); } catch (e) {}
     try { ensureDownloadNavLink(); } catch (e) {}
+    try { initMobileNavDrawer(); } catch (e) {}
     try { initAdaptiveHeroVideo(); } catch (e) {}
     try { lockUhdImagesAndLinks(); } catch (e) {}
     try { enhanceTextAndHours(); } catch (e) {}
@@ -5974,12 +7530,32 @@ const rawEnhanceJsContent = `(function () {
     isApplying = false;
   }
 
+  let lastScrolledState = null;
+  function syncScrolledHeaderState() {
+    const scrolled = (window.scrollY || window.pageYOffset || 0) > 10;
+    if (scrolled !== lastScrolledState) {
+      lastScrolledState = scrolled;
+      document.querySelectorAll('.framer-2nqvvj-container, header.framer-atzvB').forEach((el) => {
+        el.classList.toggle('is-scrolled', scrolled);
+      });
+    }
+    const mainEl = document.getElementById('main');
+    if (mainEl && mainEl.style.filter !== 'none') {
+      mainEl.style.setProperty('filter', 'none', 'important');
+      mainEl.style.setProperty('transform', 'none', 'important');
+    }
+  }
+
   injectStyles();
+  bindGlobalNavDelegation();
   initSmartViewportZoomControl();
   initElFarmPWA();
   ensureDownloadNavLink();
+  initMobileNavDrawer();
   initDownloadAppPage();
   initIntroVideo();
+  syncScrolledHeaderState();
+  window.addEventListener('scroll', syncScrolledHeaderState, { passive: true });
 
   setTimeout(applyAllEnhancements, 120);
   setTimeout(applyAllEnhancements, 380);
@@ -5991,7 +7567,7 @@ const rawEnhanceJsContent = `(function () {
   const observer = new MutationObserver(() => {
     if (isApplying) return;
     clearTimeout(obsTimer);
-    obsTimer = setTimeout(applyAllEnhancements, 16);
+    obsTimer = setTimeout(applyAllEnhancements, 120);
   });
   window.addEventListener('load', () => {
     applyAllEnhancements();
@@ -6182,6 +7758,53 @@ for (const cfg of pageConfigs) {
   const seoHead = buildSeoHeadBlock(cfg.title, cfg.desc, cfg.canonical);
   html = html.replace(/(<meta name="viewport"[^>]*>)/i, `$1\n${seoHead}`);
 
+  // Pre-paint per-tab Splash Cover check + High-Priority Splash Logo Preload + Critical Anti-FOUC RWD CSS in <head>
+  const splashHeadCheck = `<link rel="preload" as="image" href="./assets/images/el-splash-logo.jpg" fetchpriority="high"><script id="elfarm-splash-head-check">(function(){try{if(!sessionStorage.getItem('elfarm_intro_played')){document.documentElement.classList.add('elfarm-intro-lock','elfarm-intro-pending');}}catch(e){document.documentElement.classList.add('elfarm-intro-lock','elfarm-intro-pending');}})();</script>`;
+  const criticalRwdCss = `<style id="elfarm-critical-rwd">
+    html,body{width:100%!important;max-width:100%!important;overflow-x:clip!important;overflow-y:auto!important;height:auto!important;background:#0b1315!important}
+    html.elfarm-intro-lock,html.elfarm-intro-lock body{overflow:hidden!important;width:100%!important;height:100dvh!important;max-height:100dvh!important;background:#000000!important;overscroll-behavior:none!important;scrollbar-width:none!important;-ms-overflow-style:none!important}
+    html.elfarm-intro-lock::-webkit-scrollbar,html.elfarm-intro-lock body::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+    html.elfarm-intro-pending::before{content:"";position:fixed;inset:0;width:100%;height:100dvh;background:#000000;z-index:2147483645;pointer-events:all}
+    #main{filter:none!important;backdrop-filter:none!important;transform:none!important}
+    @media (max-width:809px){[data-framer-name^="Hero Section"] .framer-yak54d{width:100%!important;max-width:100%!important}}
+    [data-framer-name="Menu Section"]{overflow-x:clip!important;max-width:100%!important}
+    .framer-2nqvvj-container{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;max-width:100%!important;z-index:120!important;opacity:1!important;visibility:visible!important;transform:none!important;isolation:isolate!important}
+    .framer-2nqvvj-container::before{content:""!important;position:absolute!important;inset:0!important;z-index:-1!important;background:rgba(11,19,21,0.94)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;border-bottom:1px solid rgba(239,201,164,0.16)!important;opacity:0!important;transition:opacity 0.24s cubic-bezier(0.22,1,0.36,1)!important;pointer-events:none!important}
+    .framer-2nqvvj-container.is-scrolled::before{opacity:1!important}
+    body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container::before{opacity:0.78!important}
+    body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container.is-scrolled::before{opacity:1!important}
+    .framer-2nqvvj-container header,.framer-2nqvvj-container header [data-framer-name="Brand Logo"]{opacity:1!important;visibility:visible!important}
+    header [data-framer-name="Primary Header"]{pointer-events:auto!important;cursor:pointer!important}
+    header [data-framer-name="Primary Header"] *{pointer-events:none!important}
+    header nav,header [data-framer-name="Menu"]{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;width:auto!important;max-width:none!important}
+    header nav>div,header [data-framer-name="Menu"]>div{flex:0 0 auto!important;width:auto!important;min-width:max-content!important}
+    header nav a,header nav a div,header nav a p,header [data-framer-name="Menu"] a,header [data-framer-name="Menu"] a p{white-space:nowrap!important;width:auto!important;min-width:max-content!important}
+    [data-framer-name^="Hero Section"],.framer-1myb8ii{width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;overflow:hidden!important}
+    @media (min-width:1025px){
+      #elfarm-mobile-burger-btn,.framer-r826j9{display:none!important;pointer-events:none!important}
+      [data-framer-name="Menu Section"],[data-framer-name="About Banner Section"],[data-framer-name="Blog Tab Section"],[data-framer-name="Contact  Section"]{padding-top:max(154px,16vh)!important}
+    }
+    @media (max-width:1024px){
+      header,.framer-atzvB,.framer-2nqvvj-container{width:100%!important;max-width:100%!important;min-height:76px!important;height:auto!important;padding:0!important;display:flex!important;align-items:center!important}
+      header .framer-1vd02cg{width:100%!important;max-width:100%!important;padding:14px 20px!important;margin:0!important}
+      header .framer-44446i,header [data-framer-name="Brand Logo"]{width:68px!important;height:48px!important}
+      header .framer-pwnhug{width:100%!important;display:flex!important;justify-content:space-between!important;align-items:center!important;padding:0!important}
+      .framer-1k980me-container,.framer-1k980me-container *,header .framer-pc5vzg-container,header .framer-pc5vzg-container *,header [data-framer-name="Primary Header"],header .framer-1g6xkw5,header [data-framer-name="Header Button"],header .framer-r826j9,header .framer-r826j9 *{display:none!important;pointer-events:none!important}
+      [data-framer-name="Menu Section"],[data-framer-name="About Banner Section"],[data-framer-name="Blog Tab Section"],[data-framer-name="Contact  Section"]{padding-top:106px!important}
+      .framer-1bh56fl{flex-wrap:nowrap!important;justify-content:flex-start!important;overflow-x:auto!important;gap:8px!important;padding:2px 2px 10px!important}
+    }
+    @media (max-width:767px){
+      .elfarm-pwb-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:11px!important}
+    }
+    @media (min-width:768px) and (max-width:1024px){
+      .elfarm-pwb-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important}
+    }
+    @media (min-width:1600px){
+      [data-framer-name="Container"],.framer-yak54d{max-width:1480px!important;margin-left:auto!important;margin-right:auto!important}
+    }
+  </style>`;
+  html = html.replace('</head>', `${splashHeadCheck}${criticalRwdCss}</head>`);
+
   // Inject Hero initial SSR dish guard (no splash overlay so page opens immediately), /menu hydration guard, or /download flash guard
   if (cfg.out === 'index.html') {
     const heroGuardCss = `<style id="elfarm-intro-critical-css">[data-framer-name="Hero Image Block"] [data-framer-name^="Image"],[data-framer-name="Hero Image Block"] > .ssr-variant:has([data-framer-name^="Image"]),.framer-c688wi [data-framer-name^="Image"],.framer-c688wi > .ssr-variant:has([data-framer-name^="Image"]),[data-framer-name="Phone Hero Image Block"] [data-framer-name^="Image"],[data-framer-name="Phone Hero Image Block"] [data-framer-name^="Leaf"],.framer-1j6fcxm,.framer-71xvpi,.framer-1qgz169,.framer-mv23c9,.framer-2bic5k,.framer-im3r88,.framer-eg25d9,.framer-1bj4dx3,.framer-vmjnap,[data-framer-name="Hero Image Block"] [data-framer-name^="Leaf"],.framer-c688wi [data-framer-name^="Leaf"],[data-framer-name="Hero Image Block"] > .ssr-variant:has([data-framer-name^="Leaf"]),.framer-c688wi > .ssr-variant:has([data-framer-name^="Leaf"]),.framer-qz7c8h,.framer-1c16luy,.framer-fcjafq,.framer-10n4q2h{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}</style>`;
@@ -6206,7 +7829,7 @@ for (const cfg of pageConfigs) {
 
   // Inject local GSAP + Swiper bundle (+ QR generator on download page) + protected elfarm-enhance.js right before </body>
   const qrScriptTag = cfg.out === 'download.html' ? '<script src="./assets/js/qrcode.min.js"></script>' : '';
-  html = html.replace('</body>', `<script src="./assets/js/gsap.min.js"></script><script src="./assets/js/swiper-bundle.min.js"></script>${qrScriptTag}<script src="./assets/js/elfarm-enhance.js?v=20"></script></body>`);
+  html = html.replace('</body>', `<script src="./assets/js/gsap.min.js"></script><script src="./assets/js/swiper-bundle.min.js"></script>${qrScriptTag}<script src="./assets/js/elfarm-enhance.js?v=27"></script></body>`);
 
   fs.writeFileSync(path.join(ROOT, cfg.out), html, 'utf8');
   console.log('Updated', cfg.out);

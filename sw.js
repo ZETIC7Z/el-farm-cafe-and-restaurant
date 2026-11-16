@@ -1,5 +1,5 @@
-/* El Farm Cafe & Restaurant — Edge-to-Edge Cross-Browser Service Worker (v4) */
-const CACHE_NAME = 'elfarm-pwa-v4';
+/* El Farm Cafe & Restaurant — Edge-to-Edge Cross-Browser Service Worker (v7) */
+const CACHE_NAME = 'elfarm-pwa-v11';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
@@ -52,8 +52,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-first for HTML navigations & active runtime bundle with offline fallback
-  if (req.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.includes('elfarm-enhance.js')) {
+  // Network-first for HTML navigations, menu photography, & active runtime bundle with offline fallback
+  if (
+    req.mode === 'navigate' ||
+    url.pathname.endsWith('.html') ||
+    url.pathname.includes('elfarm-enhance.js') ||
+    url.pathname.startsWith('/assets/menu/')
+  ) {
     event.respondWith(
       fetch(req)
         .then((res) => {

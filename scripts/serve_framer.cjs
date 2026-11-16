@@ -383,18 +383,29 @@ const server = http.createServer(async (req, res) => {
       commonHeaders['Service-Worker-Allowed'] = '/';
     }
 
+    const pipeFile = (stream) => {
+      stream.on('error', () => {
+        if (!res.headersSent) res.writeHead(500);
+        res.end();
+      });
+      res.on('close', () => {
+        if (!stream.destroyed) stream.destroy();
+      });
+      stream.pipe(res);
+    };
+
     const range = req.headers.range;
     if (range && ext === '.mp4') {
       const parts = range.replace(/bytes=/, '').split('-');
-      const start = parseInt(parts[0], 10);
-      const end = parts[1] ? parseInt(parts[1], 10) : stat.size - 1;
-      const chunksize = end - start + 1;
+      const start = Math.max(0, parseInt(parts[0], 10) || 0);
+      const end = parts[1] ? Math.min(stat.size - 1, parseInt(parts[1], 10)) : stat.size - 1;
+      const chunksize = Math.max(0, end - start + 1);
       res.writeHead(206, {
         ...commonHeaders,
         'Content-Range': `bytes ${start}-${end}/${stat.size}`,
         'Content-Length': chunksize,
       });
-      fs.createReadStream(filePath, { start, end }).pipe(res);
+      pipeFile(fs.createReadStream(filePath, { start, end }));
       return;
     }
 
@@ -402,7 +413,7 @@ const server = http.createServer(async (req, res) => {
       ...commonHeaders,
       'Content-Length': stat.size,
     });
-    fs.createReadStream(filePath).pipe(res);
+    pipeFile(fs.createReadStream(filePath));
   } catch (err) {
     res.writeHead(500, { 'Content-Type': 'text/plain' });
     res.end(String(err));
