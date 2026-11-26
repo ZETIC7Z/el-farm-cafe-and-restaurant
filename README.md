@@ -1,80 +1,185 @@
-# El Farm Cafe and Restaurant (`EL FARM CAFÉ & RESTO`)
+# El Farm Cafe and Restaurant (`EL FARM CAFÉ & RESTO`) · Official Website & Cloud POS
 
-**Last Updated:** November 16, 2026 (`2026-11-16`)  
-**Location:** Sitio Nipa, Brgy. Maloong Canal, Lamitan City, Basilan, Philippines  
-**Hours:** Open Daily · 9:00 AM – 9:00 PM (Dine-In, Advance Pre-Order, Floodlit Night Pickleball Court & Lamitan City Delivery `+₱100`)  
-**Contact:** `0917 182 9876` | `ligaya_gabriel@live.com.ph` | [Official Facebook Page](https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/)
+> **Full-Stack Restaurant Sanctuary Website + Embedded Cloud Supabase Point of Sale (`/pos/*`), Live Kitchen Display System (KDS), Smart TV Queue Board, Employee Attendance & BARMM-05 Payroll, and Clean Native Android Tablet & Phone APK.**  
+> Built for **El Farm Cafe and Restaurant** — *Sitio Nipa, Brgy. Maloong Canal, Lamitan City, Basilan, Philippines* · Open Daily `9:00 AM – 9:00 PM`.
 
 ---
 
-## 🌿 Overview
+## 🌟 What Is Included (Website + Cloud POS Unified)
 
-**El Farm Cafe and Restaurant (`EL FARM CAFÉ & RESTO`)** — *"Where Farm Charm Meets Culinary Bliss"* / *"Escape the Ordinary"* / *"Malayo man kami, sulit naman ang dayo!"* — is a full-stack production web experience crafted for Basilan's premier farm café, heirloom kitchen, and floodlit night pickleball sanctuary in Sitio Nipa, Lamitan City.
+### Part 1 — Public Restaurant & Cafe Experience
+- **Interactive 3D Revolving Walnut Table Hero (`index.html`)**: 100vh responsive tabletop showcase featuring overhead studio plates with rising thermal steam wisps, inertial pointer drag, wheel scrolling, keyboard navigation, and a randomized 5-circle Coverflow menu strip.
+- **Complete 49-Item Studio Menu (`/menu`)**: 7 categories (`Signature Coffee`, `Matcha & Smoothies`, `Silogs & Goto`, `Non-Pork Specials`, `Pork Favorites`, `Snacks & Delicacies`, `Salu-Salo Feasts`) with category filtering, instant mobile/tablet search, 3D tilt hover cards, and full-screen inspection lightbox.
+- **3D Disc Shelf Blog (`/blog` & Homepage)**: Interactive 3D album-style story shelf (`01 / 10` starting with **"Our Team at Your Service! Meet CAS & the People Behind EL Farm"**) with tightly stacked closed spines, glossy floor reflection, compact caption bar below the shelf, and full-story reader lightbox.
+- **Reflective S-Curve WebGL2 Customer Moments Slider**: Smooth pointer-draggable & swipeable 3D reflective gallery showcasing the 20 latest customer dining moments (newest posts first) with frosted **Facebook Moment** hover captions, dates, and engagement stats.
+- **Guest Feedback, Table Reservations & Animated Sanctuary Map (`/contact`)**: Verified guest reviews (including Facebook guest feedback), hardened serverless booking API (`POST /api/bookings` via `api/bookings.js`), and dark vector location map for Sitio Nipa, Lamitan City.
+- **Header & Auto-Updating Footer**: Simultaneous SSR `VIEW MENU` and `POS LOGIN` buttons (`42px` matched height), opaque dark-frosted backdrop transition on scroll, mobile drawer `POS Login`, and automatic year updating (`new Date().getFullYear()` -> `SITE DEVELOPED BY: [ZETICUZ] © 2026`).
+- **Download App Hub (`/download`) & Clean Android APK**: Offline-ready QR codes (`Smart Universal QR`, `Android APK QR`, `iOS & Web App PWA QR`), edge-to-edge PWA installer, and a custom **145 KB zero-adware signed native Android APK** built for tablets & phones.
 
----
-
-## ✨ New Features Added (November 16, 2026 Update)
-
-### 1. 1:1 `palazzo.framer.website` Responsive Hero Fit, Table Physics, Controls & Entrance Choreography
-- **Exact Palazzo Viewport-Proportional Table Geometry (`Gt` & `Ut`)**:
-  - **100% Above-the-Fold Fullscreen Fit (`100vh` / `100dvh`)**: At any desktop/laptop/ultrawide resolution (`1280×800`, `1366×660`, `1536×740`, `1920×920+`) and mobile (`390×844`), the full Hero section (transparent navigation, responsive `clamp()` Hero heading & copy, `BOOK YOUR TABLE` CTA, `4.8/5` rating, swapped `"Drag or scroll the table to turn it"` control on the left + live `DISH XX / 21` badge on the right, and the full revolving table) fits completely inside the initial screen without vertical clipping, dark sidebars, or element overlap — scrolling once jumps directly into Section 2 (`WHY CHOOSE US`).
-  - **Dynamic Desktop & Mobile Formulas**: Desktop (`>= 810px`) scales the walnut disc to `1.40 × vh`, orbit `0.3326 × tableSize`, plate diameter `0.2189 × tableSize`, text-guarded X-center, and `180°` (9-o'clock) focal spotlight (`1.26x`); Mobile (`<= 809px`) scales `tableSize = 1.96 × min(vw, vh * 0.5)` centered horizontally at `cy = vh - 0.133 × e` with `+90°` offset so the `1.26x` focal dish sits cleanly at `12-o'clock` below the header/Hero copy.
-- **Original Palazzo Entrance Choreography (`2.4s` + Staggered Plates)**:
-  - Outer table slides & sweeps in (`translateX(22%) rotate(-35deg)` desktop / `translateY(16%) rotate(-35deg)` mobile -> resting position over `2.4s cubic-bezier(0.22, 1, 0.36, 1)`) paired with per-plate staggered entrance (`scale(1.12) -> 1`, `opacity: 0 -> 1`, `delay: 0.5s + idx * 0.11s`) and initial `45° -> 0°` spring spin, plus the overhead warm studio sheen & rim vignette overlay (`.elfarm-palazzo-table-sheen`).
-- **Full Mouse Click, Drag, Wheel Scroll & Keyboard Control (`pointer-events` Fixed)**:
-  - **Click Any Outer Plate**: Clicking any orbiting dish smoothly spins that exact plate into the `1.26x` spotlight; clicking the focal plate or wood disc advances to the next course.
-  - **Pointer Drag + Coasting + Spring Snap**: Grab and spin anywhere on the walnut table with inertia decay and `stiffness=120 / damping=18` snapping.
-  - **Mouse Wheel / Trackpad Spin Over Table**: Scrolling the wheel/trackpad directly over the table disc turns the courses (`step = 45°`), while scrolling on the left Hero area scrolls the page normally.
-  - **Keyboard Support**: `ArrowLeft` / `ArrowRight` turn the table while Hero is in view.
-- **High-Visibility Focal Plate Steam (`420×420`)**: Boosted rising organic steam wisps (`screen`-blended multi-wisp gradient layers) directly over the `1.26x` spotlight plate.
-- **Crisp Gold `EL` Multi-Size Tab Favicon (`favicon.ico?v=2`)**: Tight-cropped gold calligraphy `EL` + branch logo generated across `16×16` to `192×192` ICO/PNG + `apple-touch-icon` (`180×180`), with legacy Framer icon links stripped so the new gold logo renders crisply in every browser tab.
-
-### 2. Transparent Top Header & Aomi Misty Hills Hero Video Backdrop
-- **Full-Bleed Misty Hills Video (`assets/video/hero-nature-bg.mp4`)**: Seamless looping nature backdrop (`opacity: 0.94`, `saturate(1.18)`) extending from the very top edge (`y = 0`) behind the transparent navigation bar (`Home`, `About`, `Blog`, `Contact us`, `VIEW MENU`).
-- **Instant Page Open**: Removed the blocking intro splash overlay on `index.html` so visitors immediately see the live Hero section, revolving walnut table, and misty hills video upon opening the site.
-
-### 3. Complete 49/49 Studio Menu Photography, 5-Circle Coverflow & Overhead Table Dishes (`/menu`)
-- **100% Upgraded Studio Photography (`49/49` Items)**: Every signature drink (`Dirty Coffee`, `Coconut Matcha Cloud`, `S'mores Smoothie`, `Dubai Chewy Cookie Smoothie`, `EL Farm Popcorn Latte`), Silog, Non-Pork Special (`Festive Chicken Kaliya`, `Native Chicken Tinola`, `Crispy Kare-Kareng Hito`, `Adobing`, `Sizzling Chicken Sisig`, `Sizzling Bangus Sisig`), Pork Favorite, Dessert, and Salu-Salo Bilao across `/menu`, the Homepage 5-Circle Coverflow, and **21 studio overhead table dishes** (`AI_VERIFIED_PLATED_IDS`) uses unified `studio-*.jpg` photography.
-- **49 Authentic El Farm Dishes & Drinks**:
-  - **Signature Coffee (9)** · **Matcha, Hojicha, Smoothies & Yoghurt (10)** · **Everyday Silogs, Goto & Wraps (6)** · **Non-Pork Heritage Specials (9)** · **Pork Favorites (3)** · **Snacks & Native Delicacies (6)** · **Salu-Salo Bilao Feasts (6)**.
-- **Homepage 5-Circle Coverflow Showcase (`CodePen xxmpvqe`)**: Full-bleed (`100vw`) 5-circle Swiper coverflow with enlarged center dish (`1.14x`), hover pause with golden ambient glow orb, and immediate advance on pointer leave.
-- **`/menu` 3D Tilt Cards & Interactive Lightbox (`CodePen PwbGLmL`)**: 3D perspective pointer tilt, category filter tabs, and a full-screen dish inspection lightbox with keyboard (`ArrowLeft`, `ArrowRight`, `Escape`) and touch-swipe navigation.
-
-### 4. Adaptive Multi-Bitrate Video Engine
-- **Smart Stream Switching (`initAdaptiveHeroVideo`)**: Automatically selects between `4K Master`, `1080p Full HD` (`-movflags +faststart`), `720p HD`, and `480p SD` tiers based on real-time network bandwidth (`navigator.connection`) and buffer health.
-
-### 5. Live Table Reservations (`Google Sheets + Instant Email Alerts`) & Sora-Style Animated Dark Map
-- **Real-Time Booking Pipeline (`POST /api/bookings`)**: Stores reservations locally (`bookings.json` / `bookings.csv`), appends rows live to the **EL Farm Bookings Google Sheet**, and sends instant email notifications. All reservation inputs (including `Phone*`) open clean without pre-filled example numbers.
-- **Sora-Style Animated Sanctuary Map (`Sitio Nipa, Maloong Canal, Lamitan`)**: Replaced the static Google Maps iframe with a bespoke dark obsidian animated vector map featuring road lines, tilted typography, coastal `Maloong Canal` cove graphics, pulsing `#f4161c` radar waves, an animated teardrop location pin (`6.6582° N, 122.1457° E`), and a floating address card linking straight to Google Maps directions (`0917 182 9876`).
-
-### 6. Live Customer Facebook Moments Slider
-- **Hover-to-Pause Ticker & Social Overlays**: Displays real customer moments from the official El Farm Facebook page with post captions, dates, and engagement metrics (`Likes`, `Comments`, `Shares`).
-
-### 7. Zero-Error DevTools Console & Accessibility Optimization
-- **Zero React Hydration Errors (`#418` / `#422` Fixed)**: Clean SSR-to-client hydration handoff with `0` console errors and `0` warnings.
-- **100% Form Autocomplete Compliance**: Every `<input>`, `<select>`, and `<textarea>` across all 6 pages includes explicit semantic `autocomplete` attributes (`given-name`, `family-name`, `email`, `tel`, `off`).
-
-### 8. Download App Hub (`/download`), Android APK, Offline QR Codes & Edge-to-Edge iOS/Cross-Browser PWA
-- **Header Navigation Integration (`Download App`)**: Added `Download App` right next to `Blog` across desktop, mobile drawer, and footer links routing to `/download` (`download.html`).
-- **Official Android APK Auto-Download (`el_farm_cafe.apk`, 9.97 MB)**: Served from `/assets/downloads/el-farm-cafe.apk` with explicit `Content-Disposition: attachment; filename="El-Farm-Cafe-and-Resto.apk"` headers on both local Node server and Vercel (`vercel.json`), plus automatic APK triggering on Android phones via QR scan (`?platform=android&auto=1` or `?auto=1`).
-- **Scannable Offline QR Cards (`qrcode.min.js`)**: Side-by-side mint pill `Download` buttons paired with sharp client-rendered `<canvas>` QR codes for **Scan to Install (OS Auto-Detect)**, **Android App (Direct APK)**, and **iOS & Web App (Fullscreen PWA)**.
-- **Latest Edge-to-Edge Cross-Browser PWA (`manifest.webmanifest?v=3` + `sw.js` v4)**: Full notch-to-home-bar standalone mode (`viewport-fit=cover`, `apple-mobile-web-app-capable="yes"`, `black-translucent` status bar, `180×180` + `192×192` + `512×512` standard/maskable gold `EL` icons, native Chromium `beforeinstallprompt` install hook, and a 3-step Safari `"Add to Home Screen"` installation modal).
-- **Smart Mobile Pinch-Zoom Lock vs `"View Desktop Site"` Zoom Unlock**: Disables pinch-to-zoom, multi-touch gesture zooming, and double-tap zoom inside normal mobile/tablet tabs (`elfarm-zoom-locked`), automatically unlocking multi-scale zoom (`user-scalable=yes`, `max-scale=5.0`) ONLY when the user turns on **View Desktop Site** / **Request Desktop Website** (and locking again when turned off).
+### Part 2 — Embedded Cloud Supabase POS (`/pos/*` — Single Unified Deployment)
+- **Single-Deployment Architecture (How POS Is Integrated Into the Main Website)**:
+  - Rather than hosting two disconnected apps, the POS React + TypeScript application lives inside `pos-src/` right inside the main website repository alongside the public pages (`index.html`, `menu.html`, `blog.html`, etc.).
+  - `vite.widget.config.ts` compiles `pos-src/widget.ts` into `/pos/pos-widget.js` (loaded on every public page for instant header/drawer sign-in + floating login modal).
+  - `vite.pos.config.ts` compiles `pos-src/` (`BrowserRouter basename="/pos"`, `sourcemap: false`) into `/pos/` inside the repository root (`pos/index.html` + `pos/assets/*`).
+  - [`vercel.json`](vercel.json) rewrites `/pos/:path*` to `/pos` and ships both the public restaurant site and Cloud POS together on the **same domain, same Vercel deployment, and same Supabase Cloud project** (`VITE_SUPABASE_URL` & `VITE_SUPABASE_ANON_KEY`). *(A mirrored standalone POS copy also builds cleanly from the companion `pos resto` repo using the identical Supabase schema.)*
+- **Strict Session Security & Access Control**:
+  - Clicking **`POS LOGIN`** in the header (or mobile sidebar drawer) opens a floating dark-glass login modal right over the website.
+  - Supports **Username or Email** login via Supabase `resolve_login_profile` RPC + `signInWithPassword`.
+  - Sessions use per-tab `sessionStorage` (purged on return to public pages or Sign Out), never include one-click auto-login bypasses, guard every route (`/pos/cashier`, `/pos/crew`, `/pos/display`, `/pos/admin`) via `<ProtectedRoute>`, and lock checkout/order/cancel RPCs and storage uploads behind Supabase RLS (`auth.uid()` & `is_admin()`).
+- **Tablet-Optimized Cashier POS Terminal (`/pos/cashier`) & Official Add-Ons (`+Extras`)**:
+  - Automatic Cashier **Time-In** stamp in `attendance_logs` on login and **Time-Out** stamp on **`Log Out / End Shift`**.
+  - Fits all **8 compact category pills** cleanly on Tablet Landscape (`1024×768+`) without horizontal scroll clipping.
+  - **Official Facebook Add-Ons (`+Extras`)**: Tap **`+Extras`** on Silogs & Goto (**Extra Rice `+₱20`**, **Add Egg `+₱15`**, **Iced Tea `+₱25`**) or Signature Coffee / Matcha (**Oat Milk Add-on `+₱30`**, excluding Yoghurt drinks) to open the floating **Customize** modal, or tap **`+`** to add immediately.
+  - Regular **12% VAT-inclusive** & **Senior Citizen / PWD (RA 9994)** VAT-exempt + 20% discount math, Cash/GCash/Maya/Card checkout (`process_checkout` RPC), and Today's Orders edit/void/reprint drawer.
+- **80mm Thermal Roll `<PrintPortal>` Printing**:
+  - Official Receipts, Daily Z-Readings, and BARMM-05 Payslips render via React `createPortal` directly into `document.body > #pos-print-root` with `@page { size: 80mm auto; margin: 0mm; }` and `76mm` full-width layout so hardware 80mm thermal receipt printers print edge-to-edge cleanly with item extras and totals intact.
+- **Kitchen KDS (`/pos/crew`) & Queue Display (`/pos/display`)**:
+  - Real-time Supabase Realtime sync between Cashier -> Kitchen Crew (highlighting `(+ extras)` lines on Tablet KDS cards, `Mark Ready` -> `Complete`) -> Smart TV Queue Monitor with two-tone audio chime & screen WakeLock.
+- **Admin Backoffice (`/pos/admin`)**:
+  - **Sales Calendar & Order Ledger**: Daily revenue totals, hourly breakdown, Z-Reading thermal print, CSV export, and order editing/cancellation/deletion.
+  - **Cloud Menu, Add-Ons & Stock Manager**: Full `public.products` CRUD for both the **49 base dishes/drinks** and custom **Menu Add-Ons & Extras** (`ADDON::` metadata + per-item Add-On toggle checkboxes + direct upload/cleanup in Supabase Storage `menu-images`).
+  - **Employees & Attendance Calendar**: Provision Cashier accounts without logging Admin out (`persistSession: false` secondary client), active toggles, monthly attendance calendars with automatic `ABSENT` highlights, and **Christmas Bonus Leaderboard**.
+  - **Lamitan BARMM-05 Payroll & 80mm Payslip Printer**: Semi-monthly cutoff (`1st–15th` / `16th–End`) calculator (`₱54.50/hr` / Dec 1, 2026 `₱57.63/hr`, `1.25x` OT) with exact-date Overtime logging.
 
 ---
 
-## 🚀 Quick Start & Build Commands
+## 🛠️ Tech Stack
 
+| Layer | Technologies |
+| :--- | :--- |
+| **Website Frontend** | Static HTML5 + Framer Runtime Chunks, Three.js, WebGL2 GLSL Shaders, GSAP, Swiper, `qrcode.min.js`, Service Worker PWA (`sw.js`) |
+| **Embedded POS SPA** | React 18, TypeScript 5.6, Vite 5 (multi-config: `vite.pos.config.ts` & `vite.widget.config.ts`), Tailwind CSS 3.4, React Router DOM v6 |
+| **Cloud Backend** | Supabase (`@supabase/supabase-js`) — PostgreSQL, Auth, Row Level Security (RLS), Public Storage (`menu-images`), Realtime |
+| **Android Native App** | Pure Java (`com.elfarmcafe.official`, SDK 34), `fullSensor` Tablet/Phone Orientation, `FLAG_KEEP_SCREEN_ON`, Native `PrintManager` 80mm Bridge |
+| **Server & Hosting** | Local Node server (`scripts/serve_framer.cjs` with path traversal & secret-file deny guards), Vercel Static + RE2 SPA Rewrites (`vercel.json`) |
+
+---
+
+## 🗄️ Step-by-Step Cloud POS & Supabase Setup Guide
+
+### Step 1: Clone & Install Dependencies
 ```bash
-# 1. Rebuild all 5 production HTML pages & protected runtime bundle
-node scripts/transform_monkscrave_content.cjs
+git clone https://github.com/ZETIC7Z/el-farm-cafe-and-restaurant.git
+cd "El Farm Cafe and Restaurant"
+npm install
+```
 
-# 2. Start the local full-stack production server (http://localhost:5173)
-node scripts/serve_framer.cjs
+### Step 2: Create a Supabase Project & Storage Bucket
+1. Sign in to the [Supabase Dashboard](https://supabase.com/dashboard) and create a new project.
+2. Go to **Storage → New bucket**:
+   - Name: `menu-images`
+   - **Public bucket**: **ON**
+   - Save.
+
+### Step 3: Run the Database Schema, RLS Policies & RPCs
+In **Supabase Dashboard → SQL Editor → New Query**, run the POS schema script (from the companion `RESTO-POS` `supabase/schema.sql`) to provision:
+- **Tables**: `profiles`, `attendance_logs`, `products`, `customers`, `orders`, `order_items`, `store_settings`
+- **Row Level Security (RLS)** & **Storage (`menu-images`) policies**: locks `profiles`, `attendance_logs`, and `customers` from anonymous `anon` access while allowing authenticated cashiers/admins role-scoped access
+- **Realtime**: add `profiles`, `attendance_logs`, `products`, and `orders` to `supabase_realtime` publication
+- **RPC Functions**: `is_admin()`, `resolve_login_profile(p_identifier)`, `process_checkout(...)`, `update_submitted_order(...)`, `cancel_order(...)`, `admin_upsert_cashier_profile(...)`, `admin_create_cashier_account(...)`
+
+### Step 4: Manually Create Your First Admin Account in Supabase
+1. In **Supabase Dashboard → Authentication → Users**, click **Add user → Create new user**:
+   - **Email**: `your-admin-email@example.com`
+   - **Password**: choose a strong password
+   - Check **Auto Confirm User** (`ON`) and click **Create user**.
+2. Copy the generated **User UID** (`uuid`), then run in **SQL Editor → New Query**:
+   ```sql
+   INSERT INTO public.profiles (id, email, username, full_name, role, hourly_rate, is_active)
+   VALUES (
+     'PASTE-YOUR-USER-UUID-HERE',
+     'your-admin-email@example.com',
+     'administrator',
+     'Store Administrator',
+     'admin',
+     54.50,
+     true
+   );
+   ```
+3. You can now sign in via the website **`POS LOGIN`** modal using your admin username or email (`Admin` role card), and create or manage Cashier accounts directly inside `/pos/admin` (**Employees** tab).
+
+### Step 5: Configure Local Environment Variables (`.env.local`)
+Create `.env.local` in the project root (gitignored by `.gitignore` and excluded by `.vercelignore`):
+
+```env
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-public-key
+```
+
+> **Security Notice:** Never commit `.env`, `.env.local`, `service_role` keys, API tokens, or customer booking files (`assets/data/bookings.json` / `.csv`) to Git or publish them in client bundles. Only `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (protected by Supabase RLS) belong in `.env.local` and Vercel environment variables.
+
+---
+
+## 💻 Running Locally & Deploying
+
+### Build Embedded Cloud POS & Run Local Full-Stack Server
+```bash
+# Build /pos/* SPA + /pos/pos-widget.js with your .env.local Supabase config
+npm run build:pos
+
+# Start local HTTP + Bookings/Facebook API server (with path-traversal & secret-file protection)
+npm run dev
+```
+Open **`http://localhost:5173`** in your browser. Click **`POS LOGIN`** in the header to test `/pos/cashier`, `/pos/crew`, `/pos/display`, and `/pos/admin`.
+
+### Deploy to Vercel Production
+1. In **Vercel Dashboard → Project Settings → Environment Variables** (Production, Preview, and Development), add:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+2. Ensure [`vercel.json`](vercel.json) is present (`cleanUrls: true`, SPA rewrites `"/pos/:path*" -> "/pos"`, and security headers including `Strict-Transport-Security`, `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, and `Permissions-Policy`).
+3. Deploy:
+   ```bash
+   npx vercel deploy --prod
+   ```
+
+---
+
+## 📱 Android Tablet & Phone APK Guide (Cashier, Kitchen KDS & 80mm Printer)
+
+1. Open `/download` on your Android tablet or phone and tap **Download** under **Android App** (`El-Farm-Cafe-and-Resto.apk`, `145 KB`, Android 7.0+).
+2. Enable **"Allow from this source"** once when prompted and tap **Install**.
+3. **Tablet Features Included**:
+   - **Auto-Rotation (`fullSensor`)** & resizeable layout for landscape Cashier/Kitchen tablets and portrait phones.
+   - **Keep Screen Awake (`FLAG_KEEP_SCREEN_ON`)**: Prevents Kitchen KDS / TV Monitor tablets from sleeping during service.
+   - **Station Dock (`POS` edge tab)**: Tap the subtle left-edge **`POS`** tab anytime to switch quickly between Main Website, POS Login, Cashier Terminal (`/pos/cashier`), Kitchen KDS (`/pos/crew`), TV Queue Monitor (`/pos/display`), Print Receipt, or Fullscreen toggle.
+   - **Native 80mm Thermal Printer Bridge**: Any **Print Receipt**, **Z-Reading**, or **Payslip** call invokes Android's native `PrintManager` spooler cleanly so paired Bluetooth, USB, or Wi-Fi 80mm ESC/POS printer apps can print receipts directly.
+
+---
+
+## 📁 Project Structure
+
+```text
+El Farm Cafe and Restaurant/
+├── index.html, about.html, menu.html, blog.html, download.html, contact.html
+├── pos/                                # Compiled Cloud POS SPA + pos-widget.js bundle
+├── pos-src/                            # React + TypeScript Cloud POS & header login modal source
+│   ├── components/                     # ReceiptModal (80mm PrintPortal), PayrollView, MenuManagerView, etc.
+│   ├── lib/                            # AuthContext, Supabase sessionStorage client, VAT/RA 9994 pricing
+│   ├── pages/                          # CashierPage, CrewKitchenPage, QueueDisplayPage, AdminDashboardPage
+│   ├── App.tsx                         # Protected /pos/* router guards
+│   └── widget.ts                       # Floating POS LOGIN button & locked authentication modal
+├── assets/
+│   ├── css/, fonts/, js/, menu/, video/
+│   ├── data/facebook-posts.json        # Synchronized Facebook Moments & blog imagery
+│   ├── downloads/el-farm-cafe.apk      # Clean native signed Android Tablet & Phone APK (145 KB)
+│   └── images/                         # Customer HD moments (1..20), Meet CAS blog cover, favicons, brand marks
+├── scripts/
+│   ├── serve_framer.cjs                # Hardened local HTTP + Bookings/FB API server
+│   └── transform_monkscrave_content.cjs# Runtime bundle compiler & asset synchronizer
+├── manifest.webmanifest                # Edge-to-edge PWA manifest
+├── sw.js                               # Offline-resilient Service Worker (bypasses /pos/*, /api/*, .apk)
+├── vercel.json                         # Security headers, cleanUrls & /pos/* SPA rewrites
+├── vite.pos.config.ts                  # Vite config for /pos/* React SPA
+└── vite.widget.config.ts               # Vite IIFE build for /pos/pos-widget.js
 ```
 
 ---
 
-## 👨‍💻 Developer Attribution
+## 👨‍💻 Developer & Attribution
 
-**SITE DEVELOPED BY:** [Sam Pangilinan (ZETICUZ)](https://www.zeticuz.xyz/) · © 2026
+```text
+SITE DEVELOPED BY: Sam Pangilinan · © 2026
+```
+
+- **Portfolio**: [https://www.zeticuz.xyz/](https://www.zeticuz.xyz/)
+- **GitHub**: [@ZETIC7Z](https://github.com/ZETIC7Z)

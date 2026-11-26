@@ -9,6 +9,50 @@
       "id": "elfarm-fb-01",
       "slot": 1,
       "image": "./assets/images/customer-hd-1.webp",
+      "caption": "There's something truly special about seeing familiar faces walk through our doors again. 🥹💚 Thank you for making EL Farm your favorite family dining sanctuary in Lamitan City!",
+      "date": "November 26, 2026",
+      "likes": 248,
+      "comments": 36,
+      "shares": 29,
+      "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
+    },
+    {
+      "id": "elfarm-fb-02",
+      "slot": 2,
+      "image": "./assets/images/customer-hd-2.webp",
+      "caption": "🤍💚 Salamat po, Mam Aer Nhicka & family! 'Thank you mam 🥰 masarap po ang foods and maganda din po ang ambiance ❤️' — Quick laag at EL Farm Cafe & Resto!",
+      "date": "November 26, 2026",
+      "likes": 215,
+      "comments": 31,
+      "shares": 24,
+      "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
+    },
+    {
+      "id": "elfarm-fb-03",
+      "slot": 3,
+      "image": "./assets/images/customer-hd-3.webp",
+      "caption": "There's something truly special about seeing familiar faces walk through our doors again! 🥹💚 Evening family feast under our starlight garden tent canopies in Sitio Nipa.",
+      "date": "November 25, 2026",
+      "likes": 234,
+      "comments": 33,
+      "shares": 27,
+      "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
+    },
+    {
+      "id": "elfarm-fb-04",
+      "slot": 4,
+      "image": "./assets/images/customer-hd-4.webp",
+      "caption": "Familiar faces and great conversations over Salu-Salo feasts at EL Farm Cafe and Restaurant! 🌿🍽️ Malayo man kami, sulit naman ang dayo!",
+      "date": "November 25, 2026",
+      "likes": 196,
+      "comments": 28,
+      "shares": 21,
+      "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
+    },
+    {
+      "id": "elfarm-fb-05",
+      "slot": 5,
+      "image": "./assets/images/customer-hd-5.webp",
       "caption": "Thank you for visiting EL FARM! 🌿✨ Nothing beats sharing a bountiful Salu-Salo Bilao and specialty iced coffee with family under our farm pavilion in Sitio Nipa.",
       "date": "November 12, 2026",
       "likes": 184,
@@ -17,9 +61,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-02",
-      "slot": 2,
-      "image": "./assets/images/customer-hd-2.webp",
+      "id": "elfarm-fb-06",
+      "slot": 6,
+      "image": "./assets/images/customer-hd-6.webp",
       "caption": "Malayo man kami, sulit naman ang dayo! 🥥🍵 Thank you to our wonderful guests for spending your afternoon with us over Coconut Matcha Cloud and Golden Crispy Pata!",
       "date": "November 10, 2026",
       "likes": 219,
@@ -28,9 +72,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-03",
-      "slot": 3,
-      "image": "./assets/images/customer-hd-3.webp",
+      "id": "elfarm-fb-07",
+      "slot": 7,
+      "image": "./assets/images/customer-hd-7.webp",
       "caption": "Spotted at EL FARM: Doc Mika & CHO LGU Lamitan family! 💚 Thank you for celebrating with our Seafood Feast Bilao and heirloom Basilan dishes!",
       "date": "November 8, 2026",
       "likes": 265,
@@ -39,9 +83,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-04",
-      "slot": 4,
-      "image": "./assets/images/customer-hd-4.webp",
+      "id": "elfarm-fb-08",
+      "slot": 8,
+      "image": "./assets/images/customer-hd-8.webp",
       "caption": "Coffee dates and golden hour vibes at Sitio Nipa! ☕🌴 Try our signature Dirty Coffee and Butter Caramel Popcorn Latte on your next visit.",
       "date": "November 6, 2026",
       "likes": 152,
@@ -50,9 +94,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-05",
-      "slot": 5,
-      "image": "./assets/images/customer-hd-5.webp",
+      "id": "elfarm-fb-09",
+      "slot": 9,
+      "image": "./assets/images/customer-hd-9.webp",
       "caption": "Al-fresco garden nights under the starlight sail canopies! ✨lantern-lit trees, warm acoustics, and freshly cooked Native Chicken Tinola & Tiyula Itum.",
       "date": "November 4, 2026",
       "likes": 198,
@@ -61,9 +105,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-06",
-      "slot": 6,
-      "image": "./assets/images/customer-hd-6.webp",
+      "id": "elfarm-fb-10",
+      "slot": 10,
+      "image": "./assets/images/customer-hd-10.webp",
       "caption": "Thank you Calugusan Elementary School Faculty for choosing El Farm Cafe & Resto for your fellowship dinner! 🥂🍽️ See you again soon!",
       "date": "November 1, 2026",
       "likes": 243,
@@ -72,9 +116,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-07",
-      "slot": 7,
-      "image": "./assets/images/customer-hd-7.webp",
+      "id": "elfarm-fb-11",
+      "slot": 11,
+      "image": "./assets/images/customer-hd-11.webp",
       "caption": "Post-pickleball recovery feast! 🏓🔥 Nothing hits the spot after an intense night rally quite like Sizzling Pork Sisig, Pancit Miki Bilao, and ice-cold yoghurt drinks!",
       "date": "October 29, 2026",
       "likes": 176,
@@ -83,9 +127,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-08",
-      "slot": 8,
-      "image": "./assets/images/customer-hd-8.webp",
+      "id": "elfarm-fb-12",
+      "slot": 12,
+      "image": "./assets/images/customer-hd-12.webp",
       "caption": "Weekend barkada hangout in Brgy. Maloong Canal! 🌿🍹 From Dubai Chewy Cookie Smoothies to Barkadahan Platters, every craving has a home here at El Farm.",
       "date": "October 26, 2026",
       "likes": 164,
@@ -94,9 +138,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-09",
-      "slot": 9,
-      "image": "./assets/images/customer-hd-9.webp",
+      "id": "elfarm-fb-13",
+      "slot": 13,
+      "image": "./assets/images/customer-hd-13.webp",
       "caption": "Smiles all around our handcrafted live-edge acacia tables! 🪵✨ Thank you for making El Farm part of your family's weekend traditions in Lamitan City.",
       "date": "October 23, 2026",
       "likes": 208,
@@ -105,9 +149,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-10",
-      "slot": 10,
-      "image": "./assets/images/customer-hd-10.webp",
+      "id": "elfarm-fb-14",
+      "slot": 14,
+      "image": "./assets/images/customer-hd-14.webp",
       "caption": "LCEA Pickleball Club owning the night court under the palms! 🏓🌴 Book your court time and pre-order your Salu-Salo feast ahead of arrival!",
       "date": "October 20, 2026",
       "likes": 289,
@@ -116,9 +160,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-11",
-      "slot": 11,
-      "image": "./assets/images/customer-hd-11.webp",
+      "id": "elfarm-fb-15",
+      "slot": 15,
+      "image": "./assets/images/customer-hd-15.webp",
       "caption": "Sweet moments and ceremonial matcha! 🍵💚 Have you tried our EL Special Matcha (Dunya) and Coconut Matcha Cloud in a real buko shell yet?",
       "date": "October 17, 2026",
       "likes": 191,
@@ -127,9 +171,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-12",
-      "slot": 12,
-      "image": "./assets/images/customer-hd-12.webp",
+      "id": "elfarm-fb-16",
+      "slot": 16,
+      "image": "./assets/images/customer-hd-16.webp",
       "caption": "Good food, great company, and the peaceful breeze of Sitio Nipa. 🌾🍽️ Open daily from 9:00 AM to 9:00 PM for dine-in, pre-order, and Lamitan delivery!",
       "date": "October 14, 2026",
       "likes": 173,
@@ -138,9 +182,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-13",
-      "slot": 13,
-      "image": "./assets/images/customer-hd-13.webp",
+      "id": "elfarm-fb-17",
+      "slot": 17,
+      "image": "./assets/images/customer-hd-17.webp",
       "caption": "Thank you to our guests from Isabela City & Lamitan City for dropping by tonight! 🌟 Your support inspires our kitchen every single day.",
       "date": "October 11, 2026",
       "likes": 231,
@@ -149,9 +193,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-14",
-      "slot": 14,
-      "image": "./assets/images/customer-hd-14.webp",
+      "id": "elfarm-fb-18",
+      "slot": 18,
+      "image": "./assets/images/customer-hd-18.webp",
       "caption": "Rainy evening comfort: Putok Batok Bone Marrow Goto, Goto Overload, and hot Spanish Lattes shared with the best crew! 🥣☕",
       "date": "October 8, 2026",
       "likes": 187,
@@ -160,9 +204,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-15",
-      "slot": 15,
-      "image": "./assets/images/customer-hd-15.webp",
+      "id": "elfarm-fb-19",
+      "slot": 19,
+      "image": "./assets/images/customer-hd-19.webp",
       "caption": "Birthday Salu-Salo under the garden lights! 🎂🎉 Message us at 0917 182 9876 to reserve our garden tables for your next milestone celebration.",
       "date": "October 5, 2026",
       "likes": 254,
@@ -171,9 +215,9 @@
       "permalink": "https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/"
     },
     {
-      "id": "elfarm-fb-16",
-      "slot": 16,
-      "image": "./assets/images/customer-hd-16.webp",
+      "id": "elfarm-fb-20",
+      "slot": 20,
+      "image": "./assets/images/customer-hd-20.webp",
       "caption": "Every table tells a story at EL FARM CAFÉ & RESTO. 🌿✨ Escape the ordinary and visit us at Sitio Nipa, Brgy. Maloong Canal, Lamitan City!",
       "date": "October 2, 2026",
       "likes": 212,

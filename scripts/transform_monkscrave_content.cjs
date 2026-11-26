@@ -584,6 +584,9 @@ const TEXT_REPLACEMENTS = [
   ["Our Chef's", 'Our Sanctuary'],
   ['They are Ready to Treat You', 'Crafted with Warmth in Sitio Nipa'],
   ['Assistant Chef', 'Night Pickleball & Al-Fresco Court'],
+  ['Denial Frankie', 'Floodlit Pickleball Court'],
+  ['Mical Pelis', 'Timber Café Pavilion'],
+  ['Alex Jhon', 'Starlight Garden Canopies'],
   // Why Choose Section
   ['We Provide Elegant Service for People', 'Crafted for Coffee Lovers, Families & Pickleball Rallies'],
   ['Delicious Food', 'Heirloom Cuisine'],
@@ -663,22 +666,25 @@ const TEXT_REPLACEMENTS = [
   ['Armstrong,North Nanook V4Y, V0E,Canada', 'Sitio Nipa, Brgy. Maloong Canal, Lamitan City, Basilan'],
   ['Design Monks', 'El Farm Cafe & Restaurant'],
   ['2025 ©. All rights reserved.', '2026 © El Farm Cafe and Restaurant. All rights reserved.'],
+  ['2025 \\xA9', '2026 \\xA9 '],
+  ['2025\u00a0©', '2026 © '],
+  ['https://www.designmonks.co/', './index.html'],
   [
     "I absolutely loved the avocado toast with a poached egg! The quality of the ingredients and the attention to detail in the preparation made it a standout dish. I'm looking forward to my next visit for another round!",
-    'Malayo man kami, sulit naman ang dayo! From the Coconut Matcha Cloud served in a real buko shell to the Seafood Feast Bilao and Sizzling Sisig, every dish at El Farm is worth the trip to Sitio Nipa!'
+    'Thank you mam 🥰 Masarap po ang foods and maganda din po ang ambiance ❤️ — Quick laag with the whole family at EL Farm Cafe & Resto!'
   ],
-  ['Jessier Robak.', 'Doc Mika & CHO LGU'],
-  ['Jessier Robak', 'Doc Mika & CHO LGU'],
-  ['Alonso D. Dowson', 'LCEA Pickleball Club'],
-  ['Kristin Watson', 'Calugusan Elem. Faculty'],
+  ['Jessier Robak.', 'Aer Nhicka'],
+  ['Jessier Robak', 'Aer Nhicka'],
+  ['Alonso D. Dowson', 'Doc Mika & CHO LGU'],
+  ['Kristin Watson', 'LCEA Pickleball Club'],
   ['Food Enthusiast', 'Verified El Farm Guests'],
   [
     'The food was absolutely delicious, and the service was excellent! The ambiance was perfect, and everything was fresh. Highly recommend this restaurant for a great dining experience!',
-    'Playing night pickleball under the coconut palms and then sharing a Salu-Salo Bilao and iced Dirty Coffee with the whole squad makes El Farm our favorite hangout spot in Lamitan City!'
+    'Malayo man kami, sulit naman ang dayo! From the Coconut Matcha Cloud served in a real buko shell to the Seafood Feast Bilao and Sizzling Sisig, every dish at El Farm is worth the trip to Sitio Nipa!'
   ],
   [
     "Amazing food, friendly staff, and a cozy atmosphere! Everything was fresh, flavorful, and beautifully presented. Definitely one of the best dining experiences I've had—highly recommend!",
-    'The starlight garden tents, warm string lights, and attentive staff made our faculty celebration so memorable. Their Native Chicken Tinola, Tiyula Itum, and Crispy Pata are unmatched!'
+    'Playing night pickleball under the coconut palms and then sharing a Salu-Salo Bilao and iced Dirty Coffee with the whole squad makes El Farm our favorite hangout spot in Lamitan City!'
   ],
   // Contact & Blog Page Replacements
   [
@@ -760,17 +766,17 @@ const TEXT_REPLACEMENTS = [
   ],
 ];
 
-// Build native 16-card Framer Ticker slots for chunk-PGQRPBE7 (Desktop & Mobile) so all 16 customer photos loop edge-to-edge natively
+// Build native 20-card Framer Ticker slots for chunk-PGQRPBE7 (Desktop & Mobile) so all 20 newest-first customer photos loop edge-to-edge natively
 function upgradeFramerTickerChunk(code) {
   const fbUrl = 'https://www.facebook.com/p/El-Farm-Cafe-and-Restaurant-61592749568852/';
-  const desktopSlots = Array.from({ length: 16 }, (_, idx) => {
+  const desktopSlots = Array.from({ length: 20 }, (_, idx) => {
     const n = idx + 1;
     const pad = String(n).padStart(2, '0');
     const imgUrl = `./assets/images/customer-hd-${n}.webp`;
     return `o(A,{height:533,width:"400px",children:o(D,{className:"framer-1u6d0st-container","data-framer-name":"Social Large Card ${pad}",inComponentSlot:!0,layoutDependency:y,layoutId:"custLarge${pad}-container",name:"Social Large Card ${pad}",nodeId:"custLarge${pad}",rendersWithMotion:!0,scopeId:"Rxi6dnftz",children:o(R,{height:"100%",i42BfbWBP:j({pixelHeight:1600,pixelWidth:1200,src:"${imgUrl}",srcSet:"${imgUrl} 1200w"},"El Farm Guests ${pad}"),id:"custLarge${pad}",layoutId:"custLarge${pad}",name:"Social Large Card ${pad}",OmgFZsd3A:"${fbUrl}",style:{height:"100%",width:"100%"},variant:"DjGSxOeTQ",width:"100%"})})})`;
   }).join(',');
 
-  const phoneSlots = Array.from({ length: 16 }, (_, idx) => {
+  const phoneSlots = Array.from({ length: 20 }, (_, idx) => {
     const n = idx + 1;
     const pad = String(n).padStart(2, '0');
     const imgUrl = `./assets/images/customer-hd-${n}.webp`;
@@ -1398,7 +1404,7 @@ const rawEnhanceJsContent = `(function () {
         video.dataset.elfarmVideoTier = initialTier;
         video.dataset.elfarmMasterSrc = ADAPTIVE_VIDEO_TIERS.uhd;
         video.setAttribute('playsinline', '');
-        video.setAttribute('preload', 'auto');
+        video.setAttribute('preload', 'metadata');
         video.muted = true;
       }
 
@@ -1515,33 +1521,34 @@ const rawEnhanceJsContent = `(function () {
         pointer-events: none !important;
       }
       .elfarm-splash-stack {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        position: relative;
+        display: block;
         width: 100%;
-        max-width: 420px;
-        gap: clamp(8px, 2dvh, 18px);
-        transition: opacity 0.52s cubic-bezier(0.22, 1, 0.36, 1), transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+        height: 100%;
+        max-width: none;
+        transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
       }
       #elfarm-intro-overlay.is-outro-content .elfarm-splash-stack {
         opacity: 0 !important;
         transform: scale(0.965);
       }
       .elfarm-splash-logo-wrap {
-        width: min(clamp(142px, 34vw, 240px), 34dvh);
-        height: min(clamp(142px, 34vw, 240px), 34dvh);
+        position: absolute;
+        left: 50%;
+        top: 46%;
+        width: min(clamp(280px, 28vw, 410px), 48dvh);
+        height: min(clamp(280px, 28vw, 410px), 48dvh);
         display: flex;
         align-items: center;
         justify-content: center;
         opacity: 0;
-        transform: scale(0.95);
-        transition: opacity 0.68s cubic-bezier(0.22, 1, 0.36, 1), transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
+        transform: translate(-50%, -50%) scale(0.95);
+        transition: opacity 0.56s cubic-bezier(0.22, 1, 0.36, 1), transform 0.56s cubic-bezier(0.22, 1, 0.36, 1);
         pointer-events: none;
       }
       .elfarm-splash-logo-wrap.is-visible {
         opacity: 1;
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
       }
       #elfarm-splash-logo {
         width: 100%;
@@ -1553,18 +1560,32 @@ const rawEnhanceJsContent = `(function () {
         -webkit-user-drag: none;
       }
       .elfarm-splash-loader-wrap {
-        width: min(clamp(84px, 18vw, 128px), 20dvh);
-        height: min(clamp(84px, 18vw, 128px), 20dvh);
+        position: absolute;
+        left: 50%;
+        bottom: clamp(42px, 8dvh, 88px);
+        width: clamp(68px, 7.5vw, 90px);
+        height: clamp(68px, 7.5vw, 90px);
         display: grid;
         place-items: center;
         opacity: 0;
-        transform: translateY(6px);
-        transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        transform: translateX(-50%) translateY(6px);
+        transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
         pointer-events: none;
       }
       .elfarm-splash-loader-wrap.is-visible {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(-50%) translateY(0);
+      }
+      @media (max-width: 767px) {
+        .elfarm-splash-logo-wrap {
+          width: min(clamp(215px, 58vw, 290px), 44dvh);
+          height: min(clamp(215px, 58vw, 290px), 44dvh);
+        }
+        .elfarm-splash-loader-wrap {
+          bottom: clamp(42px, 8dvh, 80px);
+          width: clamp(64px, 16vw, 82px);
+          height: clamp(64px, 16vw, 82px);
+        }
       }
       .elfarm-splash-loader-wrap svg {
         width: 100%;
@@ -1586,6 +1607,8 @@ const rawEnhanceJsContent = `(function () {
       #__framer-badge-container,
       [data-framer-name="Badge"],
       [data-framer-name="Free 3 Month"],
+      [data-framer-name="Experience Badge"],
+      .framer-1qu9lve,
       .framer-1r0dvt3-container,
       .framer-ajmrrd,
       a[href*="framer.com"],
@@ -2001,29 +2024,119 @@ const rawEnhanceJsContent = `(function () {
         pointer-events: none !important;
         isolation: isolate !important;
       }
-      /* GPU-composited pseudo backdrop prevents Chromium backdrop-filter scroll flicker */
+      /* GPU-composited pseudo backdrop slides + fades smoothly when scrolling down & hides smoothly at top */
       .framer-2nqvvj-container::before {
         content: "" !important;
         position: absolute !important;
         inset: 0 !important;
         z-index: -1 !important;
-        background: rgba(11, 19, 21, 0.94) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
-        border-bottom: 1px solid rgba(239, 201, 164, 0.16) !important;
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42) !important;
+        background: linear-gradient(180deg, rgba(7, 13, 15, 0.96) 0%, rgba(11, 19, 21, 0.92) 100%) !important;
+        backdrop-filter: blur(16px) saturate(140%) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+        border-bottom: 1px solid rgba(239, 201, 164, 0.24) !important;
+        box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6) !important;
         opacity: 0 !important;
-        transition: opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        transform: translateY(-100%) !important;
+        transition:
+          opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.46s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.42s ease !important;
         pointer-events: none !important;
       }
       .framer-2nqvvj-container.is-scrolled::before {
-        opacity: 1 !important;
+        opacity: 0.98 !important;
+        transform: translateY(0) !important;
+        background: linear-gradient(180deg, rgba(7, 13, 15, 0.99) 0%, rgba(11, 19, 21, 0.97) 100%) !important;
       }
       body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container::before {
-        opacity: 0.78 !important;
+        opacity: 0.98 !important;
+        transform: translateY(0) !important;
+        background: linear-gradient(180deg, rgba(7, 13, 15, 0.99) 0%, rgba(11, 19, 21, 0.97) 100%) !important;
       }
       body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container.is-scrolled::before {
         opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+      @media (min-width: 1025px) {
+        header.framer-atzvB,
+        header.framer-atzvB.framer-v-1rfa6pd,
+        header.framer-atzvB.framer-v-buob2u {
+          padding: 20px 0 !important;
+          transition: padding 0.38s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        }
+        .framer-2nqvvj-container.is-scrolled header.framer-atzvB,
+        header.framer-atzvB.is-scrolled {
+          padding: 12px 0 !important;
+        }
+        header.framer-atzvB .framer-1vd02cg,
+        header.framer-atzvB.framer-v-1rfa6pd .framer-1vd02cg,
+        header.framer-atzvB.framer-v-buob2u .framer-1vd02cg {
+          max-width: 1360px !important;
+          width: 100% !important;
+          padding: 0 28px !important;
+          margin: 0 auto !important;
+        }
+        header.framer-atzvB .framer-pwnhug,
+        header.framer-atzvB.framer-v-1rfa6pd .framer-pwnhug,
+        header.framer-atzvB.framer-v-buob2u .framer-pwnhug {
+          display: flex !important;
+          flex-direction: row !important;
+          flex-wrap: nowrap !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          width: 100% !important;
+          position: relative !important;
+        }
+        header .framer-1k980me-container,
+        header.framer-atzvB.framer-v-1rfa6pd .framer-1k980me-container,
+        header.framer-atzvB.framer-v-buob2u .framer-1k980me-container {
+          position: relative !important;
+          top: auto !important;
+          left: auto !important;
+          right: auto !important;
+          bottom: auto !important;
+          width: auto !important;
+          height: auto !important;
+          transform: none !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          pointer-events: auto !important;
+          user-select: auto !important;
+          -webkit-user-select: auto !important;
+          z-index: 10 !important;
+        }
+        header .framer-1k980me-container *,
+        header nav.framer-wJ9c5,
+        header nav.framer-wJ9c5 *,
+        header .framer-fo7Wq,
+        header .framer-fo7Wq *,
+        header .framer-99kfy5,
+        header [data-framer-name="Menu"],
+        header [data-framer-name="Menu"] * {
+          transform: none !important;
+          will-change: auto !important;
+        }
+      }
+      [data-framer-name="Instagram Section"] .framer-1hajl2m-container:not(.elfarm-2d-fallback-active),
+      [data-framer-name="Instagram Section"]:has(#elfarm-scurve-gallery-wrap) > :not(#elfarm-scurve-gallery-wrap):not(.elfarm-2d-fallback-active) {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+      }
+      .framer-73kyao:has(.elfarm-ds-wrapper),
+      [data-framer-name="Blog Tab Block"] {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      [data-framer-name="Blog Section"] .framer-73kyao > :not(.elfarm-ds-wrapper),
+      [data-framer-name="Blog Tab Block"] > :not(.elfarm-ds-wrapper),
+      [data-framer-name="Blog Tab Section"] .framer-1lpg1ag {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
       }
       header,
       .framer-atzvB {
@@ -2111,16 +2224,95 @@ const rawEnhanceJsContent = `(function () {
           display: none !important;
           pointer-events: none !important;
         }
-        header .framer-pc5vzg-container,
+        header .framer-1g6xkw5,
+        header [data-framer-name="Header Button"] {
+          display: inline-flex !important;
+          flex-direction: row !important;
+          align-items: center !important;
+          gap: 10px !important;
+          width: auto !important;
+          height: auto !important;
+          overflow: visible !important;
+        }
+        header .framer-pc5vzg-container {
+          display: inline-flex !important;
+          align-items: center !important;
+          height: 42px !important;
+          min-height: 42px !important;
+          max-height: 42px !important;
+        }
         header [data-framer-name="Primary Header"] {
-          display: flex !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          height: 42px !important;
+          min-height: 42px !important;
+          max-height: 42px !important;
+          padding: 0 18px !important;
+          border-radius: 2px !important;
+          box-sizing: border-box !important;
           pointer-events: auto !important;
+          transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.22s ease, border-color 0.22s ease !important;
+        }
+        #elfarm-pos-header-btn {
+          pointer-events: auto !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 7px !important;
+          height: 42px !important;
+          min-height: 42px !important;
+          max-height: 42px !important;
+          padding: 0 15px !important;
+          border-radius: 2px !important;
+          border: 1px solid rgba(239, 201, 164, 0.55) !important;
+          background: rgba(11, 19, 21, 0.78) !important;
+          backdrop-filter: blur(10px) !important;
+          -webkit-backdrop-filter: blur(10px) !important;
+          color: #efc9a4 !important;
+          font-family: "Jost", "Plus Jakarta Sans", sans-serif !important;
+          font-size: 12px !important;
+          font-weight: 600 !important;
+          letter-spacing: 0.08em !important;
+          text-transform: uppercase !important;
+          white-space: nowrap !important;
+          box-sizing: border-box !important;
+          cursor: pointer !important;
+          transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease !important;
+        }
+        #elfarm-pos-header-btn:hover {
+          background: rgba(239, 201, 164, 0.16) !important;
+          border-color: #efc9a4 !important;
+          color: #ffffff !important;
         }
         [data-framer-name="Menu Section"],
         [data-framer-name="About Banner Section"],
-        [data-framer-name="Blog Tab Section"],
         [data-framer-name="Contact  Section"] {
           padding-top: max(154px, 16vh) !important;
+        }
+        [data-framer-name="Blog Tab Section"] {
+          padding-top: 114px !important;
+          padding-bottom: 44px !important;
+        }
+        [data-framer-name="Blog Tab Section"] .framer-g1uqgj {
+          gap: 16px !important;
+          max-width: 1360px !important;
+        }
+        [data-framer-name="Blog Tab Section"] .framer-pevpin,
+        [data-framer-name="Blog Tab Section"] [data-framer-name="Title Block"] {
+          max-width: 780px !important;
+          margin-bottom: 0 !important;
+          gap: 6px !important;
+        }
+        [data-framer-name="Blog Tab Section"] .framer-pevpin h1,
+        [data-framer-name="Blog Tab Section"] .framer-pevpin h2,
+        [data-framer-name="Blog Tab Section"] .framer-xqdrjo p {
+          font-size: clamp(28px, 3vw, 38px) !important;
+          line-height: 1.12 !important;
+        }
+        [data-framer-name="Blog Tab Section"] .framer-z5rkjv p {
+          font-size: 14.5px !important;
+          line-height: 1.45 !important;
         }
       }
       @media (max-width: 1024px) {
@@ -3592,6 +3784,509 @@ const rawEnhanceJsContent = `(function () {
         color: rgb(239, 201, 164);
       }
 
+      /* Reflective S-Curve WebGL Customer Gallery (CodePen ol-ivier 01a20e5e) */
+      #elfarm-scurve-gallery-wrap {
+        position: relative;
+        width: 100%;
+        height: 550px;
+        background: #070b0d;
+        border-top: 1px solid rgba(239, 201, 164, 0.16);
+        border-bottom: 1px solid rgba(239, 201, 164, 0.16);
+        overflow: hidden;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: pan-y;
+      }
+      @media (max-width: 809px) {
+        #elfarm-scurve-gallery-wrap {
+          height: 410px;
+        }
+      }
+      #elfarm-scurve-canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: grab;
+      }
+      #elfarm-scurve-canvas:active {
+        cursor: grabbing;
+      }
+      #elfarm-scurve-fb-overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 340px;
+        max-width: calc(100vw - 24px);
+        background: linear-gradient(to top, rgba(7, 13, 15, 0.96) 0%, rgba(11, 19, 21, 0.86) 65%, rgba(11, 19, 21, 0.18) 100%);
+        border: 1px solid rgba(239, 201, 164, 0.3);
+        border-radius: 12px;
+        padding: 18px 18px 16px;
+        box-sizing: border-box;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate3d(0, 6px, 0);
+        transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1), transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        z-index: 15;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+      #elfarm-scurve-fb-overlay.is-visible {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+      #elfarm-scurve-fb-overlay.is-focused {
+        pointer-events: auto;
+      }
+      #elfarm-scurve-close-btn {
+        position: absolute;
+        top: 18px;
+        right: 22px;
+        z-index: 25;
+        background: rgba(11, 19, 21, 0.86);
+        border: 1px solid rgba(239, 201, 164, 0.42);
+        color: #efc9a4;
+        padding: 9px 18px;
+        border-radius: 999px;
+        font-family: "Jost", sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px);
+        transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+        backdrop-filter: blur(8px);
+      }
+      #elfarm-scurve-close-btn.is-visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      #elfarm-scurve-close-btn:hover {
+        background: rgba(239, 201, 164, 0.2);
+        color: #ffffff;
+      }
+      .elfarm-scurve-hintbar {
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 12;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: rgba(7, 13, 15, 0.72);
+        border: 1px solid rgba(239, 201, 164, 0.22);
+        color: rgba(239, 201, 164, 0.86);
+        font-family: "Jost", sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        pointer-events: none;
+        backdrop-filter: blur(6px);
+      }
+      .elfarm-scurve-navbtn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 18;
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
+        border: 1px solid rgba(239, 201, 164, 0.35);
+        background: rgba(11, 19, 21, 0.78);
+        color: #efc9a4;
+        font-size: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.15s ease;
+        backdrop-filter: blur(8px);
+      }
+      .elfarm-scurve-navbtn:hover {
+        background: rgba(239, 201, 164, 0.22);
+        color: #ffffff;
+      }
+      .elfarm-scurve-navbtn.prev { left: 14px; }
+      .elfarm-scurve-navbtn.next { right: 14px; }
+
+      /* 3D Disc Shelf Blog Gallery (CodePen Maseone 01a1db16) */
+      .elfarm-ds-wrapper {
+        --W: clamp(222px, 19vw, 268px);
+        --H: calc(var(--W) * 1.03);
+        --S: calc(var(--W) * 0.082);
+        --sp: calc(var(--S) + 6px);
+        position: relative;
+        width: 100vw;
+        max-width: 100vw;
+        margin: 4px 0 0 calc(50% - 50vw);
+        padding: 16px 0 20px;
+        border-radius: 0;
+        background: #090e10;
+        border-top: 1px solid rgba(239, 201, 164, 0.2);
+        border-bottom: 1px solid rgba(239, 201, 164, 0.2);
+        box-shadow: 0 32px 70px rgba(0, 0, 0, 0.65);
+        overflow: hidden;
+        user-select: none;
+        -webkit-user-select: none;
+        box-sizing: border-box;
+      }
+      @media (max-width: 1024px) and (min-width: 768px) {
+        .elfarm-ds-wrapper {
+          --W: clamp(200px, 26vw, 248px);
+          padding: 18px 0 20px;
+        }
+      }
+      @media (max-width: 767px) {
+        .elfarm-ds-wrapper {
+          --W: clamp(172px, 48vw, 212px);
+          padding: 16px 0 18px;
+        }
+      }
+      .elfarm-ds-backdrops {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .elfarm-ds-bd {
+        position: absolute;
+        inset: -8%;
+        background-position: center;
+        background-size: cover;
+        filter: blur(42px) brightness(0.32) saturate(1.25);
+        opacity: 0;
+        transition: opacity 650ms ease;
+      }
+      .elfarm-ds-bd.is-active {
+        opacity: 1;
+      }
+      .elfarm-ds-streaks {
+        position: absolute;
+        inset: -8% 0;
+        width: 100%;
+        height: 116%;
+        z-index: 1;
+        pointer-events: none;
+        fill: none;
+        stroke: rgba(239, 201, 164, 0.14);
+        stroke-width: 2;
+        animation: elfarmDsDrift 14s ease-in-out infinite alternate;
+      }
+      @keyframes elfarmDsDrift {
+        to { transform: translateY(28px); }
+      }
+      .elfarm-ds-top {
+        position: relative;
+        z-index: 4;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding: 0 clamp(16px, 3vw, 40px);
+        color: rgba(245, 245, 245, 0.85);
+        font-family: "Jost", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .elfarm-ds-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .elfarm-ds-brand-dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: conic-gradient(from 30deg, #efc9a4, #4ade80, #f59e0b, #efc9a4);
+        -webkit-mask: radial-gradient(circle, transparent 3px, #000 3.5px);
+        mask: radial-gradient(circle, transparent 3px, #000 3.5px);
+      }
+      .elfarm-ds-count strong {
+        color: #efc9a4;
+        font-size: 15px;
+      }
+      .elfarm-ds-shelf {
+        position: relative;
+        z-index: 3;
+        height: calc(var(--H) * 1.12);
+        outline: none;
+        touch-action: pan-y;
+        cursor: grab;
+      }
+      .elfarm-ds-shelf:active {
+        cursor: grabbing;
+      }
+      .elfarm-ds-cases {
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        perspective: 1500px;
+        perspective-origin: 50% 45%;
+        transform-style: preserve-3d;
+      }
+      .elfarm-ds-case {
+        position: absolute;
+        left: 50%;
+        top: 48%;
+        width: var(--W);
+        height: var(--H);
+        margin-left: calc(var(--W) / -2);
+        margin-top: calc(var(--H) / -2);
+        transform-style: preserve-3d;
+        transition: transform 620ms cubic-bezier(0.2, 0.85, 0.25, 1), opacity 400ms ease;
+        cursor: pointer;
+      }
+      .elfarm-ds-box {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+      }
+      .elfarm-ds-cover {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+        transform: translateZ(calc(var(--S) / 2));
+      }
+      .elfarm-ds-out {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #141c1f;
+        box-shadow: 0 26px 50px -18px rgba(0, 0, 0, 0.78), inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+      }
+      .elfarm-ds-out img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        pointer-events: none;
+      }
+      .elfarm-ds-out::before {
+        content: "";
+        position: absolute;
+        inset: -30% -60%;
+        z-index: 3;
+        pointer-events: none;
+        background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.2) 45%, rgba(255, 255, 255, 0.72) 50%, rgba(255, 255, 255, 0.2) 55%, transparent 60%);
+        mix-blend-mode: screen;
+        transform: translateX(-75%);
+      }
+      .elfarm-ds-case.is-chosen .elfarm-ds-out::before {
+        animation: elfarmDsGlint 4.4s cubic-bezier(0.45, 0.05, 0.35, 1) -1.1s infinite;
+      }
+      @keyframes elfarmDsGlint {
+        0%, 48% { transform: translateX(-75%); }
+        80%, 100% { transform: translateX(75%); }
+      }
+      .elfarm-ds-hinge {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 7%;
+        background: repeating-linear-gradient(rgba(255, 255, 255, 0.16) 0 1px, rgba(0, 0, 0, 0.28) 1px 3px);
+        box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.3);
+        z-index: 2;
+      }
+      .elfarm-ds-art {
+        position: absolute;
+        inset: auto 0 0 7%;
+        padding: 16px 14px 12px;
+        margin: 0;
+        background: linear-gradient(transparent, rgba(7, 13, 15, 0.92));
+        z-index: 2;
+      }
+      .elfarm-ds-art span {
+        display: block;
+        font-family: "Jost", sans-serif;
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #efc9a4;
+        margin-bottom: 3px;
+      }
+      .elfarm-ds-art b {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.15;
+        color: #ffffff;
+      }
+      .elfarm-ds-spine {
+        position: absolute;
+        inset: 0 auto 0 calc(var(--S) / -2);
+        width: var(--S);
+        transform: rotateY(-90deg);
+        background: linear-gradient(90deg, #1b282b, #283a3e 50%, #162225);
+        box-shadow: inset 0 0 0 1px rgba(239, 201, 164, 0.22);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        color: #f5f5f5;
+      }
+      .elfarm-ds-spine b {
+        writing-mode: vertical-rl;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+        overflow: hidden;
+        max-height: 78%;
+        color: #efc9a4;
+      }
+      .elfarm-ds-spine span {
+        writing-mode: vertical-rl;
+        font-size: 9px;
+        opacity: 0.65;
+      }
+      .elfarm-ds-edge {
+        position: absolute;
+        inset: 0 auto 0 calc(var(--W) - var(--S) / 2);
+        width: var(--S);
+        transform: rotateY(90deg);
+        background: rgba(239, 201, 164, 0.35);
+      }
+      .elfarm-ds-lid {
+        position: absolute;
+        inset: calc(var(--S) / -2) 0 auto;
+        height: var(--S);
+        transform: rotateX(90deg);
+        background: rgba(239, 201, 164, 0.4);
+      }
+      .elfarm-ds-base {
+        position: absolute;
+        inset: auto 0 calc(var(--S) / -2);
+        height: var(--S);
+        transform: rotateX(-90deg);
+        background: rgba(0, 0, 0, 0.55);
+      }
+      .elfarm-ds-back {
+        position: absolute;
+        inset: 0;
+        border-radius: 6px;
+        background: #10191c;
+        box-shadow: inset 0 0 0 1px rgba(239, 201, 164, 0.16);
+        transform: translateZ(calc(var(--S) / -2)) rotateY(180deg);
+      }
+      /* Glossy floor reflection */
+      .elfarm-ds-mirror {
+        position: absolute;
+        top: calc(var(--H) * 0.93);
+        left: 0;
+        right: 0;
+        height: calc(var(--H) * 0.34);
+        overflow: hidden;
+        pointer-events: none;
+        opacity: 0.36;
+        -webkit-mask-image: linear-gradient(#000, rgba(0, 0, 0, 0.28) 38%, transparent 88%);
+        mask-image: linear-gradient(#000, rgba(0, 0, 0, 0.28) 38%, transparent 88%);
+      }
+      .elfarm-ds-mirror::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 8%;
+        right: 8%;
+        height: 1px;
+        z-index: 2;
+        background: linear-gradient(90deg, transparent, rgba(239, 201, 164, 0.42) 30% 70%, transparent);
+      }
+      .elfarm-ds-reflect {
+        position: relative;
+        width: 100%;
+        height: calc(var(--H) * 1.15);
+        transform-origin: 50% 0%;
+        transform: scaleY(-1) translateY(calc(var(--H) * -0.93));
+      }
+      .elfarm-ds-caption-area {
+        position: relative;
+        z-index: 4;
+        max-width: 740px;
+        margin: -6px auto 0;
+        text-align: center;
+        padding: 0 12px;
+      }
+      .elfarm-ds-cap-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: rgba(239, 201, 164, 0.14);
+        border: 1px solid rgba(239, 201, 164, 0.35);
+        color: #efc9a4;
+        font-family: "Jost", sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+      .elfarm-ds-cap-title {
+        margin: 0 0 8px;
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(22px, 3vw, 34px);
+        font-weight: 700;
+        line-height: 1.15;
+        color: #ffffff;
+      }
+      .elfarm-ds-cap-desc {
+        margin: 0 auto 14px;
+        font-family: "Jost", sans-serif;
+        font-size: 14.5px;
+        line-height: 1.55;
+        color: rgba(220, 224, 226, 0.86);
+      }
+      .elfarm-ds-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      .elfarm-ds-btn {
+        padding: 9px 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(239, 201, 164, 0.35);
+        background: rgba(255, 255, 255, 0.06);
+        color: #f5f5f5;
+        font-family: "Jost", sans-serif;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .elfarm-ds-btn:hover {
+        background: rgba(239, 201, 164, 0.2);
+        border-color: #efc9a4;
+      }
+      .elfarm-ds-btn.is-primary {
+        background: #efc9a4;
+        border-color: #efc9a4;
+        color: #11191b;
+        font-weight: 700;
+      }
+      .elfarm-ds-btn.is-primary:hover {
+        background: #ffffff;
+      }
+
       /* ============================================================================
          PHASE 5: BOOK A TABLE FORM NOTES FIELD & CONFIRMATION BANNER
          ============================================================================ */
@@ -4898,7 +5593,27 @@ const rawEnhanceJsContent = `(function () {
       homeGrid.parentNode.insertBefore(host, homeGrid.nextSibling);
     }
 
-    const slidesHtml = MENU_ITEMS.map(item => \`
+    const shuffledMenuItems = MENU_ITEMS.slice();
+    for (let i = shuffledMenuItems.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = shuffledMenuItems[i];
+      shuffledMenuItems[i] = shuffledMenuItems[j];
+      shuffledMenuItems[j] = tmp;
+    }
+    for (let i = 1; i < shuffledMenuItems.length; i++) {
+      if (shuffledMenuItems[i].category === shuffledMenuItems[i - 1].category) {
+        for (let k = i + 1; k < shuffledMenuItems.length; k++) {
+          if (shuffledMenuItems[k].category !== shuffledMenuItems[i - 1].category) {
+            const swapItem = shuffledMenuItems[i];
+            shuffledMenuItems[i] = shuffledMenuItems[k];
+            shuffledMenuItems[k] = swapItem;
+            break;
+          }
+        }
+      }
+    }
+
+    const slidesHtml = shuffledMenuItems.map(item => \`
       <div class="swiper-slide elfarm-xxmpvqe-slide" data-dish-id="\${item.id}">
         <div class="elfarm-xxmpvqe-glow-orb" aria-hidden="true"></div>
         <div class="elfarm-xxmpvqe-img-ring">
@@ -4947,6 +5662,7 @@ const rawEnhanceJsContent = `(function () {
       const swiperInstance = new window.Swiper(swiperContainer, {
         grabCursor: true,
         centeredSlides: true,
+        initialSlide: Math.floor(Math.random() * Math.min(8, shuffledMenuItems.length)),
         slidesPerView: 5,
         spaceBetween: 24,
         loop: true,
@@ -5775,7 +6491,32 @@ const rawEnhanceJsContent = `(function () {
 
     // Main 60fps physics, dynamic plate assignment & smoke synchronization loop
     let lastFrameTime = performance.now();
+    let heroInView = true;
+    let tableRafPending = false;
+    function scheduleTableFrame() {
+      if (!tableRafPending && heroInView && !document.hidden) {
+        tableRafPending = true;
+        requestAnimationFrame(tickRevolvingTable);
+      }
+    }
+    if ('IntersectionObserver' in window && (heroBlock || root)) {
+      const heroObs = new IntersectionObserver((entries) => {
+        heroInView = !!(entries[0] && entries[0].isIntersecting);
+        if (heroInView) {
+          lastFrameTime = performance.now();
+          scheduleTableFrame();
+        }
+      }, { threshold: 0.01 });
+      heroObs.observe(heroBlock || root);
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && heroInView) {
+        lastFrameTime = performance.now();
+        scheduleTableFrame();
+      }
+    });
     function tickRevolvingTable(now) {
+      tableRafPending = false;
       ensureHeroRevolvingTableMounted();
       const dt = Math.min((now - lastFrameTime) / 1000, 0.05);
       lastFrameTime = now;
@@ -5822,13 +6563,13 @@ const rawEnhanceJsContent = `(function () {
         renderFocalSmokeFrame();
       }
 
-      requestAnimationFrame(tickRevolvingTable);
+      scheduleTableFrame();
     }
 
     updateSlotMenuQueue(0);
     renderTableGeometry();
     setSmokeActive(true);
-    requestAnimationFrame(tickRevolvingTable);
+    scheduleTableFrame();
 
     palazzoTableController = {
       root,
@@ -6080,11 +6821,19 @@ const rawEnhanceJsContent = `(function () {
           });
           const data = await res.json();
           if (banner) {
+            const escHtml = (v) => String(v || '')
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/"/g, '&quot;');
+            const safeGuest = escHtml((firstName + ' ' + lastName).trim() || 'Guest');
+            const safeGuests = escHtml(guests || '2 Guests');
+            const safeDate = escHtml(date || 'Today');
+            const safeTime = escHtml(time || '6:30 PM');
             banner.classList.add('is-visible');
-            banner.innerHTML = \`
-              <strong>✓ Reservation Confirmed for \${(firstName + ' ' + lastName).trim() || 'Guest'}!</strong><br>
-              Your booking for <strong>\${guests || '2 Guests'}</strong> on <strong>\${date || 'Today'}</strong> at <strong>\${time || '6:30 PM'}</strong> has been recorded in the live <em>EL Farm Bookings</em> Google Sheet and an instant email notification has been sent to <strong>\${data.notificationRecipient || 'stycanine77@gmail.com'}</strong>.
-            \`;
+            banner.innerHTML =
+              '<strong>Reservation Confirmed for ' + safeGuest + '.</strong><br>' +
+              'Your booking for <strong>' + safeGuests + '</strong> on <strong>' + safeDate + '</strong> at <strong>' + safeTime + '</strong> has been recorded for our reservations team.';
           }
           form.reset();
         } catch (err) {
@@ -6106,7 +6855,8 @@ const rawEnhanceJsContent = `(function () {
   function fetchLiveFacebookFeed() {
     if (fbFeedFetched) return;
     fbFeedFetched = true;
-    fetch('/api/facebook-feed')
+    const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    fetch(isLocalHost ? '/api/facebook-feed' : './assets/data/facebook-posts.json')
       .then(r => r.ok ? r.json() : null)
       .then(data => {
         if (data && Array.isArray(data.posts) && data.posts.length) {
@@ -6117,48 +6867,25 @@ const rawEnhanceJsContent = `(function () {
       .catch(() => {});
   }
 
-  function enhanceCustomerFacebookSlider(forceRefresh) {
-    const instaSec = document.querySelector('[data-framer-name="Instagram Section"]');
-    if (!instaSec) return;
+  const scurveRuntime = {
+    mounted: false,
+    rafRunning: false,
+    wrapEl: null,
+    onRemount: null,
+    posts: [],
+    updateOverlay: null,
+    updateTextures: null
+  };
 
-    fetchLiveFacebookFeed();
-
-    // 1. Remove any camera icon overlays
+  function bind2dFallbackCards(instaSec, forceRefresh) {
     instaSec.querySelectorAll('.framer-1929t28, [data-framer-name="Icon"], svg').forEach(el => {
       el.style.display = 'none';
     });
-
-    // 2. Bind hover pause/resume on the ticker container so hovering over any customer photo pauses auto-sliding immediately
-    if (instaSec.dataset.elfarmTickerHoverBound !== '1') {
-      instaSec.dataset.elfarmTickerHoverBound = '1';
-
-      function setTickerPaused(paused) {
-        const animTargets = instaSec.querySelectorAll('ul, section, div');
-        animTargets.forEach(node => {
-          try {
-            if (typeof node.getAnimations === 'function') {
-              node.getAnimations().forEach(anim => {
-                if (paused) anim.pause();
-                else anim.play();
-              });
-            }
-          } catch (e) {}
-        });
-      }
-
-      instaSec.addEventListener('mouseenter', () => setTickerPaused(true));
-      instaSec.addEventListener('pointerenter', () => setTickerPaused(true));
-      instaSec.addEventListener('mouseleave', () => setTickerPaused(false));
-      instaSec.addEventListener('pointerleave', () => setTickerPaused(false));
-    }
-
-    // 3. Inject Facebook post caption, date posted, and Likes/Comments/Shares overlay on every customer card
     const cards = instaSec.querySelectorAll('a');
     const posts = (FB_FEED && Array.isArray(FB_FEED.posts)) ? FB_FEED.posts : [];
     cards.forEach((card, i) => {
       if (!forceRefresh && card.classList.contains('elfarm-fb-card-ready')) return;
       card.classList.add('elfarm-fb-card-ready');
-
       const img = card.querySelector('img');
       const src = img ? (img.getAttribute('src') || '') : '';
       const slotMatch = src.match(/customer-hd-(\d+)/);
@@ -6166,41 +6893,751 @@ const rawEnhanceJsContent = `(function () {
       const post = posts[slotIndex] || posts[i % Math.max(1, posts.length)] || {
         caption: 'Thank you for visiting EL FARM CAFÉ & RESTO in Sitio Nipa, Lamitan City!',
         date: 'November 2026',
-        likes: 195,
-        comments: 28,
-        shares: 21,
+        likes: 215,
+        comments: 31,
+        shares: 24,
         permalink: RESTO.facebookUrl
       };
-
       card.setAttribute('href', post.permalink || RESTO.facebookUrl);
       card.setAttribute('target', '_blank');
       card.setAttribute('rel', 'noopener noreferrer');
-
       let overlay = card.querySelector('.elfarm-fb-hover-overlay');
       if (!overlay) {
         overlay = document.createElement('div');
         overlay.className = 'elfarm-fb-hover-overlay';
         card.appendChild(overlay);
       }
-      overlay.innerHTML = \`
-        <div class="elfarm-fb-badge-row">
-          <span class="elfarm-fb-source-pill">📘 Facebook Moment</span>
-          <span class="elfarm-fb-date">\${post.date}</span>
-        </div>
-        <p class="elfarm-fb-caption">\${post.caption}</p>
-        <div class="elfarm-fb-stats">
-          <span>👍 \${post.likes} Likes</span>
-          <span>💬 \${post.comments} Comments</span>
-          <span>↗ \${post.shares} Shares</span>
-        </div>
-      \`;
+      overlay.innerHTML =
+        '<div class="elfarm-fb-badge-row">' +
+          '<span class="elfarm-fb-source-pill">📘 Facebook Moment</span>' +
+          '<span class="elfarm-fb-date">' + post.date + '</span>' +
+        '</div>' +
+        '<p class="elfarm-fb-caption">' + post.caption + '</p>' +
+        '<div class="elfarm-fb-stats">' +
+          '<span>👍 ' + post.likes + ' Likes</span>' +
+          '<span>💬 ' + post.comments + ' Comments</span>' +
+          '<span>↗ ' + post.shares + ' Shares</span>' +
+        '</div>';
     });
   }
 
+  function enhanceCustomerFacebookSlider(forceRefresh) {
+    const instaSec = document.querySelector('[data-framer-name="Instagram Section"]');
+    if (!instaSec) return;
+
+    fetchLiveFacebookFeed();
+
+    const posts = (FB_FEED && Array.isArray(FB_FEED.posts) && FB_FEED.posts.length > 0)
+      ? FB_FEED.posts
+      : [{
+          image: './assets/images/customer-hd-1.webp',
+          caption: 'Thank you for visiting EL FARM CAFÉ & RESTO in Sitio Nipa, Lamitan City!',
+          date: 'November 26, 2026',
+          likes: 248,
+          comments: 36,
+          shares: 29,
+          permalink: RESTO.facebookUrl
+        }];
+
+    if (scurveRuntime.mounted && scurveRuntime.wrapEl) {
+      const curHost = instaSec.querySelector('.framer-1hajl2m-container');
+      if (curHost && curHost !== instaSec) curHost.style.setProperty('display', 'none', 'important');
+      if (!instaSec.contains(scurveRuntime.wrapEl)) {
+        instaSec.appendChild(scurveRuntime.wrapEl);
+        if (typeof scurveRuntime.onRemount === 'function') scurveRuntime.onRemount();
+      }
+      if (forceRefresh && scurveRuntime.updatePosts) {
+        scurveRuntime.updatePosts(posts);
+      }
+      return;
+    }
+
+    // Mount Reflective S-Curve WebGL Gallery (ol-ivier CodePen 01a20e5e) matching existing card height
+    let wrap = document.getElementById('elfarm-scurve-gallery-wrap');
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.id = 'elfarm-scurve-gallery-wrap';
+      wrap.innerHTML =
+        '<canvas id="elfarm-scurve-canvas" aria-label="El Farm Customer Moments Gallery"></canvas>' +
+        '<button type="button" class="elfarm-scurve-navbtn prev" id="elfarm-scurve-prev" aria-label="Previous customer photo">&#8249;</button>' +
+        '<button type="button" class="elfarm-scurve-navbtn next" id="elfarm-scurve-next" aria-label="Next customer photo">&#8250;</button>' +
+        '<button type="button" id="elfarm-scurve-close-btn">✕ Close</button>' +
+        '<div id="elfarm-scurve-fb-overlay"></div>' +
+        '<div class="elfarm-scurve-hintbar">Drag left/right to browse &bull; Point for Facebook Moment &bull; Click to enlarge</div>';
+    }
+    scurveRuntime.wrapEl = wrap;
+
+    const innerHost = instaSec.querySelector('.framer-1hajl2m-container') || instaSec;
+    if (wrap.parentElement !== instaSec) {
+      instaSec.appendChild(wrap);
+    }
+
+    const canvas = wrap.querySelector('#elfarm-scurve-canvas');
+    const fbOverlay = wrap.querySelector('#elfarm-scurve-fb-overlay');
+    const closeBtn = wrap.querySelector('#elfarm-scurve-close-btn');
+    const prevBtn = wrap.querySelector('#elfarm-scurve-prev');
+    const nextBtn = wrap.querySelector('#elfarm-scurve-next');
+
+    const gl = canvas ? canvas.getContext('webgl2', { antialias: true, alpha: true }) : null;
+    if (!gl) {
+      wrap.remove();
+      bind2dFallbackCards(instaSec, forceRefresh);
+      return;
+    }
+
+    // Hide legacy ticker container smoothly once WebGL2 is confirmed ready
+    if (innerHost && innerHost !== instaSec) {
+      innerHost.style.display = 'none';
+    }
+
+    scurveRuntime.mounted = true;
+    scurveRuntime.posts = posts.slice();
+
+    const cardVS = \`#version 300 es
+      layout(location = 0) in vec3 aPosition;
+      layout(location = 1) in vec2 aTexCoord;
+      uniform mat4 uProjection;
+      uniform mat4 uView;
+      uniform float uArcCenter;
+      uniform float uWidth;
+      uniform float uHeight;
+      uniform float uOffsetY;
+      uniform float uAmp;
+      uniform float uFreq;
+      uniform float uFocusBlend;
+      uniform float uFullWidth;
+      uniform float uFullHeight;
+      out vec2 vTexCoord;
+      out vec3 vLocalPos;
+      out float vWorldX;
+      out float vSlope;
+      float arcLengthToX(float targetS) {
+        float signS = sign(targetS);
+        float absS = abs(targetS);
+        float x = 0.0;
+        float s = 0.0;
+        const int STEPS = 28;
+        float dx = absS / float(STEPS);
+        for (int i = 0; i < STEPS; i++) {
+          float midX = x + dx * 0.5;
+          float dzdx = -uAmp * uFreq * cos(uFreq * midX);
+          float ds = sqrt(1.0 + dzdx * dzdx) * dx;
+          if (s + ds >= absS) {
+            x += (absS - s) / sqrt(1.0 + dzdx * dzdx);
+            break;
+          }
+          s += ds;
+          x += dx;
+        }
+        return x * signS;
+      }
+      void main() {
+        vLocalPos = aPosition;
+        vTexCoord = aTexCoord;
+        float arcPos = uArcCenter + aPosition.x * uWidth;
+        float x = arcLengthToX(arcPos);
+        float z = -uAmp * sin(uFreq * x);
+        vec3 ribbonPos = vec3(x, aPosition.y * uHeight + uOffsetY, z);
+        vec3 fullPos = vec3(aPosition.x * uFullWidth, aPosition.y * uFullHeight + uOffsetY, 0.25);
+        vec3 finalPos = mix(ribbonPos, fullPos, uFocusBlend);
+        vWorldX = mix(x, 0.0, uFocusBlend);
+        vSlope = mix(-uAmp * uFreq * cos(uFreq * x), 0.0, uFocusBlend);
+        gl_Position = uProjection * uView * vec4(finalPos, 1.0);
+      }\`;
+
+    const cardFS = \`#version 300 es
+      precision highp float;
+      in vec2 vTexCoord;
+      in vec3 vLocalPos;
+      in float vWorldX;
+      in float vSlope;
+      uniform sampler2D uTexture;
+      uniform float uIsReflection;
+      uniform float uOpacity;
+      uniform float uAspect;
+      uniform float uFocusBlend;
+      out vec4 fragColor;
+      void main() {
+        float edgeFade = 1.0 - smoothstep(4.6, 6.8, abs(vWorldX));
+        if (edgeFade <= 0.001 || uOpacity <= 0.001) discard;
+        float borderScale = mix(0.012, 0.005, uFocusBlend);
+        vec2 borderSize = vec2(borderScale / max(uAspect, 0.5), borderScale);
+        vec2 border = smoothstep(vec2(0.0), borderSize, vTexCoord) * smoothstep(vec2(0.0), borderSize, 1.0 - vTexCoord);
+        float borderMask = border.x * border.y;
+        float normalZ = 1.0 / sqrt(1.0 + vSlope * vSlope);
+        float normalX = -vSlope * normalZ;
+        float shade = mix(0.86 + 0.14 * clamp(normalZ * 0.9 - normalX * 0.35, 0.0, 1.0), 1.0, uFocusBlend);
+        float finalAlpha = uOpacity * edgeFade;
+        if (uIsReflection > 0.5) {
+          float heightRatio = clamp(vLocalPos.y, 0.0, 1.0);
+          vec2 distUV = vTexCoord;
+          distUV.x += sin(vLocalPos.y * 42.0) * 0.003 * heightRatio;
+          float blurLod = heightRatio * 3.0;
+          vec4 texColor = textureLod(uTexture, distUV, blurLod);
+          vec3 finalColor = mix(vec3(0.75), texColor.rgb, borderMask) * shade;
+          float baseRefl = mix(0.55, 0.65, uFocusBlend);
+          float reflectionAlpha = pow(1.0 - heightRatio, 1.85) * baseRefl;
+          fragColor = vec4(finalColor * reflectionAlpha, reflectionAlpha * finalAlpha);
+        } else {
+          vec4 texColor = texture(uTexture, vTexCoord);
+          vec3 finalColor = mix(vec3(0.92, 0.80, 0.66), texColor.rgb, borderMask) * shade;
+          fragColor = vec4(finalColor, finalAlpha);
+        }
+      }\`;
+
+    const floorVS = \`#version 300 es
+      layout(location = 0) in vec3 aPosition;
+      uniform mat4 uProjection;
+      uniform mat4 uView;
+      out vec3 vWorldPos;
+      void main() {
+        vWorldPos = aPosition;
+        gl_Position = uProjection * uView * vec4(aPosition, 1.0);
+      }\`;
+
+    const floorFS = \`#version 300 es
+      precision highp float;
+      in vec3 vWorldPos;
+      out vec4 fragColor;
+      void main() {
+        float dist = length(vWorldPos.xz * vec2(0.35, 0.7));
+        float spotlight = exp(-dist * 0.22) * 0.14;
+        float grain = fract(sin(dot(vWorldPos.xz * 40.0, vec2(12.9898, 78.233))) * 43758.5453) * 0.015;
+        vec3 floorColor = vec3(0.035, 0.055, 0.062) + vec3(spotlight + grain);
+        fragColor = vec4(floorColor, 0.5);
+      }\`;
+
+    function compileProg(vsSrc, fsSrc) {
+      const vs = gl.createShader(gl.VERTEX_SHADER);
+      gl.shaderSource(vs, vsSrc);
+      gl.compileShader(vs);
+      const fs = gl.createShader(gl.FRAGMENT_SHADER);
+      gl.shaderSource(fs, fsSrc);
+      gl.compileShader(fs);
+      const p = gl.createProgram();
+      gl.attachShader(p, vs);
+      gl.attachShader(p, fs);
+      gl.linkProgram(p);
+      return p;
+    }
+
+    const cardProgram = compileProg(cardVS, cardFS);
+    const floorProgram = compileProg(floorVS, floorFS);
+
+    const cardVAO = gl.createVertexArray();
+    gl.bindVertexArray(cardVAO);
+    const SEGMENTS = 36;
+    const verts = [];
+    for (let i = 0; i <= SEGMENTS; i++) {
+      const u = i / SEGMENTS;
+      const x = u - 0.5;
+      verts.push(x, 0.0, 0.0, u, 1.0);
+      verts.push(x, 1.0, 0.0, u, 0.0);
+    }
+    const cardVBO = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, cardVBO);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 20, 0);
+    gl.enableVertexAttribArray(1);
+    gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 20, 12);
+    const vertexCount = (SEGMENTS + 1) * 2;
+
+    const floorVAO = gl.createVertexArray();
+    gl.bindVertexArray(floorVAO);
+    const floorVBO = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, floorVBO);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-50, 0, -50, 50, 0, -50, -50, 0, 50, 50, 0, 50]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 12, 0);
+
+    let items = scurveRuntime.posts.map((post, idx) => ({
+      post,
+      aspect: 0.78,
+      tex: null,
+      focusBlend: 0,
+      idx
+    }));
+
+    function buildTextures() {
+      items.forEach((item) => {
+        const tex = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([20, 28, 30, 255]));
+        const im = new Image();
+        im.crossOrigin = 'anonymous';
+        im.src = item.post.image || './assets/images/customer-hd-1.webp';
+        im.onload = () => {
+          if (im.naturalWidth && im.naturalHeight) {
+            item.aspect = Math.max(0.68, Math.min(1.45, im.naturalWidth / im.naturalHeight));
+          }
+          gl.bindTexture(gl.TEXTURE_2D, tex);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, im);
+          gl.generateMipmap(gl.TEXTURE_2D);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        };
+        item.tex = tex;
+      });
+    }
+    buildTextures();
+
+    scurveRuntime.updatePosts = (nextPosts) => {
+      scurveRuntime.posts = nextPosts.slice();
+      items = scurveRuntime.posts.map((post, idx) => ({
+        post,
+        aspect: 0.78,
+        tex: null,
+        focusBlend: 0,
+        idx
+      }));
+      buildTextures();
+    };
+
+    function persp(fov, aspect, near, far) {
+      const f = 1.0 / Math.tan(fov / 2);
+      const nf = 1 / (near - far);
+      return new Float32Array([f / aspect, 0, 0, 0, 0, f, 0, 0, 0, 0, (far + near) * nf, -1, 0, 0, 2 * far * near * nf, 0]);
+    }
+
+    function lookAtMat(eye, center, up) {
+      let z0 = eye[0] - center[0], z1 = eye[1] - center[1], z2 = eye[2] - center[2];
+      let len = 1 / Math.hypot(z0, z1, z2);
+      z0 *= len; z1 *= len; z2 *= len;
+      let x0 = up[1] * z2 - up[2] * z1, x1 = up[2] * z0 - up[0] * z2, x2 = up[0] * z1 - up[1] * z0;
+      len = Math.hypot(x0, x1, x2);
+      if (len) { len = 1 / len; x0 *= len; x1 *= len; x2 *= len; }
+      const y0 = z1 * x2 - z2 * x1, y1 = z2 * x0 - z0 * x2, y2 = z0 * x1 - z1 * x0;
+      return new Float32Array([x0, y0, z0, 0, x1, y1, z1, 0, x2, y2, z2, 0,
+        -(x0 * eye[0] + x1 * eye[1] + x2 * eye[2]),
+        -(y0 * eye[0] + y1 * eye[1] + y2 * eye[2]),
+        -(z0 * eye[0] + z1 * eye[1] + z2 * eye[2]), 1]);
+    }
+
+    function projScreen(pt, viewM, projM, wCss, hCss) {
+      const vx = viewM[0] * pt[0] + viewM[4] * pt[1] + viewM[8] * pt[2] + viewM[12];
+      const vy = viewM[1] * pt[0] + viewM[5] * pt[1] + viewM[9] * pt[2] + viewM[13];
+      const vz = viewM[2] * pt[0] + viewM[6] * pt[1] + viewM[10] * pt[2] + viewM[14];
+      const vw = viewM[3] * pt[0] + viewM[7] * pt[1] + viewM[11] * pt[2] + viewM[15];
+      const cx = projM[0] * vx + projM[4] * vy + projM[8] * vz + projM[12] * vw;
+      const cy = projM[1] * vx + projM[5] * vy + projM[9] * vz + projM[13] * vw;
+      const cw = projM[3] * vx + projM[7] * vy + projM[11] * vz + projM[15] * vw;
+      return { x: (cx / cw * 0.5 + 0.5) * wCss, y: (-cy / cw * 0.5 + 0.5) * hCss };
+    }
+
+    const CARD_HEIGHT = 2.05;
+    const GAP = 0.28;
+    const S_AMPLITUDE = 1.15;
+    const S_FREQUENCY = 0.65;
+
+    function getRibbonLayout() {
+      let cursor = 0;
+      const centers = [];
+      for (let i = 0; i < items.length; i++) {
+        const width = CARD_HEIGHT * items[i].aspect;
+        if (i === 0) { centers.push(0); cursor = width / 2 + GAP; }
+        else { centers.push(cursor + width / 2); cursor += width + GAP; }
+      }
+      const totalLength = cursor + (CARD_HEIGHT * items[0].aspect) / 2;
+      return { centers, totalLength };
+    }
+
+    function evalXZ(arcS) {
+      const signS = Math.sign(arcS), absS = Math.abs(arcS);
+      let x = 0, s = 0;
+      const steps = 16, dx = absS / steps;
+      for (let i = 0; i < steps; i++) {
+        const midX = x + dx * 0.5;
+        const dzdx = -S_AMPLITUDE * S_FREQUENCY * Math.cos(S_FREQUENCY * midX);
+        const ds = Math.sqrt(1 + dzdx * dzdx) * dx;
+        if (s + ds >= absS) { x += (absS - s) / Math.sqrt(1 + dzdx * dzdx); break; }
+        s += ds; x += dx;
+      }
+      x *= signS;
+      return { x, z: -S_AMPLITUDE * Math.sin(S_FREQUENCY * x) };
+    }
+
+    let targetIndex = 0;
+    let currentIndex = 0;
+    let focusedIndex = null;
+    let hoveredIndex = null;
+    let globalFocusBlend = 0;
+    let latestBounds = [];
+    let isDragging = false;
+    let lastX = 0;
+    let dragDist = 0;
+    let vel = 0;
+    let mouseX = 0, mouseY = 0;
+    let pointerInWrap = false;
+    let lastRenderedOvIdx = -1;
+    let lastRenderedOvFocus = false;
+
+    function renderFbOverlay(idx, box, isFocused) {
+      if (idx === null || !box || !items[idx]) {
+        fbOverlay.classList.remove('is-visible', 'is-focused');
+        lastRenderedOvIdx = -1;
+        return;
+      }
+      const post = items[idx].post;
+      if (lastRenderedOvIdx !== idx || lastRenderedOvFocus !== isFocused) {
+        lastRenderedOvIdx = idx;
+        lastRenderedOvFocus = isFocused;
+        fbOverlay.innerHTML =
+          '<div class="elfarm-fb-badge-row">' +
+            '<span class="elfarm-fb-source-pill">📘 Facebook Moment</span>' +
+            '<span class="elfarm-fb-date">' + post.date + '</span>' +
+          '</div>' +
+          '<p class="elfarm-fb-caption">' + post.caption + '</p>' +
+          '<div class="elfarm-fb-stats" style="justify-content:space-between;flex-wrap:wrap;">' +
+            '<div style="display:flex;gap:12px;">' +
+              '<span>👍 ' + post.likes + '</span>' +
+              '<span>💬 ' + post.comments + '</span>' +
+              '<span>↗ ' + post.shares + '</span>' +
+            '</div>' +
+            (isFocused ? '<a href="' + (post.permalink || RESTO.facebookUrl) + '" target="_blank" rel="noopener noreferrer" style="color:#efc9a4;text-decoration:underline;pointer-events:auto;">View Post ↗</a>' : '') +
+          '</div>';
+      }
+      const wCss = wrap.clientWidth || 1200;
+      const hCss = wrap.clientHeight || 550;
+      const cardW = Math.max(250, Math.min(360, box.maxX - box.minX));
+      const clampedLeft = Math.max(10, Math.min(wCss - cardW - 10, box.minX + ((box.maxX - box.minX) - cardW) * 0.5));
+      const ovH = fbOverlay.offsetHeight || 156;
+      const clampedTop = Math.max(12, Math.min(hCss - ovH - 12, box.maxY - ovH - 10));
+      fbOverlay.style.width = cardW + 'px';
+      fbOverlay.style.left = clampedLeft + 'px';
+      fbOverlay.style.top = clampedTop + 'px';
+      fbOverlay.classList.add('is-visible');
+      fbOverlay.classList.toggle('is-focused', !!isFocused);
+    }
+
+    function pickCardAt(clientX, clientY) {
+      const rect = wrap.getBoundingClientRect();
+      const lx = clientX - rect.left;
+      const ly = clientY - rect.top;
+      const sorted = latestBounds.slice().sort((a, b) => b.depth - a.depth);
+      for (let i = 0; i < sorted.length; i++) {
+        const b = sorted[i];
+        if (lx >= b.minX && lx <= b.maxX && ly >= b.minY && ly <= b.maxY) {
+          return b.index;
+        }
+      }
+      return null;
+    }
+
+    function setFocus(idx) {
+      focusedIndex = idx;
+      closeBtn.classList.toggle('is-visible', focusedIndex !== null);
+      canvas.style.cursor = focusedIndex !== null ? 'zoom-out' : 'grab';
+    }
+
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setFocus(null);
+    });
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (focusedIndex !== null) setFocus((focusedIndex - 1 + items.length) % items.length);
+      else targetIndex = Math.round(targetIndex) - 1;
+    });
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (focusedIndex !== null) setFocus((focusedIndex + 1) % items.length);
+      else targetIndex = Math.round(targetIndex) + 1;
+    });
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      lastX = e.clientX;
+      dragDist = 0;
+      vel = 0;
+    });
+    wrap.addEventListener('mousemove', (e) => {
+      pointerInWrap = true;
+      const rect = wrap.getBoundingClientRect();
+      mouseX = ((e.clientX - rect.left) / Math.max(1, rect.width) - 0.5) * 2;
+      mouseY = ((e.clientY - rect.top) / Math.max(1, rect.height) - 0.5) * 2;
+      if (isDragging && focusedIndex === null) {
+        const dx = e.clientX - lastX;
+        dragDist += Math.abs(dx);
+        lastX = e.clientX;
+        const move = -dx * (2.6 / Math.min(rect.width, 1000));
+        targetIndex += move;
+        vel = move;
+      } else if (!isDragging && focusedIndex === null) {
+        hoveredIndex = pickCardAt(e.clientX, e.clientY);
+      }
+    });
+    wrap.addEventListener('mouseleave', () => {
+      pointerInWrap = false;
+      hoveredIndex = null;
+    });
+    window.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      if (dragDist < 6) {
+        if (focusedIndex !== null) {
+          if (!e.target.closest('#elfarm-scurve-fb-overlay a')) setFocus(null);
+        } else {
+          const hit = pickCardAt(e.clientX, e.clientY);
+          if (hit !== null) setFocus(hit);
+        }
+      } else if (focusedIndex === null) {
+        targetIndex += vel * 4.5;
+      }
+    });
+
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) {
+        isDragging = true;
+        pointerInWrap = true;
+        lastX = e.touches[0].clientX;
+        dragDist = 0;
+        vel = 0;
+      }
+    }, { passive: true });
+    canvas.addEventListener('touchmove', (e) => {
+      if (!isDragging || focusedIndex !== null || !e.touches.length) return;
+      const cx = e.touches[0].clientX;
+      const dx = cx - lastX;
+      dragDist += Math.abs(dx);
+      lastX = cx;
+      const move = -dx * (2.6 / Math.min(wrap.clientWidth || 400, 900));
+      targetIndex += move;
+      vel = move;
+    }, { passive: true });
+    canvas.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      pointerInWrap = false;
+      const t = e.changedTouches[0];
+      if (dragDist < 8 && t) {
+        if (focusedIndex !== null) setFocus(null);
+        else {
+          const hit = pickCardAt(t.clientX, t.clientY);
+          if (hit !== null) setFocus(hit);
+        }
+      } else if (focusedIndex === null) {
+        targetIndex += vel * 4;
+      }
+    });
+
+    let responsiveCamZ = 4.9;
+    function resizeCanvas() {
+      const wCss = Math.max(300, wrap.clientWidth || window.innerWidth);
+      const hCss = Math.max(300, wrap.clientHeight || 550);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(wCss * dpr);
+      canvas.height = Math.round(hCss * dpr);
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      const asp = wCss / hCss;
+      responsiveCamZ = asp < 1.2 ? 6.4 : 4.75;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function renderFrame() {
+      if (!document.body.contains(wrap)) {
+        scurveRuntime.rafRunning = false;
+        return;
+      }
+
+      // Gentle continuous auto-slide matching original speed; pauses on hover, drag, or focus
+      if (!isDragging && focusedIndex === null && hoveredIndex === null && !pointerInWrap) {
+        targetIndex += 0.0022;
+      }
+
+      const ease = isDragging ? 0.24 : 0.085;
+      currentIndex += (targetIndex - currentIndex) * ease;
+      const tGlobal = focusedIndex !== null ? 1.0 : 0.0;
+      globalFocusBlend += (tGlobal - globalFocusBlend) * 0.1;
+      for (let i = 0; i < items.length; i++) {
+        items[i].focusBlend += ((focusedIndex === i ? 1.0 : 0.0) - items[i].focusBlend) * 0.1;
+      }
+
+      gl.clearColor(0.027, 0.043, 0.051, 1.0);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl.disable(gl.CULL_FACE);
+
+      const wCss = Math.max(300, wrap.clientWidth || window.innerWidth);
+      const hCss = Math.max(300, wrap.clientHeight || 550);
+      const screenAspect = canvas.width / canvas.height;
+      const fov = Math.PI / 4;
+      const projM = persp(fov, screenAspect, 0.1, 100.0);
+
+      const rCamX = mouseX * 0.42;
+      const rCamY = 1.68 - mouseY * 0.16;
+      const fCamX = mouseX * 0.1;
+      const fCamY = 1.38 - mouseY * 0.05;
+      const camX = rCamX + (fCamX - rCamX) * globalFocusBlend;
+      const camY = rCamY + (fCamY - rCamY) * globalFocusBlend;
+      const camZ = responsiveCamZ + (3.65 - responsiveCamZ) * globalFocusBlend;
+      const lookY = 0.78 + (1.0 - 0.78) * globalFocusBlend;
+      const viewM = lookAtMat([camX, camY, camZ], [0, lookY, 0], [0, 1, 0]);
+
+      const distToPlane = 3.65 - 0.25;
+      const visH = 2 * distToPlane * Math.tan(fov / 2);
+      const visW = visH * screenAspect;
+
+      const layout = getRibbonLayout();
+      const total = items.length;
+      const wrapped = ((currentIndex % total) + total) % total;
+      const baseIdx = Math.floor(wrapped);
+      const frac = wrapped - baseIdx;
+      const nextIdx = (baseIdx + 1) % total;
+      const startP = layout.centers[baseIdx];
+      const endP = baseIdx === total - 1 ? layout.totalLength : layout.centers[nextIdx];
+      const camRibX = startP + (endP - startP) * frac;
+
+      latestBounds = [];
+      const drawList = items.map((item, i) => {
+        let arcCenter = layout.centers[i] - camRibX;
+        while (arcCenter > layout.totalLength / 2) arcCenter -= layout.totalLength;
+        while (arcCenter < -layout.totalLength / 2) arcCenter += layout.totalLength;
+        const width = CARD_HEIGHT * item.aspect;
+        const xz = evalXZ(arcCenter);
+        const fB = item.focusBlend;
+        let fullH = visH * 0.78;
+        let fullW = fullH * item.aspect;
+        if (fullW > visW * 0.85) { fullW = visW * 0.85; fullH = fullW / item.aspect; }
+        const opacity = Math.max(0.0, 1.0 - (globalFocusBlend - fB) * 1.45);
+        const lXZ = evalXZ(arcCenter - width * 0.5);
+        const rXZ = evalXZ(arcCenter + width * 0.5);
+        const pts = [
+          projScreen([lXZ.x, 0, lXZ.z], viewM, projM, wCss, hCss),
+          projScreen([rXZ.x, 0, rXZ.z], viewM, projM, wCss, hCss),
+          projScreen([lXZ.x, CARD_HEIGHT, lXZ.z], viewM, projM, wCss, hCss),
+          projScreen([rXZ.x, CARD_HEIGHT, rXZ.z], viewM, projM, wCss, hCss),
+          projScreen([xz.x, CARD_HEIGHT * 0.5, xz.z], viewM, projM, wCss, hCss)
+        ];
+        latestBounds.push({
+          index: i,
+          depth: fB > 0.001 ? 100 + fB : xz.z,
+          minX: Math.min(...pts.map(p => p.x)),
+          maxX: Math.max(...pts.map(p => p.x)),
+          minY: Math.min(...pts.map(p => p.y)),
+          maxY: Math.max(...pts.map(p => p.y))
+        });
+        return { index: i, arcCenter, width, aspect: item.aspect, opacity, depth: fB > 0.001 ? 100 + fB : xz.z, focusBlend: fB, fullW, fullH };
+      });
+
+      drawList.sort((a, b) => a.depth - b.depth);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      gl.disable(gl.DEPTH_TEST);
+      gl.depthMask(false);
+
+      const uProj = gl.getUniformLocation(cardProgram, 'uProjection');
+      const uView = gl.getUniformLocation(cardProgram, 'uView');
+      const uArc = gl.getUniformLocation(cardProgram, 'uArcCenter');
+      const uW = gl.getUniformLocation(cardProgram, 'uWidth');
+      const uH = gl.getUniformLocation(cardProgram, 'uHeight');
+      const uOY = gl.getUniformLocation(cardProgram, 'uOffsetY');
+      const uAmp = gl.getUniformLocation(cardProgram, 'uAmp');
+      const uFreq = gl.getUniformLocation(cardProgram, 'uFreq');
+      const uRefl = gl.getUniformLocation(cardProgram, 'uIsReflection');
+      const uOp = gl.getUniformLocation(cardProgram, 'uOpacity');
+      const uAsp = gl.getUniformLocation(cardProgram, 'uAspect');
+      const uFB = gl.getUniformLocation(cardProgram, 'uFocusBlend');
+      const uFW = gl.getUniformLocation(cardProgram, 'uFullWidth');
+      const uFH = gl.getUniformLocation(cardProgram, 'uFullHeight');
+
+      // Floor reflections
+      gl.useProgram(cardProgram);
+      gl.bindVertexArray(cardVAO);
+      gl.uniformMatrix4fv(uProj, false, projM);
+      gl.uniformMatrix4fv(uView, false, viewM);
+      gl.uniform1f(uAmp, S_AMPLITUDE);
+      gl.uniform1f(uFreq, S_FREQUENCY);
+      gl.uniform1f(uRefl, 1.0);
+      gl.uniform1f(uH, -CARD_HEIGHT);
+      gl.uniform1f(uOY, -0.002);
+      for (const c of drawList) {
+        if (c.opacity <= 0.001) continue;
+        gl.uniform1f(uArc, c.arcCenter);
+        gl.uniform1f(uW, c.width);
+        gl.uniform1f(uOp, c.opacity);
+        gl.uniform1f(uAsp, c.aspect);
+        gl.uniform1f(uFB, c.focusBlend);
+        gl.uniform1f(uFW, c.fullW);
+        gl.uniform1f(uFH, -c.fullH);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, items[c.index].tex);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, vertexCount);
+      }
+
+      // Reflective floor plane
+      gl.useProgram(floorProgram);
+      gl.bindVertexArray(floorVAO);
+      gl.uniformMatrix4fv(gl.getUniformLocation(floorProgram, 'uProjection'), false, projM);
+      gl.uniformMatrix4fv(gl.getUniformLocation(floorProgram, 'uView'), false, viewM);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+      // Upright cards
+      gl.useProgram(cardProgram);
+      gl.bindVertexArray(cardVAO);
+      gl.uniform1f(uRefl, 0.0);
+      gl.uniform1f(uH, CARD_HEIGHT);
+      gl.uniform1f(uOY, 0.0);
+      for (const c of drawList) {
+        if (c.opacity <= 0.001) continue;
+        gl.uniform1f(uArc, c.arcCenter);
+        gl.uniform1f(uW, c.width);
+        gl.uniform1f(uOp, c.opacity);
+        gl.uniform1f(uAsp, c.aspect);
+        gl.uniform1f(uFB, c.focusBlend);
+        gl.uniform1f(uFW, c.fullW);
+        gl.uniform1f(uFH, c.fullH);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, items[c.index].tex);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, vertexCount);
+      }
+
+      // Sync Facebook Moment glass overlay to hovered or focused card
+      const activeOvIdx = focusedIndex !== null ? focusedIndex : (!isDragging ? hoveredIndex : null);
+      const ovBox = activeOvIdx !== null ? latestBounds.find(b => b.index === activeOvIdx) : null;
+      renderFbOverlay(activeOvIdx, ovBox, focusedIndex !== null);
+
+      if (scurveRuntime.rafRunning && scurveInView && !document.hidden) requestAnimationFrame(renderFrame);
+    }
+
+    let scurveInView = true;
+    if ('IntersectionObserver' in window && wrap) {
+      const scurveObs = new IntersectionObserver((entries) => {
+        scurveInView = !!(entries[0] && entries[0].isIntersecting);
+        if (scurveInView && scurveRuntime.rafRunning && !document.hidden) {
+          requestAnimationFrame(renderFrame);
+        }
+      }, { rootMargin: '260px 0px' });
+      scurveObs.observe(wrap);
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && scurveInView && scurveRuntime.rafRunning) {
+        requestAnimationFrame(renderFrame);
+      }
+    });
+    scurveRuntime.onRemount = () => {
+      resizeCanvas();
+      if (!scurveRuntime.rafRunning) {
+        scurveRuntime.rafRunning = true;
+        if (scurveInView && !document.hidden) requestAnimationFrame(renderFrame);
+      }
+    };
+    scurveRuntime.rafRunning = true;
+    requestAnimationFrame(renderFrame);
+  }
+
   // ============================================================================
-  // PHASE 7: BLOG SECTION IMAGE & LAYOUT FIXES (All 9 Cards + Interactive Reader)
+  // PHASE 7: BLOG SECTION IMAGE & 3D DISC SHELF GALLERY (CodePen Maseone 01a1db16)
   // ============================================================================
   const BLOG_POSTS = [
+    {
+      img: './assets/images/blog-meet-cas-team.jpg',
+      badge: 'MEET THE EL FARM TEAM',
+      title: 'Our Team at Your Service! Meet CAS & the People Behind EL Farm.',
+      summary: 'Next time you visit, don’t forget to say hi! 😊 Here at EL Farm, it’s not just about good food and drinks — it’s also about the people who make you feel at home. 🌿 Meet CAS, part of the EL Farm team who makes sure your EL Farm experience is always a great one — from friendly service with a smile to your favorite drinks and meals. 💚'
+    },
     {
       img: './assets/images/RMRNTfOzx5SKsElm7QqEhd4LSOk-380b3b26.avif',
       badge: 'PICKLEBALL & RECREATION',
@@ -6257,59 +7694,258 @@ const rawEnhanceJsContent = `(function () {
     }
   ];
 
+  function openBlogStoryModal(startIdx) {
+    const modalList = BLOG_POSTS.map((bp, bIdx) => ({
+      id: 'blog-' + bIdx,
+      name: bp.title,
+      categoryLabel: bp.badge,
+      priceDisplay: 'Sitio Nipa Sanctuary',
+      description: bp.summary,
+      cleanImage: bp.img
+    }));
+    openMenuLightbox(modalList, startIdx);
+  }
+
+  function mountDiscShelfInHost(hostEl, suffix) {
+    if (!hostEl) return;
+    Array.from(hostEl.children).forEach(ch => {
+      if (!ch.classList.contains('elfarm-ds-wrapper')) {
+        ch.style.setProperty('display', 'none', 'important');
+      }
+    });
+    if (hostEl.querySelector('.elfarm-ds-wrapper')) return;
+
+    const wrap = document.createElement('div');
+    wrap.id = 'elfarm-blog-disc-shelf-' + suffix;
+    wrap.className = 'elfarm-ds-wrapper';
+
+    const bdHtml = BLOG_POSTS.map((bp, i) =>
+      '<div class="elfarm-ds-bd' + (i === 0 ? ' is-active' : '') + '" data-ds-bd="' + i + '" style="background-image:url(' + bp.img + ')"></div>'
+    ).join('');
+
+    function buildCaseItems(isReflect) {
+      return BLOG_POSTS.map((bp, i) => {
+        const tagOpen = isReflect ? '<div class="elfarm-ds-case" data-ds-rcase="' + i + '">' : '<li class="elfarm-ds-case" data-ds-case="' + i + '">';
+        const tagClose = isReflect ? '</div>' : '</li>';
+        return tagOpen +
+          '<div class="elfarm-ds-box">' +
+            '<div class="elfarm-ds-cover">' +
+              '<div class="elfarm-ds-out">' +
+                '<img src="' + bp.img + '" alt="' + bp.title + '" loading="' + (i < 4 ? 'eager' : 'lazy') + '">' +
+                '<i class="elfarm-ds-hinge"></i>' +
+                '<p class="elfarm-ds-art"><span>' + bp.badge + '</span><b>' + bp.title + '</b></p>' +
+              '</div>' +
+            '</div>' +
+            '<div class="elfarm-ds-spine"><b>' + bp.badge + '</b><span>' + String(i + 1).padStart(2, '0') + '</span></div>' +
+            '<div class="elfarm-ds-edge"></div><div class="elfarm-ds-lid"></div><div class="elfarm-ds-base"></div><div class="elfarm-ds-back"></div>' +
+          '</div>' +
+        tagClose;
+      }).join('');
+    }
+
+    wrap.innerHTML =
+      '<div class="elfarm-ds-backdrops" aria-hidden="true">' + bdHtml + '</div>' +
+      '<svg class="elfarm-ds-streaks" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">' +
+        '<path d="M-100 330 C 300 230, 700 420, 1000 300 S 1500 200, 1700 280"/>' +
+        '<path d="M-100 420 C 400 360, 800 500, 1150 380 S 1500 330, 1700 360"/>' +
+        '<path d="M-100 250 C 350 300, 900 180, 1250 260 S 1550 300, 1700 230"/>' +
+      '</svg>' +
+      '<div class="elfarm-ds-top">' +
+        '<span class="elfarm-ds-brand"><i class="elfarm-ds-brand-dot" aria-hidden="true"></i>EL Farm Stories Shelf</span>' +
+        '<span class="elfarm-ds-count"><strong id="elfarm-ds-num-' + suffix + '">01</strong> / ' + String(BLOG_POSTS.length).padStart(2, '0') + '</span>' +
+      '</div>' +
+      '<div class="elfarm-ds-shelf" tabindex="0" aria-label="Sanctuary Story Shelf. Left and right arrows browse; Enter or click opens the story.">' +
+        '<ol class="elfarm-ds-cases">' + buildCaseItems(false) + '</ol>' +
+        '<div class="elfarm-ds-mirror" aria-hidden="true"><div class="elfarm-ds-reflect"><div class="elfarm-ds-cases">' + buildCaseItems(true) + '</div></div></div>' +
+      '</div>' +
+      '<div class="elfarm-ds-caption-area" id="elfarm-ds-caption-' + suffix + '">' +
+        '<span class="elfarm-ds-cap-badge" id="elfarm-ds-badge-' + suffix + '"></span>' +
+        '<h3 class="elfarm-ds-cap-title" id="elfarm-ds-title-' + suffix + '"></h3>' +
+        '<p class="elfarm-ds-cap-desc" id="elfarm-ds-desc-' + suffix + '"></p>' +
+        '<div class="elfarm-ds-actions">' +
+          '<button type="button" class="elfarm-ds-btn" data-ds-prev="' + suffix + '">&larr; Prev Story</button>' +
+          '<button type="button" class="elfarm-ds-btn is-primary" data-ds-read="' + suffix + '">Read Full Story</button>' +
+          '<button type="button" class="elfarm-ds-btn" data-ds-next="' + suffix + '">Next Story &rarr;</button>' +
+        '</div>' +
+      '</div>';
+
+    hostEl.appendChild(wrap);
+
+    let sel = 0;
+    const total = BLOG_POSTS.length;
+    const mainCases = Array.from(wrap.querySelectorAll('[data-ds-case]'));
+    const reflCases = Array.from(wrap.querySelectorAll('[data-ds-rcase]'));
+    const bds = Array.from(wrap.querySelectorAll('[data-ds-bd]'));
+    const numEl = wrap.querySelector('#elfarm-ds-num-' + suffix);
+    const badgeEl = wrap.querySelector('#elfarm-ds-badge-' + suffix);
+    const titleEl = wrap.querySelector('#elfarm-ds-title-' + suffix);
+    const descEl = wrap.querySelector('#elfarm-ds-desc-' + suffix);
+    const shelfEl = wrap.querySelector('.elfarm-ds-shelf');
+
+    function layoutShelf() {
+      const mobile = window.innerWidth < 768;
+      const vwPx = document.documentElement.clientWidth;
+      const parentLeft = wrap.parentElement ? wrap.parentElement.getBoundingClientRect().left : 0;
+      wrap.style.marginLeft = (-parentLeft) + 'px';
+      wrap.style.width = vwPx + 'px';
+      wrap.style.maxWidth = vwPx + 'px';
+      const caseW = (mainCases[0] && mainCases[0].offsetWidth) || (mobile ? 190 : 258);
+      const spineW = caseW * 0.082;
+      const stepL = spineW + 3;
+      const stepR = mobile ? caseW * 0.22 : caseW * 0.29;
+      const leftGap = caseW * 0.5 + spineW * 0.5 + (mobile ? 38 : 84);
+      const rightGap = caseW * 0.82 + (mobile ? 26 : 54);
+      const nLeft = Math.max(0, sel);
+      const nRight = Math.max(0, total - 1 - sel);
+      const visL = Math.min(nLeft, 8);
+      const visR = Math.min(nRight, 7);
+      const extL = visL > 0 ? (leftGap + (visL - 1) * stepL + spineW * 0.5) : (caseW * 0.5);
+      const extR = visR > 0 ? (rightGap + (visR - 1) * stepR + caseW * 0.3) : (caseW * 0.5);
+      const shiftX = -(extR - extL) * 0.5;
+      const applyTransform = (el, idx) => {
+        const d = idx - sel;
+        const ad = Math.abs(d);
+        const L = d < 0 ? 1 : 0;
+        const R = d > 0 ? 1 : 0;
+        const C = d === 0 ? 1 : 0;
+        const x = shiftX + R * (rightGap + (d - 1) * stepR) - L * (leftGap + (ad - 1) * stepL);
+        const z = C * 46 - L * (caseW * 0.5) - R * (caseW * 0.14);
+        const rotY = L * 88.5 - R * 54;
+        const sc = C ? 1 : (L ? 0.94 : 0.92);
+        const vis = (L && ad > 8) || (R && ad > 7) ? 0 : 1;
+        el.style.transform = 'translateX(' + x.toFixed(1) + 'px) translateZ(' + z.toFixed(1) + 'px) rotateY(' + rotY + 'deg) scale(' + sc + ')';
+        el.style.zIndex = String(100 - ad);
+        el.style.opacity = String(vis);
+        el.classList.toggle('is-chosen', C === 1);
+      };
+
+      mainCases.forEach((el, idx) => applyTransform(el, idx));
+      reflCases.forEach((el, idx) => applyTransform(el, idx));
+      bds.forEach((el, idx) => el.classList.toggle('is-active', idx === sel));
+
+      const active = BLOG_POSTS[sel];
+      if (numEl) numEl.textContent = String(sel + 1).padStart(2, '0');
+      if (badgeEl) badgeEl.textContent = active.badge;
+      if (titleEl) titleEl.textContent = active.title;
+      if (descEl) descEl.textContent = active.summary;
+    }
+
+    function setSel(next) {
+      sel = Math.max(0, Math.min(total - 1, next));
+      layoutShelf();
+    }
+
+    let dragStartX = null;
+    let dragStartSel = 0;
+    let dragged = false;
+
+    shelfEl.addEventListener('pointerdown', (e) => {
+      dragStartX = e.clientX;
+      dragStartSel = sel;
+      dragged = false;
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (dragStartX === null) return;
+      const dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > 8) dragged = true;
+      if (dragged) {
+        setSel(Math.round(dragStartSel - dx / 65));
+      }
+    });
+    window.addEventListener('pointerup', () => {
+      dragStartX = null;
+    });
+
+    mainCases.forEach((el, idx) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (dragged) { dragged = false; return; }
+        if (idx === sel) openBlogStoryModal(idx);
+        else setSel(idx);
+      });
+    });
+
+    wrap.querySelector('[data-ds-prev="' + suffix + '"]').addEventListener('click', () => setSel(sel - 1));
+    wrap.querySelector('[data-ds-next="' + suffix + '"]').addEventListener('click', () => setSel(sel + 1));
+    wrap.querySelector('[data-ds-read="' + suffix + '"]').addEventListener('click', () => openBlogStoryModal(sel));
+
+    shelfEl.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); setSel(sel + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); setSel(sel - 1); }
+      else if (e.key === 'Enter') { e.preventDefault(); openBlogStoryModal(sel); }
+    });
+
+    window.addEventListener('resize', layoutShelf);
+    layoutShelf();
+  }
+
   function enhanceRestoViewsSection() {
     const blogSections = document.querySelectorAll('[data-framer-name="Blog Section"], [data-framer-name="Blog Tab Section"]');
-    blogSections.forEach(blogSec => {
+    blogSections.forEach((blogSec, sIdx) => {
       blogSec.querySelectorAll('h1, h2, h3, p').forEach(el => {
+        if (el.closest('.elfarm-ds-wrapper')) return;
         const t = el.textContent.trim();
         if (t === 'Culinary Insights') el.textContent = 'Explore El Farm Sanctuary';
         if (t.includes('Discover stories, tips')) {
-          el.textContent = 'Tour our twilight archway, timber café pavilion, starlight garden canopies, and floodlit night pickleball court in Sitio Nipa.';
+          el.textContent = 'Tour our team stories, twilight archway, timber café pavilion, starlight garden canopies, and night pickleball court in Sitio Nipa.';
         }
         if (t === 'See All Blog') {
           el.textContent = 'Explore Sanctuary';
         }
       });
 
-      const cardLinks = blogSec.querySelectorAll('a');
-      let cardIdx = 0;
-      cardLinks.forEach(cardRoot => {
-        const img = cardRoot.querySelector('img');
-        if (!img) return;
-        const v = BLOG_POSTS[cardIdx % BLOG_POSTS.length];
-        const thisIdx = cardIdx % BLOG_POSTS.length;
-        cardIdx++;
+      const host =
+        blogSec.querySelector('[data-framer-name="Blog Tab Block"]') ||
+        blogSec.querySelector('.framer-73kyao');
 
-        img.removeAttribute('srcset');
-        img.removeAttribute('sizes');
-        if (img.getAttribute('src') !== v.img) {
-          img.setAttribute('src', v.img);
-        }
-        img.style.objectFit = 'cover';
+      if (host) {
+        mountDiscShelfInHost(host, 's' + sIdx);
+      }
+    });
+  }
 
-        const h3 = cardRoot.querySelector('h3');
-        if (h3 && h3.textContent !== v.title) h3.textContent = v.title;
-        const p = cardRoot.querySelector('p');
-        if (p && p.textContent !== v.badge) p.textContent = v.badge;
+  const VERIFIED_TESTIMONIALS = [
+    {
+      name: 'Aer Nhicka',
+      role: 'Verified El Farm Guest · Facebook Feedback',
+      quote: 'Thank you mam 🥰 Masarap po ang foods and maganda din po ang ambiance ❤️ — Quick laag with the whole family at EL Farm Cafe & Resto!'
+    },
+    {
+      name: 'Doc Mika & CHO LGU',
+      role: 'Verified El Farm Guests',
+      quote: 'Malayo man kami, sulit naman ang dayo! From the Coconut Matcha Cloud served in a real buko shell to the Seafood Feast Bilao and Sizzling Sisig, every dish at El Farm is worth the trip to Sitio Nipa!'
+    },
+    {
+      name: 'LCEA Pickleball Club',
+      role: 'Verified El Farm Guests',
+      quote: 'Playing night pickleball under the coconut palms and then sharing a Salu-Salo Bilao and iced Dirty Coffee with the whole squad makes El Farm our favorite hangout spot in Lamitan City!'
+    }
+  ];
 
-        cardRoot.setAttribute('href', '#sanctuary-story-' + (thisIdx + 1));
-        if (cardRoot.dataset.elfarmBlogBound !== '1') {
-          cardRoot.dataset.elfarmBlogBound = '1';
-          cardRoot.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const modalList = BLOG_POSTS.map((bp, bIdx) => ({
-              id: 'blog-' + bIdx,
-              name: bp.title,
-              categoryLabel: bp.badge,
-              priceDisplay: 'Sitio Nipa Sanctuary',
-              description: bp.summary,
-              cleanImage: bp.img
-            }));
-            openMenuLightbox(modalList, thisIdx);
-          }, true);
-        }
+  function enhanceTestimonialsSection() {
+    const testiSec = document.querySelector('[data-framer-name="Testimonial Section"]');
+    if (!testiSec) return;
+
+    const cards = testiSec.querySelectorAll('[data-framer-name^="Card "]');
+    cards.forEach((card, idx) => {
+      const review = VERIFIED_TESTIMONIALS[idx % VERIFIED_TESTIMONIALS.length];
+      const nameWrap = card.querySelector('[data-framer-name="Name"] div, [data-framer-name="Name"] p');
+      if (nameWrap && nameWrap.textContent.trim() !== review.name) {
+        nameWrap.textContent = review.name;
+      }
+      const roleEl = card.querySelector('[data-framer-name="Designation"] p, [data-framer-name="Designation"] div');
+      if (roleEl && roleEl.textContent.trim() !== review.role) {
+        roleEl.textContent = review.role;
+      }
+      const quoteParagraphs = Array.from(card.querySelectorAll('p, div')).filter(el => {
+        if (el.closest('[data-framer-name="Info Block"]')) return false;
+        const txt = (el.textContent || '').trim();
+        return el.children.length === 0 && txt.length > 45;
       });
+      if (quoteParagraphs[0] && quoteParagraphs[0].textContent.trim() !== review.quote) {
+        quoteParagraphs[0].textContent = review.quote;
+      }
     });
   }
 
@@ -6402,14 +8038,15 @@ const rawEnhanceJsContent = `(function () {
   }
 
   function enhanceTextAndHours() {
-    document.querySelectorAll('.framer-1r0dvt3-container, #__framer-badge-container, [data-framer-name="Free 3 Month"]').forEach(el => el.remove());
+    document.querySelectorAll('.framer-1r0dvt3-container, #__framer-badge-container, [data-framer-name="Free 3 Month"], [data-framer-name="Experience Badge"], .framer-1qu9lve').forEach(el => el.remove());
 
     const p = window.location.pathname.toLowerCase();
-    let targetTitle = 'El Farm Cafe and Restaurant — Escape the Ordinary | Lamitan City, Basilan';
-    if (p.includes('about')) targetTitle = 'About Us — El Farm Cafe and Restaurant | Sitio Nipa, Lamitan City';
-    else if (p.includes('menu')) targetTitle = 'Our Special Menu — El Farm Cafe and Restaurant | Lamitan City, Basilan';
-    else if (p.includes('blog')) targetTitle = 'Sanctuary & Stories — El Farm Cafe and Restaurant | Lamitan City';
-    else if (p.includes('contact')) targetTitle = 'Contact & Location Map — El Farm Cafe and Restaurant | 0917 182 9876';
+    let targetTitle = 'El Farm Cafe and Restaurant | Sanctuary Dining & Specialty Cafe in Lamitan City, Basilan';
+    if (p.includes('about')) targetTitle = 'About Us | El Farm Cafe and Restaurant in Lamitan City, Basilan';
+    else if (p.includes('menu')) targetTitle = 'Our Special Menu | El Farm Cafe and Restaurant in Lamitan City, Basilan';
+    else if (p.includes('blog')) targetTitle = 'Sanctuary & Stories | El Farm Cafe and Restaurant in Lamitan City';
+    else if (p.includes('download')) targetTitle = 'Download Official App | El Farm Cafe and Restaurant';
+    else if (p.includes('contact')) targetTitle = 'Reservations & Location | El Farm Cafe and Restaurant | 0917 182 9876';
     if (document.title !== targetTitle) document.title = targetTitle;
 
     document.querySelectorAll('h1').forEach(h1 => {
@@ -6429,6 +8066,15 @@ const rawEnhanceJsContent = `(function () {
       }
     });
 
+    const dynYr = new Date().getFullYear();
+    const targetCopy = dynYr + ' © El Farm Cafe and Restaurant. All rights reserved.';
+    document.querySelectorAll('[data-framer-name="Copyright Text"] p, .framer-sdqfcv p, footer p').forEach(pEl => {
+      const pTxt = pEl.textContent.trim();
+      if (/^20\d{2}\s*©|All rights reserved\./i.test(pTxt) && pTxt !== targetCopy) {
+        pEl.textContent = targetCopy;
+      }
+    });
+
     document.querySelectorAll('h1, h2, h3, h4, p, span').forEach(el => {
       if (el.children.length > 0) return;
       const txt = el.textContent.trim();
@@ -6440,8 +8086,12 @@ const rawEnhanceJsContent = `(function () {
         el.textContent = 'Open Daily · 9:00 AM – 9:00 PM';
       } else if (txt.includes('Fri – Sun (11:00 AM')) {
         el.textContent = 'Sitio Nipa, Maloong Canal, Lamitan City';
-      } else if (txt.includes('2025 ©') || txt.includes('All rights reserved.')) {
-        el.textContent = '2026 © El Farm Cafe and Restaurant. All rights reserved.';
+      } else if (/^20\d{2}\s*©|All rights reserved\./i.test(txt)) {
+        const curYr = new Date().getFullYear();
+        const nextCopy = curYr + ' © El Farm Cafe and Restaurant. All rights reserved.';
+        if (txt !== nextCopy) el.textContent = nextCopy;
+      } else if (txt === 'Chef' && el.closest('.framer-1xvzshi')) {
+        el.textContent = 'Specialty Coffee, Matcha & Heirloom Kitchen';
       } else if (txt.includes('Discover our tailored dining services')) {
         el.textContent = 'Explore our complete curated menu of signature espresso drinks, ceremonial matcha, heirloom Basilan dishes, sizzling favorites, and Salu-Salo feasts.';
       }
@@ -6653,14 +8303,15 @@ const rawEnhanceJsContent = `(function () {
     }
 
     const bar = document.createElement('div');
+    const curYr = new Date().getFullYear();
     bar.id = 'zeticuz-attribution-bar';
     bar.className = 'zeticuz-dev-footer';
-    bar.innerHTML = \`
-      <button type="button" class="zeticuz-dev-btn" id="zeticuz-portfolio-btn" aria-label="Site Developed by ZETICUZ">
-        <span>SITE DEVELOPED BY:</span>
-        <img src="./assets/images/zeticuz-logo.svg" alt="ZETICUZ Logo">
-      </button>
-    \`;
+    bar.innerHTML =
+      '<button type="button" class="zeticuz-dev-btn" id="zeticuz-portfolio-btn" aria-label="Site Developed by ZETICUZ">' +
+        '<span>SITE DEVELOPED BY:</span>' +
+        '<img src="./assets/images/zeticuz-logo.svg" alt="ZETICUZ">' +
+        '<span>&copy; ' + curYr + '</span>' +
+      '</button>';
     document.body.appendChild(bar);
     bar.querySelector('#zeticuz-portfolio-btn').addEventListener('click', () => {
       window.open('https://www.zeticuz.xyz/', '_blank', 'noopener,noreferrer');
@@ -6982,11 +8633,23 @@ const rawEnhanceJsContent = `(function () {
     });
 
     if ('serviceWorker' in navigator) {
-      const swRegister = () => {
-        navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {});
-      };
-      if (document.readyState === 'complete') swRegister();
-      else window.addEventListener('load', swRegister, { once: true });
+      const isLocalHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      if (isLocalHost) {
+        navigator.serviceWorker.getRegistrations()
+          .then((regs) => Promise.all(regs.map((r) => r.unregister())))
+          .catch(() => {});
+        if ('caches' in window) {
+          caches.keys()
+            .then((keys) => Promise.all(keys.filter((k) => k.indexOf('elfarm-pwa-') === 0).map((k) => caches.delete(k))))
+            .catch(() => {});
+        }
+      } else {
+        const swRegister = () => {
+          navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {});
+        };
+        if (document.readyState === 'complete') swRegister();
+        else window.addEventListener('load', swRegister, { once: true });
+      }
     }
   }
 
@@ -7350,14 +9013,14 @@ const rawEnhanceJsContent = `(function () {
       '    </div>' +
       '    <div class="elfarm-dl-card">' +
       '      <div>' +
-      '        <span class="elfarm-dl-card-badge">Android · Official Signed APK</span>' +
+      '        <span class="elfarm-dl-card-badge">Android · Official Signed Tablet &amp; Phone APK</span>' +
       '        <h2>Android App</h2>' +
-      '        <p>Direct offline-ready Android package (<code>el_farm_cafe.apk</code> · 9.97 MB). Tap Download below or scan with Android to auto-save the installer immediately.</p>' +
+      '        <p>Lightweight native Android tablet &amp; phone app (<code>El-Farm-Cafe-and-Resto.apk</code> · 145 KB). Zero ads, keeps Cashier &amp; Kitchen KDS screens awake, auto-rotates, and connects <code>window.print()</code> to Android thermal printers.</p>' +
       '      </div>' +
       '      <div class="elfarm-dl-action-qr-row">' +
       '        <div class="elfarm-dl-pill-col">' +
       '          <a href="./assets/downloads/el-farm-cafe.apk" download="El-Farm-Cafe-and-Resto.apk" class="elfarm-dl-pill-btn" id="elfarm-android-apk-btn">Download</a>' +
-      '          <span class="elfarm-dl-pill-meta">Android 8.0+ · v1.0 · 9.97 MB</span>' +
+      '          <span class="elfarm-dl-pill-meta">Android 7.0+ · v2.0 · 145 KB</span>' +
       '        </div>' +
       '        <div class="elfarm-dl-qr-box" id="elfarm-qr-box-android" role="button" tabindex="0" aria-label="Enlarge Android APK QR code">' +
       '          <div class="elfarm-dl-qr-canvas-wrap" id="elfarm-qr-android"></div>' +
@@ -7443,10 +9106,10 @@ const rawEnhanceJsContent = `(function () {
       }
     });
     bindQrBox('#elfarm-qr-box-android', {
-      badge: 'Android · Official Signed APK',
+      badge: 'Android · Official Signed Tablet & Phone APK',
       title: 'Android App QR Code',
       url: androidQrUrl,
-      actionLabel: 'Download APK (9.97 MB)',
+      actionLabel: 'Download APK (145 KB)',
       onAction: startAndroidApkDownload
     });
     bindQrBox('#elfarm-qr-box-ios', {
@@ -7523,6 +9186,7 @@ const rawEnhanceJsContent = `(function () {
     try { enhanceMenuSection(); } catch (e) {}
     try { enhanceBookingForm(); } catch (e) {}
     try { enhanceCustomerFacebookSlider(false); } catch (e) {}
+    try { enhanceTestimonialsSection(); } catch (e) {}
     try { enhanceRestoViewsSection(); } catch (e) {}
     try { injectMiniMapSection(); } catch (e) {}
     try { initDownloadAppPage(); } catch (e) {}
@@ -7556,12 +9220,11 @@ const rawEnhanceJsContent = `(function () {
   initIntroVideo();
   syncScrolledHeaderState();
   window.addEventListener('scroll', syncScrolledHeaderState, { passive: true });
+  applyAllEnhancements();
 
   setTimeout(applyAllEnhancements, 120);
-  setTimeout(applyAllEnhancements, 380);
-  setTimeout(applyAllEnhancements, 850);
-  setTimeout(applyAllEnhancements, 1600);
-  setTimeout(applyAllEnhancements, 2800);
+  setTimeout(applyAllEnhancements, 420);
+  setTimeout(applyAllEnhancements, 1100);
 
   let obsTimer = null;
   const observer = new MutationObserver(() => {
@@ -7593,7 +9256,7 @@ function buildSeoHeadBlock(pageTitle, pageDesc, canonicalPath) {
     description: pageDesc,
     url: 'https://el-farm-official.vercel.app' + canonicalPath,
     image: [
-      'https://el-farm-official.vercel.app/assets/images/og-cover-elfarm.jpg',
+      'https://el-farm-official.vercel.app/assets/images/og-cover-elfarm.jpg?v=3',
       'https://el-farm-official.vercel.app/assets/images/favicon-192x192.png'
     ],
     telephone: '+63-917-182-9876',
@@ -7631,7 +9294,7 @@ function buildSeoHeadBlock(pageTitle, pageDesc, canonicalPath) {
   <title>${pageTitle}</title>
   <meta name="description" content="${pageDesc}">
   <meta name="keywords" content="El Farm Cafe and Restaurant, El Farm Lamitan, Lamitan City Basilan Restaurant, Sitio Nipa Maloong Canal, Specialty Coffee Basilan, Coconut Matcha Cloud, Tiyula Itum, Crispy Pata, Salu-Salo Bilao, Pickleball Lamitan">
-  <meta name="author" content="Sam Pangilinan (ZETICUZ)">
+  <meta name="author" content="El Farm Cafe and Restaurant">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#0B1315">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -7655,16 +9318,16 @@ function buildSeoHeadBlock(pageTitle, pageDesc, canonicalPath) {
   <meta property="og:title" content="${pageTitle}">
   <meta property="og:description" content="${pageDesc}">
   <meta property="og:url" content="${fullCanonicalUrl}">
-  <meta property="og:image" content="https://el-farm-official.vercel.app/assets/images/og-cover-elfarm.jpg">
-  <meta property="og:image:secure_url" content="https://el-farm-official.vercel.app/assets/images/og-cover-elfarm.jpg">
+  <meta property="og:image" content="https://el-farm-official.vercel.app/assets/images/og-cover-elfarm.jpg?v=3">
+  <meta property="og:image:secure_url" content="https://el-farm-official.vercel.app/assets/images/og-cover-elfarm.jpg?v=3">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="El Farm Cafe and Restaurant — Escape the Ordinary in Sitio Nipa, Lamitan City, Basilan">
+  <meta property="og:image:alt" content="El Farm Cafe and Restaurant in Sitio Nipa, Lamitan City, Basilan">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${pageTitle}">
   <meta name="twitter:description" content="${pageDesc}">
-  <meta name="twitter:image" content="https://el-farm-official.vercel.app/assets/images/og-cover-elfarm.jpg">
+  <meta name="twitter:image" content="https://el-farm-official.vercel.app/assets/images/og-cover-elfarm.jpg?v=3">
   <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
 `;
 }
@@ -7675,8 +9338,8 @@ const pageConfigs = [
     raw: 'raw_index.html',
     uncageFallback: 'output_monkscrave/index.html',
     out: 'index.html',
-    title: 'El Farm Cafe and Restaurant — Escape the Ordinary | Lamitan City, Basilan',
-    desc: 'Escape the ordinary at El Farm Cafe and Restaurant in Sitio Nipa, Brgy. Maloong Canal, Lamitan City, Basilan. Savor specialty coffee, ceremonial matcha, heirloom Basilan cuisine, Salu-Salo bilaos, and night pickleball under the palms.',
+    title: 'El Farm Cafe and Restaurant | Sanctuary Dining & Specialty Cafe in Lamitan City, Basilan',
+    desc: 'Experience warm farm sanctuary dining at El Farm Cafe and Restaurant in Sitio Nipa, Lamitan City, Basilan. Enjoy handcrafted specialty coffee, ceremonial matcha, heirloom Basilan cuisine, family platter feasts, and floodlit night pickleball.',
     canonical: '/',
     withIntroVideo: true,
   },
@@ -7684,8 +9347,8 @@ const pageConfigs = [
     raw: 'raw_about.html',
     uncageFallback: 'output_monkscrave_about/about.html',
     out: 'about.html',
-    title: 'About Us — El Farm Cafe and Restaurant | Sitio Nipa, Lamitan City',
-    desc: 'Discover the story of El Farm Cafe and Restaurant in Sitio Nipa, Brgy. Maloong Canal, Lamitan City — where rustic farm charm meets heirloom Basilan flavors, specialty coffee, and outdoor night pickleball.',
+    title: 'About Us | El Farm Cafe and Restaurant in Lamitan City, Basilan',
+    desc: 'Discover the story of El Farm Cafe and Restaurant in Sitio Nipa, Brgy. Maloong Canal, Lamitan City, where serene farm hospitality meets heirloom Basilan flavors, specialty coffee, and outdoor night pickleball.',
     canonical: '/about',
     withIntroVideo: false,
   },
@@ -7693,8 +9356,8 @@ const pageConfigs = [
     raw: 'raw_menu.html',
     uncageFallback: 'output_monkscrave_menu/menu.html',
     out: 'menu.html',
-    title: 'Our Special Menu — El Farm Cafe and Restaurant | Lamitan City, Basilan',
-    desc: 'Explore all 49 signature dishes and handcrafted drinks at El Farm Cafe and Restaurant: Golden Crispy Pata, Seafood Feast Bilao, Coconut Matcha Cloud, Dirty Coffee, Topsilog, Tiyula Itum, and Sizzling Favorites.',
+    title: 'Our Special Menu | El Farm Cafe and Restaurant in Lamitan City, Basilan',
+    desc: 'Explore 49 handcrafted signature dishes and specialty drinks at El Farm Cafe and Restaurant, featuring Golden Crispy Pata, Seafood Feast Bilao, Coconut Matcha Cloud, Dirty Coffee, Tiyula Itum, and Sizzling Favorites.',
     canonical: '/menu',
     withIntroVideo: false,
   },
@@ -7702,8 +9365,8 @@ const pageConfigs = [
     raw: 'raw_blog.html',
     uncageFallback: 'output_monkscrave_blog/blog.html',
     out: 'blog.html',
-    title: 'Sanctuary & Stories — El Farm Cafe and Restaurant | Lamitan City',
-    desc: 'Tour the El Farm sanctuary in Sitio Nipa, Lamitan City: our championship floodlit night pickleball court, starlight garden canopies, timber café pavilion, and family celebration spaces.',
+    title: 'Sanctuary & Stories | El Farm Cafe and Restaurant in Lamitan City',
+    desc: 'Explore El Farm Sanctuary in Sitio Nipa, Lamitan City, featuring our hospitality team, floodlit night pickleball court, starlight garden canopies, timber cafe pavilion, and family celebration spaces.',
     canonical: '/blog',
     withIntroVideo: false,
   },
@@ -7711,8 +9374,8 @@ const pageConfigs = [
     raw: 'raw_download.html',
     uncageFallback: 'output_monkscrave_contact/contact.html',
     out: 'download.html',
-    title: 'Download App (Android APK & iOS PWA) — El Farm Cafe and Restaurant',
-    desc: 'Download the official El Farm Cafe & Resto Android APK or install our edge-to-edge full-screen iOS & cross-browser web app with QR scan support.',
+    title: 'Download Official App | El Farm Cafe and Restaurant',
+    desc: 'Download the official El Farm Cafe and Restaurant Android app for tablets and phones or install our instant web app with quick QR scan support.',
     canonical: '/download',
     withIntroVideo: false,
   },
@@ -7720,8 +9383,8 @@ const pageConfigs = [
     raw: 'raw_contact.html',
     uncageFallback: 'output_monkscrave_contact/contact.html',
     out: 'contact.html',
-    title: 'Contact & Location Map — El Farm Cafe and Restaurant | 0917 182 9876',
-    desc: 'Find El Farm Cafe and Restaurant in Sitio Nipa, Brgy. Maloong Canal, Lamitan City, Basilan. Open Daily 9:00 AM – 9:00 PM. Call 0917 182 9876 for table reservations, pre-orders, and pickleball court bookings.',
+    title: 'Reservations & Location | El Farm Cafe and Restaurant | 0917 182 9876',
+    desc: 'Visit El Farm Cafe and Restaurant in Sitio Nipa, Brgy. Maloong Canal, Lamitan City, Basilan. Open daily from 9:00 AM to 9:00 PM for table reservations, celebration platters, and night pickleball court bookings.',
     canonical: '/contact',
     withIntroVideo: false,
   },
@@ -7759,7 +9422,7 @@ for (const cfg of pageConfigs) {
   html = html.replace(/(<meta name="viewport"[^>]*>)/i, `$1\n${seoHead}`);
 
   // Pre-paint per-tab Splash Cover check + High-Priority Splash Logo Preload + Critical Anti-FOUC RWD CSS in <head>
-  const splashHeadCheck = `<link rel="preload" as="image" href="./assets/images/el-splash-logo.jpg" fetchpriority="high"><script id="elfarm-splash-head-check">(function(){try{if(!sessionStorage.getItem('elfarm_intro_played')){document.documentElement.classList.add('elfarm-intro-lock','elfarm-intro-pending');}}catch(e){document.documentElement.classList.add('elfarm-intro-lock','elfarm-intro-pending');}})();</script>`;
+  const splashHeadCheck = `<link rel="preload" as="image" href="./assets/images/el-splash-logo.jpg" fetchpriority="high"><link rel="preload" as="script" href="./pos/pos-widget.js?v=4"><script id="elfarm-splash-head-check">(function(){try{if(window.location.search.indexOf('posLogin=1')!==-1){sessionStorage.setItem('elfarm_intro_played','1');return;}if(!sessionStorage.getItem('elfarm_intro_played')){document.documentElement.classList.add('elfarm-intro-lock','elfarm-intro-pending');}}catch(e){document.documentElement.classList.add('elfarm-intro-lock','elfarm-intro-pending');}})();</script>`;
   const criticalRwdCss = `<style id="elfarm-critical-rwd">
     html,body{width:100%!important;max-width:100%!important;overflow-x:clip!important;overflow-y:auto!important;height:auto!important;background:#0b1315!important}
     html.elfarm-intro-lock,html.elfarm-intro-lock body{overflow:hidden!important;width:100%!important;height:100dvh!important;max-height:100dvh!important;background:#000000!important;overscroll-behavior:none!important;scrollbar-width:none!important;-ms-overflow-style:none!important}
@@ -7768,11 +9431,22 @@ for (const cfg of pageConfigs) {
     #main{filter:none!important;backdrop-filter:none!important;transform:none!important}
     @media (max-width:809px){[data-framer-name^="Hero Section"] .framer-yak54d{width:100%!important;max-width:100%!important}}
     [data-framer-name="Menu Section"]{overflow-x:clip!important;max-width:100%!important}
+    [data-framer-name="Blog Section"] .framer-73kyao>:not(.elfarm-ds-wrapper),[data-framer-name="Blog Tab Block"]>:not(.elfarm-ds-wrapper),[data-framer-name="Blog Tab Section"] .framer-1lpg1ag,[data-framer-name="Instagram Section"] .framer-1hajl2m-container:not(.elfarm-2d-fallback-active),[data-framer-name="Instagram Section"]:has(#elfarm-scurve-gallery-wrap)>:not(#elfarm-scurve-gallery-wrap):not(.elfarm-2d-fallback-active){display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+    [data-framer-name="Blog Tab Block"],.framer-73kyao:has(.elfarm-ds-wrapper){display:block!important;width:100%!important;max-width:100%!important}
+    [data-framer-name="Experience Badge"],.framer-1qu9lve{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
     .framer-2nqvvj-container{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;max-width:100%!important;z-index:120!important;opacity:1!important;visibility:visible!important;transform:none!important;isolation:isolate!important}
-    .framer-2nqvvj-container::before{content:""!important;position:absolute!important;inset:0!important;z-index:-1!important;background:rgba(11,19,21,0.94)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;border-bottom:1px solid rgba(239,201,164,0.16)!important;opacity:0!important;transition:opacity 0.24s cubic-bezier(0.22,1,0.36,1)!important;pointer-events:none!important}
-    .framer-2nqvvj-container.is-scrolled::before{opacity:1!important}
-    body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container::before{opacity:0.78!important}
-    body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container.is-scrolled::before{opacity:1!important}
+    .framer-2nqvvj-container::before{content:""!important;position:absolute!important;inset:0!important;z-index:-1!important;background:linear-gradient(180deg,rgba(7,13,15,0.96) 0%,rgba(11,19,21,0.92) 100%)!important;backdrop-filter:blur(16px) saturate(140%)!important;-webkit-backdrop-filter:blur(16px) saturate(140%)!important;border-bottom:1px solid rgba(239,201,164,0.24)!important;box-shadow:0 16px 36px -8px rgba(0,0,0,0.6)!important;opacity:0!important;transform:translateY(-100%)!important;transition:opacity 0.42s cubic-bezier(0.22,1,0.36,1),transform 0.46s cubic-bezier(0.22,1,0.36,1)!important;pointer-events:none!important}
+    .framer-2nqvvj-container.is-scrolled::before{opacity:0.98!important;transform:translateY(0)!important;background:linear-gradient(180deg,rgba(7,13,15,0.99) 0%,rgba(11,19,21,0.97) 100%)!important}
+    body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container::before{opacity:0.98!important;transform:translateY(0)!important;background:linear-gradient(180deg,rgba(7,13,15,0.99) 0%,rgba(11,19,21,0.97) 100%)!important}
+    body:not(:has([data-framer-name^="Hero Section"])) .framer-2nqvvj-container.is-scrolled::before{opacity:0.98!important;transform:translateY(0)!important}
+    @media (min-width:1025px){
+      header.framer-atzvB,header.framer-atzvB.framer-v-1rfa6pd,header.framer-atzvB.framer-v-buob2u{padding:20px 0!important;height:auto!important;min-height:0!important;transform:none!important;transition:padding 0.38s cubic-bezier(0.22,1,0.36,1)!important}
+      .framer-2nqvvj-container.is-scrolled header.framer-atzvB,header.framer-atzvB.is-scrolled{padding:12px 0!important}
+      header .framer-1vd02cg,header .framer-pwnhug{transform:none!important;height:auto!important;min-height:0!important}
+      header .framer-1k980me-container,header.framer-atzvB.framer-v-1rfa6pd .framer-1k980me-container,header.framer-atzvB.framer-v-buob2u .framer-1k980me-container{position:relative!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;width:auto!important;height:auto!important;transform:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;user-select:auto!important}
+      header .framer-1k980me-container *,header nav.framer-wJ9c5,header nav.framer-wJ9c5 *,header .framer-fo7Wq,header .framer-fo7Wq *,header .framer-99kfy5,header [data-framer-name="Menu"],header [data-framer-name="Menu"] *{transform:none!important;will-change:auto!important}
+      header nav.framer-wJ9c5>div,header [data-framer-name="Menu"]>div{position:relative!important;top:auto!important}
+    }
     .framer-2nqvvj-container header,.framer-2nqvvj-container header [data-framer-name="Brand Logo"]{opacity:1!important;visibility:visible!important}
     header [data-framer-name="Primary Header"]{pointer-events:auto!important;cursor:pointer!important}
     header [data-framer-name="Primary Header"] *{pointer-events:none!important}
@@ -7782,14 +9456,23 @@ for (const cfg of pageConfigs) {
     [data-framer-name^="Hero Section"],.framer-1myb8ii{width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;overflow:hidden!important}
     @media (min-width:1025px){
       #elfarm-mobile-burger-btn,.framer-r826j9{display:none!important;pointer-events:none!important}
-      [data-framer-name="Menu Section"],[data-framer-name="About Banner Section"],[data-framer-name="Blog Tab Section"],[data-framer-name="Contact  Section"]{padding-top:max(154px,16vh)!important}
+      header .framer-1g6xkw5,header [data-framer-name="Header Button"]{display:inline-flex!important;flex-direction:row!important;align-items:center!important;gap:10px!important;width:auto!important;height:auto!important;overflow:visible!important}
+      header .framer-pc5vzg-container{display:inline-flex!important;align-items:center!important;height:42px!important;min-height:42px!important;max-height:42px!important}
+      header [data-framer-name="Primary Header"]{height:42px!important;min-height:42px!important;max-height:42px!important;padding:0 18px!important;border-radius:2px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important}
+      #elfarm-pos-header-btn{pointer-events:auto!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;height:42px!important;min-height:42px!important;max-height:42px!important;padding:0 15px!important;border-radius:2px!important;border:1px solid rgba(239,201,164,0.55)!important;background:rgba(11,19,21,0.78)!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important;color:#efc9a4!important;font-family:"Jost","Plus Jakarta Sans",sans-serif!important;font-size:12px!important;font-weight:600!important;letter-spacing:0.08em!important;text-transform:uppercase!important;white-space:nowrap!important;box-sizing:border-box!important;cursor:pointer!important}
+      [data-framer-name="Menu Section"],[data-framer-name="About Banner Section"],[data-framer-name="Contact  Section"]{padding-top:max(154px,16vh)!important}
+      [data-framer-name="Blog Tab Section"]{padding-top:114px!important;padding-bottom:44px!important}
+      [data-framer-name="Blog Tab Section"] .framer-g1uqgj{gap:16px!important;max-width:1360px!important}
+      [data-framer-name="Blog Tab Section"] .framer-pevpin,[data-framer-name="Blog Tab Section"] [data-framer-name="Title Block"]{max-width:780px!important;margin-bottom:0!important;gap:6px!important}
+      [data-framer-name="Blog Tab Section"] .framer-pevpin h1,[data-framer-name="Blog Tab Section"] .framer-pevpin h2,[data-framer-name="Blog Tab Section"] .framer-xqdrjo p{font-size:clamp(28px,3vw,38px)!important;line-height:1.12!important}
+      [data-framer-name="Blog Tab Section"] .framer-z5rkjv p{font-size:14.5px!important;line-height:1.45!important}
     }
     @media (max-width:1024px){
       header,.framer-atzvB,.framer-2nqvvj-container{width:100%!important;max-width:100%!important;min-height:76px!important;height:auto!important;padding:0!important;display:flex!important;align-items:center!important}
       header .framer-1vd02cg{width:100%!important;max-width:100%!important;padding:14px 20px!important;margin:0!important}
       header .framer-44446i,header [data-framer-name="Brand Logo"]{width:68px!important;height:48px!important}
       header .framer-pwnhug{width:100%!important;display:flex!important;justify-content:space-between!important;align-items:center!important;padding:0!important}
-      .framer-1k980me-container,.framer-1k980me-container *,header .framer-pc5vzg-container,header .framer-pc5vzg-container *,header [data-framer-name="Primary Header"],header .framer-1g6xkw5,header [data-framer-name="Header Button"],header .framer-r826j9,header .framer-r826j9 *{display:none!important;pointer-events:none!important}
+      .framer-1k980me-container,.framer-1k980me-container *,header .framer-pc5vzg-container,header .framer-pc5vzg-container *,header [data-framer-name="Primary Header"],header .framer-1g6xkw5,header [data-framer-name="Header Button"],header .framer-r826j9,header .framer-r826j9 *,#elfarm-pos-header-btn{display:none!important;pointer-events:none!important}
       [data-framer-name="Menu Section"],[data-framer-name="About Banner Section"],[data-framer-name="Blog Tab Section"],[data-framer-name="Contact  Section"]{padding-top:106px!important}
       .framer-1bh56fl{flex-wrap:nowrap!important;justify-content:flex-start!important;overflow-x:auto!important;gap:8px!important;padding:2px 2px 10px!important}
     }
@@ -7827,9 +9510,27 @@ for (const cfg of pageConfigs) {
     return `<${tag} autocomplete="${ac}"${attrs}>`;
   });
 
-  // Inject local GSAP + Swiper bundle (+ QR generator on download page) + protected elfarm-enhance.js right before </body>
+  // Inject SSR POS LOGIN button beside VIEW MENU so both header actions paint simultaneously at the same height
+  if (!html.includes('id="elfarm-pos-header-btn"')) {
+    const ssrPosBtn = '<button id="elfarm-pos-header-btn" type="button" aria-label="Administrator & Staff POS Login" title="EL Farm Cafe - Staff & Admin POS Login" onclick="if(window.openElFarmPosLogin){window.openElFarmPosLogin();}else{window.location.href=\'./?posLogin=1\';}"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg><span>POS Login</span></button>';
+    html = html.replace(
+      /(>VIEW MENU<\/p><\/div><\/a><!--\/\$--><\/div><!--\/\$-->)/i,
+      `$1${ssrPosBtn}`
+    );
+  }
+
+  // Strip srcset and enforce lazy loading on hidden legacy Framer blog card images so display:none cards trigger 0 network downloads
+  html = html.replace(/<img\b[^>]*>/gi, (imgTag) => {
+    if (!/(?:Y1yOAhXr4jJN5uIPLyBGGR7JMA|VW9jfrMKGnJvAPcIFeHDQUA44|XiDCr6H0L2pzCdbVT0MuAVtBLM|1brzvnX6w5uxGnawGF8WYYY70I|mbWmer1JTp02g6LbsnpEzWidY0M|CPNDlK7soukGFOKHhg7ft7UfZg)/.test(imgTag)) {
+      return imgTag;
+    }
+    let cleaned = imgTag.replace(/\s+srcset="[^"]*"/gi, '').replace(/\s+loading="[^"]*"/gi, '');
+    return cleaned.replace(/<img\b/i, '<img loading="lazy" decoding="async"');
+  });
+
+  // Inject local GSAP + Swiper bundle (+ QR generator on download page) + protected elfarm-enhance.js + POS Floating Login Widget right before </body>
   const qrScriptTag = cfg.out === 'download.html' ? '<script src="./assets/js/qrcode.min.js"></script>' : '';
-  html = html.replace('</body>', `<script src="./assets/js/gsap.min.js"></script><script src="./assets/js/swiper-bundle.min.js"></script>${qrScriptTag}<script src="./assets/js/elfarm-enhance.js?v=27"></script></body>`);
+  html = html.replace('</body>', `<script src="./assets/js/gsap.min.js"></script><script src="./assets/js/swiper-bundle.min.js"></script>${qrScriptTag}<script src="./pos/pos-widget.js?v=4"></script><script src="./assets/js/elfarm-enhance.js?v=33"></script></body>`);
 
   fs.writeFileSync(path.join(ROOT, cfg.out), html, 'utf8');
   console.log('Updated', cfg.out);

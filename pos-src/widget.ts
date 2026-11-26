@@ -45,8 +45,10 @@ import { supabase } from './lib/supabase';
         align-items: center;
         justify-content: center;
         gap: 7px;
-        height: 46px;
-        padding: 0 14px;
+        height: 42px;
+        min-height: 42px;
+        max-height: 42px;
+        padding: 0 15px;
         border-radius: 2px;
         border: 1px solid rgba(239, 201, 164, 0.55);
         background: rgba(11, 19, 21, 0.78);
@@ -59,6 +61,7 @@ import { supabase } from './lib/supabase';
         letter-spacing: 0.08em;
         text-transform: uppercase;
         white-space: nowrap;
+        box-sizing: border-box;
         cursor: pointer;
         transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
       }
@@ -75,40 +78,10 @@ import { supabase } from './lib/supabase';
         height: 16px;
         flex-shrink: 0;
       }
-      #elfarm-pos-mobile-btn {
-        display: none;
-      }
       @media (max-width: 1024px) {
-        #elfarm-pos-header-btn {
-          display: none !important;
-        }
+        #elfarm-pos-header-btn,
         #elfarm-pos-mobile-btn {
-          position: fixed;
-          top: 16px;
-          right: 72px;
-          z-index: 2147483000;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          height: 44px;
-          padding: 0 12px;
-          border-radius: 12px;
-          border: 1px solid rgba(239, 201, 164, 0.42);
-          background: rgba(11, 19, 21, 0.86);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          color: #efc9a4;
-          font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-          cursor: pointer;
-        }
-        #elfarm-pos-mobile-btn svg {
-          width: 15px;
-          height: 15px;
+          display: none !important;
         }
       }
 
@@ -784,14 +757,26 @@ import { supabase } from './lib/supabase';
   function mountHeaderButtons() {
     ensureWidgetStyles();
 
-    // 1. Desktop Top-Right Header Button (directly beside VIEW MENU)
+    // 1. Desktop Top-Right Header Button (directly beside VIEW MENU; reuse SSR button if already present)
     const headerBtnSlot = document.querySelector(
       'header [data-framer-name="Header Button"], header .framer-1g6xkw5'
     );
-    if (headerBtnSlot && !headerBtnSlot.querySelector('#elfarm-pos-header-btn')) {
+    const existingHeaderBtn = document.getElementById('elfarm-pos-header-btn') as HTMLButtonElement | null;
+    if (existingHeaderBtn) {
+      if (existingHeaderBtn.dataset.elfarmBound !== '1') {
+        existingHeaderBtn.dataset.elfarmBound = '1';
+        existingHeaderBtn.removeAttribute('onclick');
+        existingHeaderBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openLoginModal();
+        });
+      }
+    } else if (headerBtnSlot) {
       const btn = document.createElement('button');
       btn.id = 'elfarm-pos-header-btn';
       btn.type = 'button';
+      btn.dataset.elfarmBound = '1';
       btn.setAttribute('aria-label', 'Administrator & Staff POS Login');
       btn.title = 'EL Farm Cafe — Staff & Admin POS Login';
       btn.innerHTML = `${STAFF_ICON_SVG}<span>POS Login</span>`;
@@ -803,22 +788,10 @@ import { supabase } from './lib/supabase';
       headerBtnSlot.appendChild(btn);
     }
 
-    // 2. Mobile/Tablet Top-Right POS Button (beside hamburger icon)
-    if (!document.getElementById('elfarm-pos-mobile-btn')) {
-      const mobBtn = document.createElement('button');
-      mobBtn.id = 'elfarm-pos-mobile-btn';
-      mobBtn.type = 'button';
-      mobBtn.setAttribute('aria-label', 'Staff & Admin POS Login');
-      mobBtn.innerHTML = `${STAFF_ICON_SVG}<span>POS</span>`;
-      mobBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        openLoginModal();
-      });
-      document.body.appendChild(mobBtn);
-    }
+    // 2. Mobile/Tablet Sidebar Drawer Link (Clean top header shows only logo & hamburger)
+    const staleMobBtn = document.getElementById('elfarm-pos-mobile-btn');
+    if (staleMobBtn) staleMobBtn.remove();
 
-    // 3. Mobile Nav Drawer link (if drawer exists)
     const drawerNav = document.querySelector('#elfarm-mobile-nav-drawer .elfarm-mnav-links');
     if (drawerNav && !drawerNav.querySelector('#elfarm-mnav-pos-link')) {
       const linkBtn = document.createElement('button');
@@ -826,8 +799,8 @@ import { supabase } from './lib/supabase';
       linkBtn.type = 'button';
       linkBtn.className = 'elfarm-mnav-link';
       linkBtn.style.cssText =
-        'width:100%;background:transparent;border:0;text-align:center;cursor:pointer;color:#efc9a4;';
-      linkBtn.textContent = 'Admin / POS Login';
+        '--mnav-idx:6;width:100%;background:transparent;border:0;text-align:left;justify-content:flex-start;cursor:pointer;color:rgba(245,245,245,0.94);font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;';
+      linkBtn.textContent = 'POS Login';
       linkBtn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();

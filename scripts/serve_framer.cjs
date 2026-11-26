@@ -427,7 +427,7 @@ const server = http.createServer(async (req, res) => {
       'X-Frame-Options': 'SAMEORIGIN',
       'Referrer-Policy': 'strict-origin-when-cross-origin',
       'Accept-Ranges': 'bytes',
-      'Cache-Control': (ext === '.html' || ext === '.js' || ext === '.json' || urlPath === '/sw.js') ? 'no-cache' : 'public, max-age=3600',
+      'Cache-Control': (ext === '.html' || ext === '.js' || ext === '.mjs' || ext === '.css' || ext === '.json' || urlPath === '/sw.js') ? 'no-store, no-cache, must-revalidate' : 'public, max-age=3600',
     };
     if (ext === '.apk') {
       commonHeaders['Content-Disposition'] = 'attachment; filename="El-Farm-Cafe-and-Resto.apk"';
