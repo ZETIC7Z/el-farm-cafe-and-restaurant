@@ -1,5 +1,5 @@
 /* El Farm Cafe & Restaurant — Edge-to-Edge Cross-Browser Service Worker (v7) */
-const CACHE_NAME = 'elfarm-pwa-v11';
+const CACHE_NAME = 'elfarm-pwa-v12';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
@@ -42,8 +42,10 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // Never cache API calls, range video streams, or APK installer downloads
+  // Never cache API calls, embedded live Cloud POS routes, range video streams, or APK installer downloads
   if (
+    url.pathname === '/pos' ||
+    url.pathname.startsWith('/pos/') ||
     url.pathname.startsWith('/api/') ||
     url.pathname.endsWith('.apk') ||
     url.pathname.endsWith('.mp4') ||

@@ -170,6 +170,18 @@
   - Hardened `scripts/serve_framer.cjs` (`pipeFile`) to clean up file streams on closed/aborted sockets; optimized `/menu.html` cards (`idx < 9` eager + sync, `idx >= 9` lazy + async); added `safeWriteIfChanged` in `transform_monkscrave_content.cjs`; and tightened `detectDesktopSiteOnTouchDevice()` (`window.innerWidth >= 920`).
 - **Verification**: Verified via `verify_splash_intro.py` across `375×812`, `768×1024`, `1440×900`, and `1920×1080` (`SPLASH_VERIFICATION_PASSED`, `logoLoaded: true`, `videoReady: 4`, reload-skip, new-tab replay, `0` scrollbars, `0` errors) + `verify_all_fixes.py` (`ALL_VERIFICATIONS_PASSED`, `36/36` cells, `"errors": []`) + live spotlight visual checks (`live_spotlight_tapsilog.png`, `live_spotlight_crispy-calamares.png`). Ready for `git push` & Vercel deployment.
 
+### Phase 15: Embedded Cloud Supabase POS (`/pos/*`), Floating Header Login Modal & `<PrintPortal>` Thermal Printing (`elfarm-pwa-v12`) — Verified November 26, 2026
+- **Header POS Login Button & Floating Login Box Modal (`pos-src/widget.ts` -> `pos/pos-widget.js`)**:
+  - Mounted `#elfarm-pos-header-btn` (`POS LOGIN`) directly inside `header [data-framer-name="Header Button"]` beside `VIEW MENU` on Desktop (`>= 1025px`), plus `#elfarm-pos-mobile-btn` and drawer link on Mobile/Tablet (`<= 1024px`) across all 6 HTML pages (`index.html`, `about.html`, `menu.html`, `blog.html`, `download.html`, `contact.html`).
+  - Clicking opens `#elfarm-pos-login-modal` — a floating dark glass Login Box card over the live website (`CLOUD SUPABASE POS`, `EL Farm Cafe`, `Username or Email`, `Password` with eye toggle, `Cashier` / `Admin` role cards, and automatic Cashier `attendance_logs` Time-In shift creation) sharing the exact same-origin `localStorage` Supabase Auth session as `/pos/*`.
+- **Full Cloud POS SPA Mounted Under `/pos/*` (`pos-src/` -> `pos/` via `vite.pos.config.ts`)**:
+  - `/pos/cashier` — 49-item menu across 7 categories, Senior/PWD RA 9994 VAT-exempt discount, Cash/GCash/Maya/Card checkout (`process_checkout` RPC), Customer CRM, Today's Orders edit/void/reprint, and `Log Out / End Shift` returning cleanly to `/`.
+  - `/pos/admin` — Sales & Z-Reading Calendar, Cloud Menu & Stock Manager (`menu-images` Storage upload), Employees & Attendance Calendar + Christmas Bonus Leaderboard, BARMM-05 Payroll & Payslip Printer, Store Settings, and Device QR Connect (`/pos/cashier`, `/pos/crew`, `/pos/display`), with `Sign Out` returning cleanly to `/`.
+  - `/pos/crew` (Kitchen KDS) & `/pos/display` (Public Smart TV Queue Monitor).
+- **Bulletproof `<PrintPortal>` 80mm / PDF Receipt Printing (`pos-src/components/ReceiptModal.tsx` & `pos-src/index.css`)**:
+  - Rendered Official Receipts, Daily Z-Readings, and BARMM-05 Payslips into `document.body > #pos-print-root` via `createPortal` with `@media print { body > *:not(#pos-print-root) { display: none !important; } }`, eliminating modal `overflow: hidden` / `backdrop-filter` clipping on both 80mm thermal printers and A4/Letter PDF output.
+- **Git Push Policy**: Held locally at `http://localhost:5173` (`git push` paused per user request pending manual verification).
+
 ---
 
 ## 3. Developer Attribution Standard

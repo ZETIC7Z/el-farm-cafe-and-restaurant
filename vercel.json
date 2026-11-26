@@ -37,6 +37,14 @@
     {
       "source": "/contact",
       "destination": "/contact.html"
+    },
+    {
+      "source": "/pos",
+      "destination": "/pos/index.html"
+    },
+    {
+      "source": "/pos/:path*",
+      "destination": "/pos/index.html"
     }
   ],
   "headers": [
@@ -66,6 +74,14 @@
         {
           "key": "Strict-Transport-Security",
           "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin-allow-popups"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noarchive"
         }
       ]
     },

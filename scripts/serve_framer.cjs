@@ -269,20 +269,61 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    let urlPath = decodeURIComponent((req.url || '/').split('?')[0]);
+    let urlPath = decodeURIComponent((req.url || '/').split('?')[0]).replace(/\\/g, '/');
 
-    // API Route 1: Book a Table Submission & Google Sheets + Email Notification
+    // Security Gate: Block directory traversal and any non-public internal/PII files from DevTools or HTTP access
+    const lowerPath = urlPath.toLowerCase();
+    const blockedPrefixes = [
+      '/.env',
+      '/.git',
+      '/.vercel',
+      '/scripts/',
+      '/pos-src/',
+      '/pos-public/',
+      '/src/',
+      '/node_modules/',
+      '/assets/data/bookings',
+      '/assets/data/email-notifications',
+    ];
+    const blockedExact = new Set([
+      '/package.json',
+      '/package-lock.json',
+      '/tsconfig.json',
+      '/tailwind.config.js',
+      '/postcss.config.js',
+      '/vite.config.ts',
+      '/vite.pos.config.ts',
+      '/vite.widget.config.ts',
+      '/agent.md',
+      '/readme.md',
+    ]);
+    if (
+      urlPath.includes('..') ||
+      blockedPrefixes.some((p) => lowerPath.startsWith(p)) ||
+      blockedExact.has(lowerPath) ||
+      lowerPath.endsWith('.log') ||
+      lowerPath.endsWith('.bak.html')
+    ) {
+      res.writeHead(403, {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'X-Content-Type-Options': 'nosniff',
+      });
+      res.end('403 Forbidden');
+      return;
+    }
+
+    // API Route 1: Book a Table Submission (GET returns non-PII count only)
     if (urlPath === '/api/bookings') {
       if (req.method === 'GET') {
         const bookings = loadBookings();
-        res.writeHead(200, { ...corsHeaders, 'Content-Type': 'application/json; charset=utf-8' });
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'X-Content-Type-Options': 'nosniff',
+          'Cache-Control': 'no-store',
+        });
         res.end(JSON.stringify({
           ok: true,
-          sheetId: GOOGLE_SHEET_ID,
-          sheetUrl: GOOGLE_SHEET_URL,
-          notificationEmail: BOOKING_NOTIFICATION_EMAIL,
           count: bookings.length,
-          bookings
         }));
         return;
       }
@@ -290,16 +331,16 @@ const server = http.createServer(async (req, res) => {
       if (req.method === 'POST') {
         const payload = await readJsonBody(req);
         const timestamp = new Date().toLocaleString('en-PH', { timeZone: 'Asia/Manila' });
-        const fullName = (payload.name || `${payload.firstName || ''} ${payload.lastName || ''}`).trim();
+        const fullName = String(payload.name || `${payload.firstName || ''} ${payload.lastName || ''}`).trim().slice(0, 120);
         const booking = {
           timestamp,
           name: fullName || 'Guest',
-          email: (payload.email || '').trim(),
-          phone: (payload.phone || '').trim(),
-          date: (payload.date || '').trim(),
-          time: (payload.time || '').trim(),
-          guests: String(payload.guests || payload.person || '2').trim(),
-          notes: (payload.notes || payload.orderNotes || '').trim()
+          email: String(payload.email || '').trim().slice(0, 160),
+          phone: String(payload.phone || '').trim().slice(0, 40),
+          date: String(payload.date || '').trim().slice(0, 40),
+          time: String(payload.time || '').trim().slice(0, 40),
+          guests: String(payload.guests || payload.person || '2').trim().slice(0, 16),
+          notes: String(payload.notes || payload.orderNotes || '').trim().slice(0, 500)
         };
 
         const bookings = loadBookings();
@@ -307,12 +348,16 @@ const server = http.createServer(async (req, res) => {
         const csvContent = saveBookingsAndBuildCsv(bookings);
         const syncResult = await syncBookingsToGoogleSheetAndNotify(booking, csvContent);
 
-        res.writeHead(200, { ...corsHeaders, 'Content-Type': 'application/json; charset=utf-8' });
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'X-Content-Type-Options': 'nosniff',
+          'Cache-Control': 'no-store',
+        });
         res.end(JSON.stringify({
           ok: true,
-          message: `Reservation confirmed for ${booking.name}! Logged to EL Farm Bookings Google Sheet and email alert sent to ${BOOKING_NOTIFICATION_EMAIL}.`,
-          booking,
-          ...syncResult
+          message: `Reservation confirmed for ${booking.name}! Logged to EL Farm Bookings and queued for staff confirmation.`,
+          sheetSynced: syncResult.sheetSynced,
+          emailDispatched: syncResult.emailDispatched,
         }));
         return;
       }
@@ -326,7 +371,15 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    if (urlPath === '/' || urlPath === '/index') {
+    // Embedded Cloud POS SPA (/pos and /pos/*)
+    if (urlPath === '/pos' || urlPath.startsWith('/pos/')) {
+      const exactPosFile = path.join(ROOT, urlPath);
+      if (fs.existsSync(exactPosFile) && fs.statSync(exactPosFile).isFile()) {
+        urlPath = urlPath;
+      } else {
+        urlPath = '/pos/index.html';
+      }
+    } else if (urlPath === '/' || urlPath === '/index') {
       urlPath = '/index.html';
     } else if (urlPath === '/about') {
       urlPath = '/about.html';

@@ -2,11 +2,15 @@ node_modules
 dist
 public
 src
+pos-src
+pos-public
 scripts
 package.json
 package-lock.json
 tsconfig.json
 vite.config.ts
+vite.pos.config.ts
+vite.widget.config.ts
 tailwind.config.js
 postcss.config.js
 index.vite.bak.html
@@ -18,3 +22,9 @@ AGENT.md
 assets/video/hero-main.mp4
 .playwright-mcp
 .agents
+assets/data/bookings.json
+assets/data/bookings.csv
+assets/data/*.log
+scripts
+README.md
+AGENT.md
