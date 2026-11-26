@@ -45,7 +45,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com https://framerusercontent.com; img-src 'self' data: blob: https://*.supabase.co https://framerusercontent.com https://*.fbcdn.net; media-src 'self' blob: data:; worker-src 'self' blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://framerusercontent.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://framer.com https://www.framer.com https://framerusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com https://framerusercontent.com; img-src 'self' data: blob: https://*.supabase.co https://framerusercontent.com https://*.fbcdn.net; media-src 'self' blob: data:; worker-src 'self' blob:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://framer.com https://www.framer.com https://framerusercontent.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
         },
         {
           "key": "Strict-Transport-Security",

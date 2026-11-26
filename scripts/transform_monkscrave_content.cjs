@@ -2304,15 +2304,30 @@ const rawEnhanceJsContent = `(function () {
           margin-bottom: 0 !important;
           gap: 6px !important;
         }
+        [data-framer-name="Blog Tab Section"] .framer-xqdrjo,
+        [data-framer-name="Blog Tab Section"] .framer-z5rkjv {
+          position: relative !important;
+          height: auto !important;
+          transform: none !important;
+          opacity: 1 !important;
+          animation: none !important;
+          transition: none !important;
+        }
         [data-framer-name="Blog Tab Section"] .framer-pevpin h1,
         [data-framer-name="Blog Tab Section"] .framer-pevpin h2,
         [data-framer-name="Blog Tab Section"] .framer-xqdrjo p {
+          --framer-font-size: clamp(28px, 3vw, 38px) !important;
+          --framer-line-height: 1.18em !important;
           font-size: clamp(28px, 3vw, 38px) !important;
-          line-height: 1.12 !important;
+          line-height: 1.18 !important;
+          margin: 0 !important;
         }
         [data-framer-name="Blog Tab Section"] .framer-z5rkjv p {
+          --framer-font-size: 14.5px !important;
+          --framer-line-height: 1.45em !important;
           font-size: 14.5px !important;
           line-height: 1.45 !important;
+          margin: 0 !important;
         }
       }
       @media (max-width: 1024px) {
@@ -8957,7 +8972,7 @@ const rawEnhanceJsContent = `(function () {
   function initDownloadAppPage() {
     if (!window.location.pathname.toLowerCase().includes('download')) return;
 
-    document.title = 'Download App (Android APK & iOS PWA) — El Farm Cafe and Restaurant';
+    document.title = 'Download Official App | El Farm Cafe and Restaurant';
 
     // Hide Contact page SSR sections robustly & mount #elfarm-download-hub cleanly at the top right below Header
     document.querySelectorAll('[data-framer-name="Contact  Section"], [data-framer-name="Contact Info Section"], [data-framer-name="Instagram Section"], #elfarm-minimap-section').forEach((sec) => {
@@ -9464,8 +9479,9 @@ for (const cfg of pageConfigs) {
       [data-framer-name="Blog Tab Section"]{padding-top:114px!important;padding-bottom:44px!important}
       [data-framer-name="Blog Tab Section"] .framer-g1uqgj{gap:16px!important;max-width:1360px!important}
       [data-framer-name="Blog Tab Section"] .framer-pevpin,[data-framer-name="Blog Tab Section"] [data-framer-name="Title Block"]{max-width:780px!important;margin-bottom:0!important;gap:6px!important}
-      [data-framer-name="Blog Tab Section"] .framer-pevpin h1,[data-framer-name="Blog Tab Section"] .framer-pevpin h2,[data-framer-name="Blog Tab Section"] .framer-xqdrjo p{font-size:clamp(28px,3vw,38px)!important;line-height:1.12!important}
-      [data-framer-name="Blog Tab Section"] .framer-z5rkjv p{font-size:14.5px!important;line-height:1.45!important}
+      [data-framer-name="Blog Tab Section"] .framer-xqdrjo,[data-framer-name="Blog Tab Section"] .framer-z5rkjv{position:relative!important;height:auto!important;transform:none!important;opacity:1!important;animation:none!important;transition:none!important}
+      [data-framer-name="Blog Tab Section"] .framer-pevpin h1,[data-framer-name="Blog Tab Section"] .framer-pevpin h2,[data-framer-name="Blog Tab Section"] .framer-xqdrjo p{--framer-font-size:clamp(28px,3vw,38px)!important;--framer-line-height:1.18em!important;font-size:clamp(28px,3vw,38px)!important;line-height:1.18!important;margin:0!important}
+      [data-framer-name="Blog Tab Section"] .framer-z5rkjv p{--framer-font-size:14.5px!important;--framer-line-height:1.45em!important;font-size:14.5px!important;line-height:1.45!important;margin:0!important}
     }
     @media (max-width:1024px){
       header,.framer-atzvB,.framer-2nqvvj-container{width:100%!important;max-width:100%!important;min-height:76px!important;height:auto!important;padding:0!important;display:flex!important;align-items:center!important}
@@ -9519,18 +9535,22 @@ for (const cfg of pageConfigs) {
     );
   }
 
-  // Strip srcset and enforce lazy loading on hidden legacy Framer blog card images so display:none cards trigger 0 network downloads
+  // Strip srcset at build time for all replaced Framer images so lockUhdImagesAndLinks never aborts an in-flight AVIF download;
+  // enforce lazy loading on hidden legacy Framer blog card images so display:none cards trigger 0 network downloads.
+  const allReplacedFramerImgRe = /(?:r1buuQ3PjFpdDV70OBtJahkGk|89U3OUUG1H7iWBCxQnqp77Ullc|CpTRnnQgJsG1yUk8t8GcoKvmI|UDBAh9VKVLzkggfpg8wc0kII00c|AvBMxfABr1rynfnaeNp3UnXUFI4|CBgNiEhjs18VYIIUJ4cpwLikXc|lfILwFRnauLujF02Phxk22TB8MY|3mFckv99KkdCNazIHtCn1DjaSsM|rCIwinNRdwz0pYsm0e9Sjg1iam8|RMRNTfOzx5SKsElm7QqEhd4LSOk|tOaLCvpOcZyAWdDImLbzOTOhI|Y1yOAhXr4jJN5uIPLyBGGR7JMA|ejUa9RcHAoqxoyIcExDwLQhOyfg|2xh8WnqDGhMUrwHlrwSqLrvKI7A|1koQJbZb7xfDc5aFxDqcFJbpaQQ|wXTaZJVHaEnKDLdFV6x01YY6z6E|OuGE1AOr5ExxFgl7DC0CJoqVHQ|CPNDlK7soukGFOKHhg7ft7UfZg|mbWmer1JTp02g6LbsnpEzWidY0M|VW9jfrMKGnJvAPcIFeHDQUA44|1brzvnX6w5uxGnawGF8WYYY70I|XiDCr6H0L2pzCdbVT0MuAVtBLM|Vvys1nYJ5g2CQE6rXwycDfTNkY)/;
+  const hiddenBlogImgRe = /(?:Y1yOAhXr4jJN5uIPLyBGGR7JMA|VW9jfrMKGnJvAPcIFeHDQUA44|XiDCr6H0L2pzCdbVT0MuAVtBLM|1brzvnX6w5uxGnawGF8WYYY70I|mbWmer1JTp02g6LbsnpEzWidY0M|CPNDlK7soukGFOKHhg7ft7UfZg)/;
   html = html.replace(/<img\b[^>]*>/gi, (imgTag) => {
-    if (!/(?:Y1yOAhXr4jJN5uIPLyBGGR7JMA|VW9jfrMKGnJvAPcIFeHDQUA44|XiDCr6H0L2pzCdbVT0MuAVtBLM|1brzvnX6w5uxGnawGF8WYYY70I|mbWmer1JTp02g6LbsnpEzWidY0M|CPNDlK7soukGFOKHhg7ft7UfZg)/.test(imgTag)) {
-      return imgTag;
+    if (!allReplacedFramerImgRe.test(imgTag)) return imgTag;
+    let cleaned = imgTag.replace(/\s+srcset="[^"]*"/gi, '');
+    if (hiddenBlogImgRe.test(imgTag)) {
+      cleaned = cleaned.replace(/\s+loading="[^"]*"/gi, '').replace(/<img\b/i, '<img loading="lazy" decoding="async"');
     }
-    let cleaned = imgTag.replace(/\s+srcset="[^"]*"/gi, '').replace(/\s+loading="[^"]*"/gi, '');
-    return cleaned.replace(/<img\b/i, '<img loading="lazy" decoding="async"');
+    return cleaned;
   });
 
   // Inject local GSAP + Swiper bundle (+ QR generator on download page) + protected elfarm-enhance.js + POS Floating Login Widget right before </body>
   const qrScriptTag = cfg.out === 'download.html' ? '<script src="./assets/js/qrcode.min.js"></script>' : '';
-  html = html.replace('</body>', `<script src="./assets/js/gsap.min.js"></script><script src="./assets/js/swiper-bundle.min.js"></script>${qrScriptTag}<script src="./pos/pos-widget.js?v=4"></script><script src="./assets/js/elfarm-enhance.js?v=33"></script></body>`);
+  html = html.replace('</body>', `<script src="./assets/js/gsap.min.js"></script><script src="./assets/js/swiper-bundle.min.js"></script>${qrScriptTag}<script src="./pos/pos-widget.js?v=4"></script><script src="./assets/js/elfarm-enhance.js?v=34"></script></body>`);
 
   fs.writeFileSync(path.join(ROOT, cfg.out), html, 'utf8');
   console.log('Updated', cfg.out);

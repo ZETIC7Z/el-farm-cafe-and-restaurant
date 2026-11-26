@@ -1,5 +1,5 @@
 /* El Farm Cafe & Restaurant — Edge-to-Edge Cross-Browser Service Worker (v7) */
-const CACHE_NAME = 'elfarm-pwa-v18';
+const CACHE_NAME = 'elfarm-pwa-v19';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
