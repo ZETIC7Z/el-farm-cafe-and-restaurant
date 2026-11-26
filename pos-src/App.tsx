@@ -88,7 +88,14 @@ export function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/display" element={<QueueDisplayPage />} />
+          <Route
+            path="/display"
+            element={
+              <ProtectedRoute allowedRoles={['cashier', 'admin']}>
+                <QueueDisplayPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin"
             element={

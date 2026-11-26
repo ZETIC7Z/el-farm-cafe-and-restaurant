@@ -225,33 +225,6 @@ import { supabase } from './lib/supabase';
         font-size: 12px;
         color: rgba(255, 255, 255, 0.55);
       }
-      .elfarm-pos-session-bar {
-        display: none;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 16px;
-        padding: 10px 14px;
-        border-radius: 16px;
-        border: 1px solid rgba(52, 211, 153, 0.35);
-        background: rgba(16, 185, 129, 0.12);
-        font-size: 12px;
-        color: #d1fae5;
-      }
-      .elfarm-pos-session-bar.is-visible {
-        display: flex;
-      }
-      .elfarm-pos-session-go {
-        padding: 7px 12px;
-        border-radius: 10px;
-        border: 0;
-        background: #34d399;
-        color: #04130b;
-        font-size: 12px;
-        font-weight: 800;
-        cursor: pointer;
-        white-space: nowrap;
-      }
       .elfarm-pos-field {
         margin-bottom: 16px;
       }
@@ -460,20 +433,46 @@ import { supabase } from './lib/supabase';
   const STAFF_ICON_SVG =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="10" r="2.5"/><path d="M8.5 16a4.5 4.5 0 0 1 7 0"/></svg>';
 
+  async function lockPublicSitePosSession() {
+    try {
+      Object.keys(window.localStorage).forEach((k) => {
+        if (k.startsWith('sb-') && k.endsWith('-auth-token')) {
+          window.localStorage.removeItem(k);
+        }
+      });
+      Object.keys(window.sessionStorage).forEach((k) => {
+        if (k.startsWith('sb-') && k.endsWith('-auth-token')) {
+          window.sessionStorage.removeItem(k);
+        }
+      });
+      await supabase.auth.signOut({ scope: 'local' });
+    } catch {
+      // ignore storage errors
+    }
+  }
+
   function openLoginModal(preferredRole?: Role) {
     ensureModalDom();
+    void lockPublicSitePosSession();
     if (preferredRole) {
       selectedRole = preferredRole;
       syncRoleUi();
     }
+    const idInput = document.getElementById('elfarm-pos-identifier') as HTMLInputElement | null;
+    const pwInput = document.getElementById('elfarm-pos-password') as HTMLInputElement | null;
+    if (idInput) idInput.value = '';
+    if (pwInput) {
+      pwInput.value = '';
+      pwInput.type = 'password';
+    }
+    showPassword = false;
+    showError('');
     const modal = document.getElementById('elfarm-pos-login-modal');
     if (!modal) return;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
-    void checkActivePosSession();
     setTimeout(() => {
-      const inp = document.getElementById('elfarm-pos-identifier') as HTMLInputElement | null;
-      inp?.focus();
+      idInput?.focus();
     }, 60);
   }
 
@@ -485,42 +484,6 @@ import { supabase } from './lib/supabase';
     if (window.location.search.includes('posLogin=')) {
       const cleanUrl = window.location.pathname;
       window.history.replaceState({}, '', cleanUrl);
-    }
-  }
-
-  async function checkActivePosSession() {
-    const bar = document.getElementById('elfarm-pos-session-bar');
-    const barText = document.getElementById('elfarm-pos-session-text');
-    const barBtn = document.getElementById('elfarm-pos-session-go');
-    if (!bar || !barText || !barBtn) return;
-
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session?.user) {
-        bar.classList.remove('is-visible');
-        return;
-      }
-      const { data: prof } = await supabase
-        .from('profiles')
-        .select('full_name, role, is_active')
-        .eq('id', session.user.id)
-        .maybeSingle();
-
-      if (!prof || !prof.is_active) {
-        bar.classList.remove('is-visible');
-        return;
-      }
-
-      const dest = prof.role === 'admin' ? '/pos/admin' : '/pos/cashier';
-      barText.textContent = `Signed in as ${prof.full_name} (${prof.role === 'admin' ? 'Admin' : 'Cashier'})`;
-      barBtn.onclick = () => {
-        window.location.assign(dest);
-      };
-      bar.classList.add('is-visible');
-    } catch {
-      bar.classList.remove('is-visible');
     }
   }
 
@@ -688,12 +651,7 @@ import { supabase } from './lib/supabase';
           </div>
         </div>
 
-        <div class="elfarm-pos-session-bar" id="elfarm-pos-session-bar">
-          <span id="elfarm-pos-session-text">Active session</span>
-          <button type="button" class="elfarm-pos-session-go" id="elfarm-pos-session-go">Open POS ↗</button>
-        </div>
-
-        <form id="elfarm-pos-login-form" autocomplete="on">
+        <form id="elfarm-pos-login-form" autocomplete="off">
           <div class="elfarm-pos-field">
             <label class="elfarm-pos-label" for="elfarm-pos-identifier">USERNAME OR EMAIL</label>
             <div class="elfarm-pos-input-wrap">
@@ -886,6 +844,7 @@ import { supabase } from './lib/supabase';
   }
 
   function boot() {
+    void lockPublicSitePosSession();
     ensureModalDom();
     mountHeaderButtons();
 

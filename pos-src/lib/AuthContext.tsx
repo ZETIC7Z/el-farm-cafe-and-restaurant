@@ -288,6 +288,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           localStorage.removeItem(k);
         }
       });
+      Object.keys(sessionStorage).forEach((k) => {
+        if (k.startsWith('sb-') && k.endsWith('-auth-token')) {
+          sessionStorage.removeItem(k);
+        }
+      });
       sessionStorage.setItem('elfarm_intro_played', '1');
     } catch {
       // ignore storage access issues
