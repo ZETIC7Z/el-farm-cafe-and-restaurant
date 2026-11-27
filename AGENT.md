@@ -202,3 +202,12 @@
 ## 3. Developer Attribution Standard
 - Centered at the bottom of public website pages (`injectZeticuzFooter`):
   `SITE DEVELOPED BY:` + `[zeticuz-logo.svg]` + `© 2026` opening `https://www.zeticuz.xyz/` in a new tab (omitted inside `/pos/*` per client POS cleanliness standard).
+
+---
+
+## 4. Mandatory GitHub Repository & Release Standard
+- Every new or updated GitHub repository under `ZETIC7Z` MUST include:
+  - An official `MIT` `LICENSE` file (`Copyright (c) 2026 Sam Pangilinan (ZETICUZ)`).
+  - A `## ⭐ Star History` dark/light adaptive chart at the bottom of `README.md` (`https://api.star-history.com/svg?repos=ZETIC7Z/<REPO>&type=Date`).
+  - Complete GitHub repository metadata (`description`, live `homepage` URL, and 12–18 accurate discovery `topics`).
+  - GitHub profile (`ZETIC7Z/ZETIC7Z`) branded as **`Founder of ZETICUZ`**.
