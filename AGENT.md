@@ -72,8 +72,8 @@
 - Set Framer Ticker `hoverFactor:0` so hovering over any customer photo immediately pauses auto-sliding and resumes when the pointer leaves.
 - Added hover glass overlay displaying the **Facebook post caption**, **date posted**, and **Likes, Comments, and Shares**, backed by `/api/facebook-feed` and `/api/facebook-sync` (`assets/data/facebook-posts.json` + Facebook Graph API).
 
-### Phase 7: Blog Section Image & Layout Fixes
-- Fixed all blog thumbnails across `/` and `/blog` (`100%` loaded HD sanctuary photography) and wired every blog card to open the interactive Sanctuary Story Reader modal.
+### Phase 7: Blog Section Infinite 3D Three.js Carousel (`/blog` & Homepage)
+- Replaced legacy blog cards and disc shelf with the transparent edge-to-edge **Three.js Infinite Curved Carousel (`ol-ivier` CodePen `01a209cc`)** backed by local `./assets/js/three.min.js` (`r128`), featuring main story captions inside each WebGL card, synced short description below the slider, and click-to-open `#elfarm-menu-lightbox` full story modal across 10 sanctuary stories starting with **"Our Team at Your Service! Meet CAS & the People Behind EL Farm."**
 
 ### Phase 8: Nature Atmosphere, Pure-AI Overhead Plated Foods & Meta OG Upgrade
 - **Brightened Aomi Terraced Hills Hero Video Background**: Replaced the plain black hero backdrop inside `[data-framer-name^="Hero Section"]` (`.framer-1myb8ii`) with `assets/video/hero-nature-bg.mp4` (+ `assets/images/hero-nature-poster.png`, sourced from `https://aomi.framer.website/`), tuned to `opacity: 0.92; brightness(0.95)` with a lighter `.elfarm-hero-nature-scrim` (~15%+ brighter atmospheric backdrop behind Hero typography & table).

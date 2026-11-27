@@ -2124,14 +2124,14 @@ const rawEnhanceJsContent = `(function () {
         visibility: hidden !important;
         pointer-events: none !important;
       }
-      .framer-73kyao:has(.elfarm-ds-wrapper),
+      .framer-73kyao:has(.elfarm-toc-blog-wrap),
       [data-framer-name="Blog Tab Block"] {
         display: block !important;
         width: 100% !important;
         max-width: 100% !important;
       }
-      [data-framer-name="Blog Section"] .framer-73kyao > :not(.elfarm-ds-wrapper),
-      [data-framer-name="Blog Tab Block"] > :not(.elfarm-ds-wrapper),
+      [data-framer-name="Blog Section"] .framer-73kyao > :not(.elfarm-toc-blog-wrap),
+      [data-framer-name="Blog Tab Block"] > :not(.elfarm-toc-blog-wrap),
       [data-framer-name="Blog Tab Section"] .framer-1lpg1ag {
         display: none !important;
         opacity: 0 !important;
@@ -3931,375 +3931,78 @@ const rawEnhanceJsContent = `(function () {
       .elfarm-scurve-navbtn.prev { left: 14px; }
       .elfarm-scurve-navbtn.next { right: 14px; }
 
-      /* 3D Disc Shelf Blog Gallery (CodePen Maseone 01a1db16) */
-      .elfarm-ds-wrapper {
-        --W: clamp(222px, 19vw, 268px);
-        --H: calc(var(--W) * 1.03);
-        --S: calc(var(--W) * 0.082);
-        --sp: calc(var(--S) + 6px);
+      /* Three.js Infinite Blog Carousel (CodePen ol-ivier 01a209cc) — Full Edge-to-Edge, Zero Added Background */
+      .elfarm-toc-blog-wrap {
         position: relative;
         width: 100vw;
         max-width: 100vw;
         margin: 4px 0 0 calc(50% - 50vw);
-        padding: 16px 0 20px;
-        border-radius: 0;
-        background: #090e10;
-        border-top: 1px solid rgba(239, 201, 164, 0.2);
-        border-bottom: 1px solid rgba(239, 201, 164, 0.2);
-        box-shadow: 0 32px 70px rgba(0, 0, 0, 0.65);
+        padding: 4px 0 8px;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
         overflow: hidden;
         user-select: none;
         -webkit-user-select: none;
         box-sizing: border-box;
       }
-      @media (max-width: 1024px) and (min-width: 768px) {
-        .elfarm-ds-wrapper {
-          --W: clamp(200px, 26vw, 248px);
-          padding: 18px 0 20px;
-        }
-      }
-      @media (max-width: 767px) {
-        .elfarm-ds-wrapper {
-          --W: clamp(172px, 48vw, 212px);
-          padding: 16px 0 18px;
-        }
-      }
-      .elfarm-ds-backdrops {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        overflow: hidden;
-        pointer-events: none;
-      }
-      .elfarm-ds-bd {
-        position: absolute;
-        inset: -8%;
-        background-position: center;
-        background-size: cover;
-        filter: blur(42px) brightness(0.32) saturate(1.25);
-        opacity: 0;
-        transition: opacity 650ms ease;
-      }
-      .elfarm-ds-bd.is-active {
-        opacity: 1;
-      }
-      .elfarm-ds-streaks {
-        position: absolute;
-        inset: -8% 0;
+      .elfarm-toc-webgl-stage {
+        position: relative;
         width: 100%;
-        height: 116%;
-        z-index: 1;
-        pointer-events: none;
-        fill: none;
-        stroke: rgba(239, 201, 164, 0.14);
-        stroke-width: 2;
-        animation: elfarmDsDrift 14s ease-in-out infinite alternate;
-      }
-      @keyframes elfarmDsDrift {
-        to { transform: translateY(28px); }
-      }
-      .elfarm-ds-top {
-        position: relative;
-        z-index: 4;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        padding: 0 clamp(16px, 3vw, 40px);
-        color: rgba(245, 245, 245, 0.85);
-        font-family: "Jost", sans-serif;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-      .elfarm-ds-brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-      }
-      .elfarm-ds-brand-dot {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: conic-gradient(from 30deg, #efc9a4, #4ade80, #f59e0b, #efc9a4);
-        -webkit-mask: radial-gradient(circle, transparent 3px, #000 3.5px);
-        mask: radial-gradient(circle, transparent 3px, #000 3.5px);
-      }
-      .elfarm-ds-count strong {
-        color: #efc9a4;
-        font-size: 15px;
-      }
-      .elfarm-ds-shelf {
-        position: relative;
-        z-index: 3;
-        height: calc(var(--H) * 1.12);
-        outline: none;
-        touch-action: pan-y;
+        height: clamp(360px, 53vh, 500px);
         cursor: grab;
+        touch-action: pan-y;
+        outline: none;
       }
-      .elfarm-ds-shelf:active {
+      .elfarm-toc-webgl-stage:active {
         cursor: grabbing;
       }
-      .elfarm-ds-cases {
-        position: absolute;
-        inset: 0;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        perspective: 1500px;
-        perspective-origin: 50% 45%;
-        transform-style: preserve-3d;
-      }
-      .elfarm-ds-case {
-        position: absolute;
-        left: 50%;
-        top: 48%;
-        width: var(--W);
-        height: var(--H);
-        margin-left: calc(var(--W) / -2);
-        margin-top: calc(var(--H) / -2);
-        transform-style: preserve-3d;
-        transition: transform 620ms cubic-bezier(0.2, 0.85, 0.25, 1), opacity 400ms ease;
-        cursor: pointer;
-      }
-      .elfarm-ds-box {
-        position: absolute;
-        inset: 0;
-        transform-style: preserve-3d;
-      }
-      .elfarm-ds-cover {
-        position: absolute;
-        inset: 0;
-        transform-style: preserve-3d;
-        transform: translateZ(calc(var(--S) / 2));
-      }
-      .elfarm-ds-out {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        border-radius: 6px;
-        overflow: hidden;
-        background: #141c1f;
-        box-shadow: 0 26px 50px -18px rgba(0, 0, 0, 0.78), inset 0 0 0 1px rgba(255, 255, 255, 0.22);
-      }
-      .elfarm-ds-out img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      .elfarm-toc-webgl-stage canvas {
         display: block;
-        pointer-events: none;
+        width: 100% !important;
+        height: 100% !important;
       }
-      .elfarm-ds-out::before {
-        content: "";
-        position: absolute;
-        inset: -30% -60%;
-        z-index: 3;
-        pointer-events: none;
-        background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.2) 45%, rgba(255, 255, 255, 0.72) 50%, rgba(255, 255, 255, 0.2) 55%, transparent 60%);
-        mix-blend-mode: screen;
-        transform: translateX(-75%);
+      @media (max-width: 767px) {
+        .elfarm-toc-webgl-stage {
+          height: clamp(280px, 44vh, 360px);
+        }
       }
-      .elfarm-ds-case.is-chosen .elfarm-ds-out::before {
-        animation: elfarmDsGlint 4.4s cubic-bezier(0.45, 0.05, 0.35, 1) -1.1s infinite;
-      }
-      @keyframes elfarmDsGlint {
-        0%, 48% { transform: translateX(-75%); }
-        80%, 100% { transform: translateX(75%); }
-      }
-      .elfarm-ds-hinge {
-        position: absolute;
-        inset: 0 auto 0 0;
-        width: 7%;
-        background: repeating-linear-gradient(rgba(255, 255, 255, 0.16) 0 1px, rgba(0, 0, 0, 0.28) 1px 3px);
-        box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.3);
-        z-index: 2;
-      }
-      .elfarm-ds-art {
-        position: absolute;
-        inset: auto 0 0 7%;
-        padding: 16px 14px 12px;
-        margin: 0;
-        background: linear-gradient(transparent, rgba(7, 13, 15, 0.92));
-        z-index: 2;
-      }
-      .elfarm-ds-art span {
-        display: block;
-        font-family: "Jost", sans-serif;
-        font-size: 9.5px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #efc9a4;
-        margin-bottom: 3px;
-      }
-      .elfarm-ds-art b {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        font-family: "Cormorant Garamond", serif;
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 1.15;
-        color: #ffffff;
-      }
-      .elfarm-ds-spine {
-        position: absolute;
-        inset: 0 auto 0 calc(var(--S) / -2);
-        width: var(--S);
-        transform: rotateY(-90deg);
-        background: linear-gradient(90deg, #1b282b, #283a3e 50%, #162225);
-        box-shadow: inset 0 0 0 1px rgba(239, 201, 164, 0.22);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0;
-        color: #f5f5f5;
-      }
-      .elfarm-ds-spine b {
-        writing-mode: vertical-rl;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        white-space: nowrap;
-        overflow: hidden;
-        max-height: 78%;
-        color: #efc9a4;
-      }
-      .elfarm-ds-spine span {
-        writing-mode: vertical-rl;
-        font-size: 9px;
-        opacity: 0.65;
-      }
-      .elfarm-ds-edge {
-        position: absolute;
-        inset: 0 auto 0 calc(var(--W) - var(--S) / 2);
-        width: var(--S);
-        transform: rotateY(90deg);
-        background: rgba(239, 201, 164, 0.35);
-      }
-      .elfarm-ds-lid {
-        position: absolute;
-        inset: calc(var(--S) / -2) 0 auto;
-        height: var(--S);
-        transform: rotateX(90deg);
-        background: rgba(239, 201, 164, 0.4);
-      }
-      .elfarm-ds-base {
-        position: absolute;
-        inset: auto 0 calc(var(--S) / -2);
-        height: var(--S);
-        transform: rotateX(-90deg);
-        background: rgba(0, 0, 0, 0.55);
-      }
-      .elfarm-ds-back {
-        position: absolute;
-        inset: 0;
-        border-radius: 6px;
-        background: #10191c;
-        box-shadow: inset 0 0 0 1px rgba(239, 201, 164, 0.16);
-        transform: translateZ(calc(var(--S) / -2)) rotateY(180deg);
-      }
-      /* Glossy floor reflection */
-      .elfarm-ds-mirror {
-        position: absolute;
-        top: calc(var(--H) * 0.93);
-        left: 0;
-        right: 0;
-        height: calc(var(--H) * 0.34);
-        overflow: hidden;
-        pointer-events: none;
-        opacity: 0.36;
-        -webkit-mask-image: linear-gradient(#000, rgba(0, 0, 0, 0.28) 38%, transparent 88%);
-        mask-image: linear-gradient(#000, rgba(0, 0, 0, 0.28) 38%, transparent 88%);
-      }
-      .elfarm-ds-mirror::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 8%;
-        right: 8%;
-        height: 1px;
-        z-index: 2;
-        background: linear-gradient(90deg, transparent, rgba(239, 201, 164, 0.42) 30% 70%, transparent);
-      }
-      .elfarm-ds-reflect {
-        position: relative;
-        width: 100%;
-        height: calc(var(--H) * 1.15);
-        transform-origin: 50% 0%;
-        transform: scaleY(-1) translateY(calc(var(--H) * -0.93));
-      }
-      .elfarm-ds-caption-area {
+      .elfarm-toc-below {
         position: relative;
         z-index: 4;
-        max-width: 740px;
-        margin: -6px auto 0;
+        max-width: 840px;
+        margin: 6px auto 0;
+        padding: 0 20px;
         text-align: center;
-        padding: 0 12px;
-      }
-      .elfarm-ds-cap-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 999px;
-        background: rgba(239, 201, 164, 0.14);
-        border: 1px solid rgba(239, 201, 164, 0.35);
-        color: #efc9a4;
-        font-family: "Jost", sans-serif;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        margin-bottom: 8px;
-      }
-      .elfarm-ds-cap-title {
-        margin: 0 0 8px;
-        font-family: "Cormorant Garamond", serif;
-        font-size: clamp(22px, 3vw, 34px);
-        font-weight: 700;
-        line-height: 1.15;
-        color: #ffffff;
-      }
-      .elfarm-ds-cap-desc {
-        margin: 0 auto 14px;
-        font-family: "Jost", sans-serif;
-        font-size: 14.5px;
-        line-height: 1.55;
-        color: rgba(220, 224, 226, 0.86);
-      }
-      .elfarm-ds-actions {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
         gap: 10px;
       }
-      .elfarm-ds-btn {
-        padding: 9px 18px;
-        border-radius: 999px;
-        border: 1px solid rgba(239, 201, 164, 0.35);
-        background: rgba(255, 255, 255, 0.06);
-        color: #f5f5f5;
+      .elfarm-toc-desc {
+        margin: 0;
         font-family: "Jost", sans-serif;
-        font-size: 12.5px;
+        font-size: clamp(16px, 1.55vw, 19px);
+        font-weight: 500;
+        line-height: 1.55;
+        color: rgba(242, 245, 247, 0.94);
+        min-height: 26px;
+        transition: opacity 0.22s ease;
+      }
+      .elfarm-toc-hud {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(239, 201, 164, 0.88);
+        font-family: "Jost", sans-serif;
+        font-size: 12px;
         font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-      .elfarm-ds-btn:hover {
-        background: rgba(239, 201, 164, 0.2);
-        border-color: #efc9a4;
-      }
-      .elfarm-ds-btn.is-primary {
-        background: #efc9a4;
-        border-color: #efc9a4;
-        color: #11191b;
-        font-weight: 700;
-      }
-      .elfarm-ds-btn.is-primary:hover {
-        background: #ffffff;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        background: rgba(15, 25, 28, 0.72);
+        padding: 9px 20px;
+        border-radius: 999px;
+        border: 1px solid rgba(239, 201, 164, 0.24);
       }
 
       /* ============================================================================
@@ -7644,67 +7347,81 @@ const rawEnhanceJsContent = `(function () {
   }
 
   // ============================================================================
-  // PHASE 7: BLOG SECTION IMAGE & 3D DISC SHELF GALLERY (CodePen Maseone 01a1db16)
+  // PHASE 7: BLOG SECTION INFINITE 3D THREE.JS CAROUSEL (CodePen ol-ivier 01a209cc)
   // ============================================================================
   const BLOG_POSTS = [
     {
       img: './assets/images/blog-meet-cas-team.jpg',
+      focalY: 0.68,
       badge: 'MEET THE EL FARM TEAM',
       title: 'Our Team at Your Service! Meet CAS & the People Behind EL Farm.',
+      teaser: 'Meet CAS and our welcoming hospitality team serving handcrafted coffee, matcha, and heirloom meals in Sitio Nipa.',
       summary: 'Next time you visit, don’t forget to say hi! 😊 Here at EL Farm, it’s not just about good food and drinks — it’s also about the people who make you feel at home. 🌿 Meet CAS, part of the EL Farm team who makes sure your EL Farm experience is always a great one — from friendly service with a smile to your favorite drinks and meals. 💚'
     },
     {
       img: './assets/images/RMRNTfOzx5SKsElm7QqEhd4LSOk-380b3b26.avif',
+      fallbackImg: './assets/images/RMRNTfOzx5SKsElm7QqEhd4LSOk.png',
       badge: 'PICKLEBALL & RECREATION',
       title: 'Championship Floodlit Night Pickleball Court Under the Palms.',
+      teaser: 'Play day or night on Basilan’s premier outdoor floodlit pickleball court surrounded by coconut palms.',
       summary: 'Experience Basilan’s premier outdoor floodlit pickleball court right inside El Farm Sanctuary in Sitio Nipa, Lamitan City. Play intense rallies day or night surrounded by towering coconut palms, then recharge with iced Dirty Coffee and a Salu-Salo Bilao.'
     },
     {
       img: './assets/images/tOaLCvpOcZyAWdDImLbzOTOhI-3c606027.avif',
+      fallbackImg: './assets/images/tOaLCvpOcZyAWdDImLbzOTOhI.png',
       badge: 'AL-FRESCO GARDEN NIGHTS',
       title: 'Starlight Lawn, Sail Canopies & Live-Edge Garden Banquets.',
+      teaser: 'Unwind beneath glowing starlight sail canopies and warm string lights across our al-fresco garden lawn.',
       summary: 'As dusk settles over Brgy. Maloong Canal, our expansive green lawn transforms into a glowing sanctuary under starlight sail canopies and warm string lights — crafted for unforgettable family dinners and acoustic evenings.'
     },
     {
       img: './assets/images/Y1yOAhXr4jJN5uIPLyBGGR7JMA-5b08f87d.avif',
+      fallbackImg: './assets/images/Y1yOAhXr4jJN5uIPLyBGGR7JMA.png',
       badge: 'SPECIALTY CAFÉ BAR',
       title: 'Inside Our Timber Pavilion: Dirty Coffee, Matcha & Heirloom Kitchen.',
+      teaser: 'Inside our warm timber café bar crafting signature Dirty Coffee, Coconut Matcha Cloud, and Basilan favorites.',
       summary: 'Step inside our warm timber café pavilion where freshly pulled double-shot espresso meets ceremonial Uji matcha, real buko Coconut Matcha Cloud, and time-honored Basilan culinary traditions.'
     },
     {
       img: './assets/resto-views/resto-7.jpg',
       badge: 'TWILIGHT ENTRANCE',
       title: 'Welcome to Sitio Nipa: Our Illuminated Archway & Lantern Trees.',
+      teaser: 'Our lantern-draped wooden archway welcoming families and travelers into El Farm Sanctuary in Lamitan City.',
       summary: 'Malayo man kami, sulit naman ang dayo! Our illuminated wooden archway and lantern-draped trees welcome travelers from across Lamitan City and Isabela City into a peaceful farm escape.'
     },
     {
       img: './assets/resto-views/resto-8.jpg',
       badge: 'ARTISAN WOODCRAFT',
       title: 'Handcrafted Acacia Tables & Warm Rustic Farm Interiors.',
+      teaser: 'Handcrafted live-edge acacia tables paired with cozy ambient lighting inside our rustic dining pavilion.',
       summary: 'Every table at El Farm Cafe & Resto is hewn from thick, live-edge local hardwood slabs, pairing natural organic textures with cozy ambient pendant lighting.'
     },
     {
       img: './assets/images/XiDCr6H0L2pzCdbVT0MuAVtBLM.png',
       badge: 'CELEBRATIONS & EVENTS',
       title: 'Host Your Family Gatherings, Faculty Dinners & Salu-Salo Feasts.',
+      teaser: 'Celebrate birthdays, faculty dinners, and family milestones with overflowing Salu-Salo Bilaos.',
       summary: 'From faculty fellowships and birthday milestones to barkada reunions, our garden pavilions and overflowing Seafood & Pinoy Favorites Bilaos bring everyone together.'
     },
     {
       img: './assets/menu/studio-tiyula-itum.jpg',
       badge: 'BASILAN HERITAGE',
       title: 'Preserving Heirloom Flavors: Tiyula Itum & Festive Chicken Kaliya.',
+      teaser: 'Authentic Basilan heirloom recipes featuring Tiyula Itum and golden turmeric Chicken Kaliya.',
       summary: 'Our kitchen proudly honors Basilan’s culinary heritage with authentic Tiyula Itum simmered with charred coconut and lemongrass, and golden turmeric Chicken Kaliya.'
     },
     {
       img: './assets/menu/studio-seafood-bilao.jpg',
       badge: 'COASTAL BOUNTY',
       title: 'The Art of the Salu-Salo Bilao: Curacha Crab, Prawns & Crispy Pata.',
+      teaser: 'Generous sharing platters loaded with Basilan Curacha crab, garlic butter prawns, and golden Crispy Pata.',
       summary: 'Designed for generous sharing, our signature bilaos showcase fresh Basilan Curacha crab, garlic butter shrimp, crispy calamares, and golden crackling Crispy Pata.'
     },
     {
       img: './assets/menu/studio-coconut-matcha-cloud.jpg',
       badge: 'FARM-TO-CUP CRAFT',
       title: 'From Fresh Farm Buko to Ceremonial Matcha & Probiotic Yoghurt.',
+      teaser: 'Farm-harvested young buko and mulberries blended with ceremonial Uji matcha and artisanal espresso.',
       summary: 'We pair freshly harvested young coconuts and farm-fresh mulberries with ceremonial matcha and artisanal espresso to craft refreshing drinks you will only find at El Farm.'
     }
   ];
@@ -7721,185 +7438,504 @@ const rawEnhanceJsContent = `(function () {
     openMenuLightbox(modalList, startIdx);
   }
 
+  function createTocLabelTexture(THREE, caption) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 640;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = '700 34px "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.82)';
+    ctx.shadowBlur = 14;
+    ctx.shadowOffsetY = 2;
+
+    const words = String(caption || '').split(/\\s+/);
+    const maxW = 944;
+    const lines = [];
+    let cur = '';
+    for (let i = 0; i < words.length; i++) {
+      const test = cur ? (cur + ' ' + words[i]) : words[i];
+      if (ctx.measureText(test).width > maxW && cur) {
+        lines.push(cur);
+        cur = words[i];
+        if (lines.length === 2) break;
+      } else {
+        cur = test;
+      }
+    }
+    if (cur && lines.length < 2) lines.push(cur);
+    if (lines.length === 2 && words.join(' ') !== lines.join(' ')) {
+      let last = lines[1];
+      while (last.length > 4 && ctx.measureText(last + '...').width > maxW) {
+        last = last.slice(0, -1);
+      }
+      lines[1] = last.trim() + '...';
+    }
+
+    const lineH = 42;
+    const baseBottom = canvas.height - 38;
+    for (let li = 0; li < lines.length; li++) {
+      const y = baseBottom - (lines.length - 1 - li) * lineH;
+      ctx.fillText(lines[li], 36, y);
+    }
+
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    return tex;
+  }
+
   function mountDiscShelfInHost(hostEl, suffix) {
     if (!hostEl) return;
     Array.from(hostEl.children).forEach(ch => {
-      if (!ch.classList.contains('elfarm-ds-wrapper')) {
+      if (!ch.classList.contains('elfarm-toc-blog-wrap')) {
         ch.style.setProperty('display', 'none', 'important');
       }
     });
-    if (hostEl.querySelector('.elfarm-ds-wrapper')) return;
-
-    const wrap = document.createElement('div');
-    wrap.id = 'elfarm-blog-disc-shelf-' + suffix;
-    wrap.className = 'elfarm-ds-wrapper';
-
-    const bdHtml = BLOG_POSTS.map((bp, i) =>
-      '<div class="elfarm-ds-bd' + (i === 0 ? ' is-active' : '') + '" data-ds-bd="' + i + '" style="background-image:url(' + bp.img + ')"></div>'
-    ).join('');
-
-    function buildCaseItems(isReflect) {
-      return BLOG_POSTS.map((bp, i) => {
-        const tagOpen = isReflect ? '<div class="elfarm-ds-case" data-ds-rcase="' + i + '">' : '<li class="elfarm-ds-case" data-ds-case="' + i + '">';
-        const tagClose = isReflect ? '</div>' : '</li>';
-        return tagOpen +
-          '<div class="elfarm-ds-box">' +
-            '<div class="elfarm-ds-cover">' +
-              '<div class="elfarm-ds-out">' +
-                '<img src="' + bp.img + '" alt="' + bp.title + '" loading="' + (i < 4 ? 'eager' : 'lazy') + '">' +
-                '<i class="elfarm-ds-hinge"></i>' +
-                '<p class="elfarm-ds-art"><span>' + bp.badge + '</span><b>' + bp.title + '</b></p>' +
-              '</div>' +
-            '</div>' +
-            '<div class="elfarm-ds-spine"><b>' + bp.badge + '</b><span>' + String(i + 1).padStart(2, '0') + '</span></div>' +
-            '<div class="elfarm-ds-edge"></div><div class="elfarm-ds-lid"></div><div class="elfarm-ds-base"></div><div class="elfarm-ds-back"></div>' +
-          '</div>' +
-        tagClose;
-      }).join('');
+    if (document.getElementById('elfarm-toc-blog-' + suffix) || hostEl.querySelector('.elfarm-toc-blog-wrap')) return;
+    if (!window.THREE) {
+      if (!hostEl.dataset.elfarmThreeWaiting) {
+        hostEl.dataset.elfarmThreeWaiting = '1';
+        const waitThree = () => {
+          if (window.THREE) {
+            delete hostEl.dataset.elfarmThreeWaiting;
+            mountDiscShelfInHost(hostEl, suffix);
+          } else {
+            setTimeout(waitThree, 80);
+          }
+        };
+        setTimeout(waitThree, 80);
+      }
+      return;
     }
 
+    const THREE = window.THREE;
+    const wrap = document.createElement('div');
+    wrap.id = 'elfarm-toc-blog-' + suffix;
+    wrap.className = 'elfarm-toc-blog-wrap';
     wrap.innerHTML =
-      '<div class="elfarm-ds-backdrops" aria-hidden="true">' + bdHtml + '</div>' +
-      '<svg class="elfarm-ds-streaks" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">' +
-        '<path d="M-100 330 C 300 230, 700 420, 1000 300 S 1500 200, 1700 280"/>' +
-        '<path d="M-100 420 C 400 360, 800 500, 1150 380 S 1500 330, 1700 360"/>' +
-        '<path d="M-100 250 C 350 300, 900 180, 1250 260 S 1550 300, 1700 230"/>' +
-      '</svg>' +
-      '<div class="elfarm-ds-top">' +
-        '<span class="elfarm-ds-brand"><i class="elfarm-ds-brand-dot" aria-hidden="true"></i>EL Farm Stories Shelf</span>' +
-        '<span class="elfarm-ds-count"><strong id="elfarm-ds-num-' + suffix + '">01</strong> / ' + String(BLOG_POSTS.length).padStart(2, '0') + '</span>' +
-      '</div>' +
-      '<div class="elfarm-ds-shelf" tabindex="0" aria-label="Sanctuary Story Shelf. Left and right arrows browse; Enter or click opens the story.">' +
-        '<ol class="elfarm-ds-cases">' + buildCaseItems(false) + '</ol>' +
-        '<div class="elfarm-ds-mirror" aria-hidden="true"><div class="elfarm-ds-reflect"><div class="elfarm-ds-cases">' + buildCaseItems(true) + '</div></div></div>' +
-      '</div>' +
-      '<div class="elfarm-ds-caption-area" id="elfarm-ds-caption-' + suffix + '">' +
-        '<span class="elfarm-ds-cap-badge" id="elfarm-ds-badge-' + suffix + '"></span>' +
-        '<h3 class="elfarm-ds-cap-title" id="elfarm-ds-title-' + suffix + '"></h3>' +
-        '<p class="elfarm-ds-cap-desc" id="elfarm-ds-desc-' + suffix + '"></p>' +
-        '<div class="elfarm-ds-actions">' +
-          '<button type="button" class="elfarm-ds-btn" data-ds-prev="' + suffix + '">&larr; Prev Story</button>' +
-          '<button type="button" class="elfarm-ds-btn is-primary" data-ds-read="' + suffix + '">Read Full Story</button>' +
-          '<button type="button" class="elfarm-ds-btn" data-ds-next="' + suffix + '">Next Story &rarr;</button>' +
-        '</div>' +
+      '<div class="elfarm-toc-webgl-stage" id="elfarm-toc-stage-' + suffix + '" tabindex="0" role="region" aria-label="El Farm Stories Infinite Carousel. Scroll or drag to browse; click any image to read full story."></div>' +
+      '<div class="elfarm-toc-below">' +
+        '<p class="elfarm-toc-desc" id="elfarm-toc-desc-' + suffix + '">' + BLOG_POSTS[0].teaser + '</p>' +
+        '<div class="elfarm-toc-hud">Scroll or drag &bull; Click image to view full story</div>' +
       '</div>';
-
     hostEl.appendChild(wrap);
 
-    let sel = 0;
-    const total = BLOG_POSTS.length;
-    const mainCases = Array.from(wrap.querySelectorAll('[data-ds-case]'));
-    const reflCases = Array.from(wrap.querySelectorAll('[data-ds-rcase]'));
-    const bds = Array.from(wrap.querySelectorAll('[data-ds-bd]'));
-    const numEl = wrap.querySelector('#elfarm-ds-num-' + suffix);
-    const badgeEl = wrap.querySelector('#elfarm-ds-badge-' + suffix);
-    const titleEl = wrap.querySelector('#elfarm-ds-title-' + suffix);
-    const descEl = wrap.querySelector('#elfarm-ds-desc-' + suffix);
-    const shelfEl = wrap.querySelector('.elfarm-ds-shelf');
+    const stageEl = wrap.querySelector('#elfarm-toc-stage-' + suffix);
+    const descEl = wrap.querySelector('#elfarm-toc-desc-' + suffix);
 
-    function layoutShelf() {
-      const mobile = window.innerWidth < 768;
-      const vwPx = document.documentElement.clientWidth;
+    let renderer = null;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'default' });
+    } catch (err) {
+      return;
+    }
+
+    const MAX_PIXEL_RATIO = 1.5;
+    const BASE_AUTO_SPEED = 0.004;
+    renderer.setClearColor(0x000000, 0);
+    stageEl.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 2, 0.1, 100);
+    camera.position.set(-0.4, 0.1, 8.6);
+    camera.lookAt(0.3, -0.05, 0);
+
+    const vertexShader = [
+      'varying vec2 vUv;',
+      'varying float vSlope;',
+      'varying float vDistX;',
+      'uniform float uStepDepth;',
+      'uniform float uTransitionStart;',
+      'uniform float uTransitionEnd;',
+      'void main() {',
+      '  vUv = uv;',
+      '  vec4 worldPosition = modelMatrix * vec4(position, 1.0);',
+      '  float stepCurve = smoothstep(uTransitionStart, uTransitionEnd, worldPosition.x);',
+      '  worldPosition.z += mix(uStepDepth * 0.45, -uStepDepth * 0.55, stepCurve);',
+      '  vSlope = stepCurve * (1.0 - stepCurve) * 4.0;',
+      '  vDistX = abs(worldPosition.x);',
+      '  gl_Position = projectionMatrix * viewMatrix * worldPosition;',
+      '}'
+    ].join('\\n');
+
+    const fragmentShader = [
+      'varying vec2 vUv;',
+      'varying float vSlope;',
+      'varying float vDistX;',
+      'uniform sampler2D uTexture;',
+      'uniform sampler2D uLabelTexture;',
+      'uniform vec2 uMediaScale;',
+      'uniform vec2 uMediaOffset;',
+      'uniform float uEdgeStart;',
+      'uniform float uEdgeEnd;',
+      'float roundedBoxSDF(vec2 centerPos, vec2 size, float radius) {',
+      '  return length(max(abs(centerPos) - size + radius, 0.0)) - radius;',
+      '}',
+      'void main() {',
+      '  vec2 aspect = vec2(1.606, 1.0);',
+      '  vec2 p = (vUv - 0.5) * aspect;',
+      '  vec2 halfSize = 0.5 * aspect;',
+      '  float dist = roundedBoxSDF(p, halfSize, 0.045);',
+      '  float roundAlpha = 1.0 - smoothstep(-0.004, 0.004, dist);',
+      '  if (roundAlpha < 0.01) discard;',
+      '  vec2 coverUv = vUv * uMediaScale + uMediaOffset;',
+      '  vec4 texColor = texture2D(uTexture, coverUv);',
+      '  float bottomGrad = smoothstep(0.42, 0.0, vUv.y) * 0.84;',
+      '  vec3 color = mix(texColor.rgb, vec3(0.0), bottomGrad);',
+      '  vec4 labelColor = texture2D(uLabelTexture, vUv);',
+      '  color = mix(color, labelColor.rgb, labelColor.a);',
+      '  float lighting = 1.0 - (vSlope * 0.22);',
+      '  float edgeAlpha = 1.0 - smoothstep(uEdgeStart, uEdgeEnd, vDistX);',
+      '  gl_FragColor = vec4(color * lighting, roundAlpha * edgeAlpha);',
+      '}'
+    ].join('\\n');
+
+    const cardWidth = 5.3;
+    const cardHeight = 3.3;
+    const cardRatio = cardWidth / cardHeight;
+    const cardGap = 0.28;
+    const totalCardStep = cardWidth + cardGap;
+
+    const geometry = new THREE.PlaneGeometry(cardWidth, cardHeight, 40, 1);
+    const items = BLOG_POSTS.concat(BLOG_POSTS);
+    const totalWidth = items.length * totalCardStep;
+    const meshes = [];
+    const mediaCache = new Map();
+
+    function computeCoverTransform(mediaW, mediaH, scaleVec, offsetVec, focalY) {
+      if (!mediaW || !mediaH) return;
+      const mediaRatio = mediaW / mediaH;
+      if (mediaRatio > cardRatio) {
+        const scaleX = cardRatio / mediaRatio;
+        scaleVec.set(scaleX, 1.0);
+        offsetVec.set((1.0 - scaleX) * 0.5, 0.0);
+      } else {
+        const scaleY = mediaRatio / cardRatio;
+        const fy = typeof focalY === 'number' ? focalY : 0.64;
+        scaleVec.set(1.0, scaleY);
+        offsetVec.set(0.0, (1.0 - scaleY) * fy);
+      }
+    }
+
+    function getMediaEntry(bp) {
+      if (mediaCache.has(bp.img)) return mediaCache.get(bp.img);
+      const labelTex = createTocLabelTexture(THREE, bp.title);
+      labelTex.anisotropy = 8;
+      const entry = {
+        texture: null,
+        labelTexture: labelTex,
+        scale: new THREE.Vector2(1, 1),
+        offset: new THREE.Vector2(0, 0)
+      };
+      const texLoader = new THREE.TextureLoader();
+      const loadUrl = (url, allowFallback) => {
+        const tex = texLoader.load(
+          url,
+          (loaded) => {
+            if (loaded && loaded.image) {
+              computeCoverTransform(loaded.image.width, loaded.image.height, entry.scale, entry.offset, bp.focalY);
+            }
+          },
+          undefined,
+          () => {
+            if (allowFallback && bp.fallbackImg) {
+              const fbTex = loadUrl(bp.fallbackImg, false);
+              entry.texture = fbTex;
+              meshes.forEach((m) => {
+                if (m.userData && m.userData.blogUrl === bp.img) {
+                  m.material.uniforms.uTexture.value = fbTex;
+                }
+              });
+            }
+          }
+        );
+        tex.minFilter = THREE.LinearFilter;
+        tex.magFilter = THREE.LinearFilter;
+        tex.generateMipmaps = false;
+        tex.anisotropy = 8;
+        return tex;
+      };
+      entry.texture = loadUrl(bp.img, true);
+      mediaCache.set(bp.img, entry);
+      return entry;
+    }
+
+    let edgeStart = 8.4;
+    let edgeEnd = 12.2;
+    let edgeCull = 14.5;
+
+    items.forEach((bp, idx) => {
+      const mediaEntry = getMediaEntry(bp);
+      const material = new THREE.ShaderMaterial({
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        transparent: true,
+        uniforms: {
+          uTexture: { value: mediaEntry.texture },
+          uLabelTexture: { value: mediaEntry.labelTexture },
+          uMediaScale: { value: mediaEntry.scale },
+          uMediaOffset: { value: mediaEntry.offset },
+          uStepDepth: { value: 1.55 },
+          uTransitionStart: { value: -1.4 },
+          uTransitionEnd: { value: 2.3 },
+          uEdgeStart: { value: edgeStart },
+          uEdgeEnd: { value: edgeEnd }
+        }
+      });
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.userData = { blogIdx: idx % BLOG_POSTS.length, blogUrl: bp.img };
+      scene.add(mesh);
+      meshes.push(mesh);
+    });
+
+    let scrollTarget = 0;
+    let scrollCurrent = 0;
+    let autoScrollSpeed = BASE_AUTO_SPEED;
+    let resumeTimer = null;
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let lastX = 0;
+    let hasMoved = false;
+    let activeBlogIdx = 0;
+    let inView = true;
+    let isPageVisible = !document.hidden;
+    let rafId = null;
+
+    function pauseAutoAndScheduleResume() {
+      autoScrollSpeed = 0;
+      if (resumeTimer) clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(() => {
+        if (!isDragging) autoScrollSpeed = BASE_AUTO_SPEED;
+      }, 3600);
+    }
+
+    function layoutAndResize() {
+      const vwPx = document.documentElement.clientWidth || window.innerWidth;
       const parentLeft = wrap.parentElement ? wrap.parentElement.getBoundingClientRect().left : 0;
       wrap.style.marginLeft = (-parentLeft) + 'px';
       wrap.style.width = vwPx + 'px';
       wrap.style.maxWidth = vwPx + 'px';
-      const caseW = (mainCases[0] && mainCases[0].offsetWidth) || (mobile ? 190 : 258);
-      const spineW = caseW * 0.082;
-      const stepL = spineW + 3;
-      const stepR = mobile ? caseW * 0.22 : caseW * 0.29;
-      const leftGap = caseW * 0.5 + spineW * 0.5 + (mobile ? 38 : 84);
-      const rightGap = caseW * 0.82 + (mobile ? 26 : 54);
-      const nLeft = Math.max(0, sel);
-      const nRight = Math.max(0, total - 1 - sel);
-      const visL = Math.min(nLeft, 8);
-      const visR = Math.min(nRight, 7);
-      const extL = visL > 0 ? (leftGap + (visL - 1) * stepL + spineW * 0.5) : (caseW * 0.5);
-      const extR = visR > 0 ? (rightGap + (visR - 1) * stepR + caseW * 0.3) : (caseW * 0.5);
-      const shiftX = -(extR - extL) * 0.5;
-      const applyTransform = (el, idx) => {
-        const d = idx - sel;
-        const ad = Math.abs(d);
-        const L = d < 0 ? 1 : 0;
-        const R = d > 0 ? 1 : 0;
-        const C = d === 0 ? 1 : 0;
-        const x = shiftX + R * (rightGap + (d - 1) * stepR) - L * (leftGap + (ad - 1) * stepL);
-        const z = C * 46 - L * (caseW * 0.5) - R * (caseW * 0.14);
-        const rotY = L * 88.5 - R * 54;
-        const sc = C ? 1 : (L ? 0.94 : 0.92);
-        const vis = (L && ad > 8) || (R && ad > 7) ? 0 : 1;
-        el.style.transform = 'translateX(' + x.toFixed(1) + 'px) translateZ(' + z.toFixed(1) + 'px) rotateY(' + rotY + 'deg) scale(' + sc + ')';
-        el.style.zIndex = String(100 - ad);
-        el.style.opacity = String(vis);
-        el.classList.toggle('is-chosen', C === 1);
-      };
 
-      mainCases.forEach((el, idx) => applyTransform(el, idx));
-      reflCases.forEach((el, idx) => applyTransform(el, idx));
-      bds.forEach((el, idx) => el.classList.toggle('is-active', idx === sel));
+      const w = stageEl.clientWidth || vwPx;
+      const h = stageEl.clientHeight || 380;
+      const aspect = w / Math.max(h, 1);
+      const camZ = aspect >= 1.8
+        ? 5.75
+        : (aspect >= 1.2 ? 6.55 : Math.min(10.4, 6.55 * Math.pow(1.2 / Math.max(aspect, 0.52), 0.52)));
+      camera.position.set(-0.4, 0.1, camZ);
+      camera.lookAt(0.3, -0.05, 0);
+      camera.aspect = aspect;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO));
 
-      const active = BLOG_POSTS[sel];
-      if (numEl) numEl.textContent = String(sel + 1).padStart(2, '0');
-      if (badgeEl) badgeEl.textContent = active.badge;
-      if (titleEl) titleEl.textContent = active.title;
-      if (descEl) descEl.textContent = active.summary;
+      const halfWorldW = camZ * Math.tan(21 * Math.PI / 180) * aspect;
+      edgeStart = Math.max(6.8, halfWorldW * 0.90);
+      edgeEnd = Math.max(10.8, halfWorldW * 1.24);
+      edgeCull = Math.max(13.5, halfWorldW + cardWidth + 1.5);
+      meshes.forEach((m) => {
+        m.material.uniforms.uEdgeStart.value = edgeStart;
+        m.material.uniforms.uEdgeEnd.value = edgeEnd;
+      });
     }
 
-    function setSel(next) {
-      sel = Math.max(0, Math.min(total - 1, next));
-      layoutShelf();
+    function pickBlogIdxAt(clientX, clientY) {
+      const rect = stageEl.getBoundingClientRect();
+      const px = clientX - rect.left;
+      const py = clientY - rect.top;
+      if (rect.width <= 0 || rect.height <= 0) return activeBlogIdx;
+
+      const projVec = new THREE.Vector3();
+      const hits = [];
+      meshes.forEach((mesh) => {
+        if (!mesh.visible) return;
+        let minSx = Infinity;
+        let maxSx = -Infinity;
+        let minSy = Infinity;
+        let maxSy = -Infinity;
+        let depthSum = 0;
+        let samples = 0;
+        for (let xi = 0; xi <= 4; xi++) {
+          const lx = -cardWidth * 0.5 + (cardWidth * xi) / 4;
+          const wx = mesh.position.x + lx;
+          const t = Math.max(0, Math.min(1, (wx - (-1.4)) / (2.3 - (-1.4))));
+          const sc = t * t * (3 - 2 * t);
+          const wz = (1 - sc) * (1.55 * 0.45) + sc * (-1.55 * 0.55);
+          for (let yi = -1; yi <= 1; yi += 2) {
+            projVec.set(wx, yi * cardHeight * 0.5, wz);
+            projVec.project(camera);
+            const sx = (projVec.x * 0.5 + 0.5) * rect.width;
+            const sy = (-projVec.y * 0.5 + 0.5) * rect.height;
+            if (sx < minSx) minSx = sx;
+            if (sx > maxSx) maxSx = sx;
+            if (sy < minSy) minSy = sy;
+            if (sy > maxSy) maxSy = sy;
+            depthSum += projVec.z;
+            samples++;
+          }
+        }
+        if (px >= minSx - 8 && px <= maxSx + 8 && py >= minSy - 10 && py <= maxSy + 10) {
+          hits.push({
+            blogIdx: mesh.userData.blogIdx,
+            avgDepth: depthSum / Math.max(samples, 1),
+            centerDist: Math.abs(px - (minSx + maxSx) * 0.5)
+          });
+        }
+      });
+
+      if (hits.length > 0) {
+        hits.sort((a, b) => (a.avgDepth - b.avgDepth) || (a.centerDist - b.centerDist));
+        return hits[0].blogIdx;
+      }
+      return activeBlogIdx;
     }
 
-    let dragStartX = null;
-    let dragStartSel = 0;
-    let dragged = false;
+    const isBlogPage = window.location.pathname.toLowerCase().includes('blog');
+    stageEl.addEventListener('wheel', (e) => {
+      const absX = Math.abs(e.deltaX);
+      const absY = Math.abs(e.deltaY);
+      if (isBlogPage || absX > absY || e.shiftKey) {
+        if (isBlogPage || absX > absY) e.preventDefault();
+        const delta = absX > absY ? e.deltaX : e.deltaY;
+        scrollTarget += delta * 0.008;
+        pauseAutoAndScheduleResume();
+      }
+    }, { passive: false });
 
-    shelfEl.addEventListener('pointerdown', (e) => {
+    stageEl.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      hasMoved = false;
       dragStartX = e.clientX;
-      dragStartSel = sel;
-      dragged = false;
+      dragStartY = e.clientY;
+      lastX = e.clientX;
+      pauseAutoAndScheduleResume();
     });
-    window.addEventListener('pointermove', (e) => {
-      if (dragStartX === null) return;
-      const dx = e.clientX - dragStartX;
-      if (Math.abs(dx) > 8) dragged = true;
-      if (dragged) {
-        setSel(Math.round(dragStartSel - dx / 65));
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - lastX;
+      lastX = e.clientX;
+      if (Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY) > 7) hasMoved = true;
+      scrollTarget -= dx * 0.012;
+    });
+    window.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      pauseAutoAndScheduleResume();
+      if (!hasMoved) {
+        const hitIdx = pickBlogIdxAt(e.clientX, e.clientY);
+        openBlogStoryModal(hitIdx);
       }
     });
-    window.addEventListener('pointerup', () => {
-      dragStartX = null;
+
+    stageEl.addEventListener('touchstart', (e) => {
+      if (!e.touches || !e.touches[0]) return;
+      isDragging = true;
+      hasMoved = false;
+      dragStartX = e.touches[0].clientX;
+      dragStartY = e.touches[0].clientY;
+      lastX = e.touches[0].clientX;
+      pauseAutoAndScheduleResume();
+    }, { passive: true });
+    stageEl.addEventListener('touchmove', (e) => {
+      if (!isDragging || !e.touches || !e.touches[0]) return;
+      const cx = e.touches[0].clientX;
+      const cy = e.touches[0].clientY;
+      const dx = cx - lastX;
+      lastX = cx;
+      if (Math.hypot(cx - dragStartX, cy - dragStartY) > 8) hasMoved = true;
+      scrollTarget -= dx * 0.015;
+    }, { passive: true });
+    stageEl.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      pauseAutoAndScheduleResume();
+      const t = e.changedTouches && e.changedTouches[0];
+      if (!hasMoved && t) {
+        const hitIdx = pickBlogIdxAt(t.clientX, t.clientY);
+        openBlogStoryModal(hitIdx);
+      }
     });
 
-    mainCases.forEach((el, idx) => {
-      el.addEventListener('click', (e) => {
+    stageEl.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
         e.preventDefault();
-        e.stopPropagation();
-        if (dragged) { dragged = false; return; }
-        if (idx === sel) openBlogStoryModal(idx);
-        else setSel(idx);
+        scrollTarget += totalCardStep;
+        pauseAutoAndScheduleResume();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        scrollTarget -= totalCardStep;
+        pauseAutoAndScheduleResume();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openBlogStoryModal(activeBlogIdx);
+      }
+    });
+
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        inView = !!(entries[0] && entries[0].isIntersecting);
+        if (inView && isPageVisible && rafId === null) startLoop();
+      }, { rootMargin: '250px 0px' });
+      obs.observe(wrap);
+    }
+    document.addEventListener('visibilitychange', () => {
+      isPageVisible = !document.hidden;
+      if (isPageVisible && inView && rafId === null) startLoop();
+    });
+    window.addEventListener('resize', layoutAndResize);
+
+    const halfTotalWidth = totalWidth / 2;
+    function renderTick() {
+      if (!inView || !isPageVisible) {
+        rafId = null;
+        return;
+      }
+      rafId = requestAnimationFrame(renderTick);
+      scrollTarget += autoScrollSpeed;
+      scrollCurrent += (scrollTarget - scrollCurrent) * 0.075;
+
+      let bestDist = Infinity;
+      let bestBlog = activeBlogIdx;
+      meshes.forEach((mesh, i) => {
+        const rawX = (i * totalCardStep) - scrollCurrent;
+        let wrappedX = ((rawX % totalWidth) + totalWidth) % totalWidth;
+        if (wrappedX > halfTotalWidth) wrappedX -= totalWidth;
+        mesh.position.x = wrappedX;
+        mesh.visible = Math.abs(wrappedX) < edgeCull;
+        const absDist = Math.abs(wrappedX - 0.15);
+        if (absDist < bestDist) {
+          bestDist = absDist;
+          bestBlog = i % BLOG_POSTS.length;
+        }
       });
-    });
 
-    wrap.querySelector('[data-ds-prev="' + suffix + '"]').addEventListener('click', () => setSel(sel - 1));
-    wrap.querySelector('[data-ds-next="' + suffix + '"]').addEventListener('click', () => setSel(sel + 1));
-    wrap.querySelector('[data-ds-read="' + suffix + '"]').addEventListener('click', () => openBlogStoryModal(sel));
+      if (bestBlog !== activeBlogIdx) {
+        activeBlogIdx = bestBlog;
+        stageEl.dataset.activeBlogIndex = String(bestBlog);
+        if (descEl) descEl.textContent = BLOG_POSTS[bestBlog].teaser;
+      }
+      renderer.render(scene, camera);
+    }
 
-    shelfEl.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') { e.preventDefault(); setSel(sel + 1); }
-      else if (e.key === 'ArrowLeft') { e.preventDefault(); setSel(sel - 1); }
-      else if (e.key === 'Enter') { e.preventDefault(); openBlogStoryModal(sel); }
-    });
+    function startLoop() {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(renderTick);
+    }
 
-    window.addEventListener('resize', layoutShelf);
-    layoutShelf();
+    layoutAndResize();
+    stageEl.dataset.activeBlogIndex = '0';
+    startLoop();
   }
 
   function enhanceRestoViewsSection() {
     const blogSections = document.querySelectorAll('[data-framer-name="Blog Section"], [data-framer-name="Blog Tab Section"]');
     blogSections.forEach((blogSec, sIdx) => {
       blogSec.querySelectorAll('h1, h2, h3, p').forEach(el => {
-        if (el.closest('.elfarm-ds-wrapper')) return;
+        if (el.closest('.elfarm-toc-blog-wrap')) return;
         const t = el.textContent.trim();
         if (t === 'Culinary Insights') el.textContent = 'Explore El Farm Sanctuary';
         if (t.includes('Discover stories, tips')) {
@@ -9446,8 +9482,8 @@ for (const cfg of pageConfigs) {
     #main{filter:none!important;backdrop-filter:none!important;transform:none!important}
     @media (max-width:809px){[data-framer-name^="Hero Section"] .framer-yak54d{width:100%!important;max-width:100%!important}}
     [data-framer-name="Menu Section"]{overflow-x:clip!important;max-width:100%!important}
-    [data-framer-name="Blog Section"] .framer-73kyao>:not(.elfarm-ds-wrapper),[data-framer-name="Blog Tab Block"]>:not(.elfarm-ds-wrapper),[data-framer-name="Blog Tab Section"] .framer-1lpg1ag,[data-framer-name="Instagram Section"] .framer-1hajl2m-container:not(.elfarm-2d-fallback-active),[data-framer-name="Instagram Section"]:has(#elfarm-scurve-gallery-wrap)>:not(#elfarm-scurve-gallery-wrap):not(.elfarm-2d-fallback-active){display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
-    [data-framer-name="Blog Tab Block"],.framer-73kyao:has(.elfarm-ds-wrapper){display:block!important;width:100%!important;max-width:100%!important}
+    [data-framer-name="Blog Section"] .framer-73kyao>:not(.elfarm-toc-blog-wrap),[data-framer-name="Blog Tab Block"]>:not(.elfarm-toc-blog-wrap),[data-framer-name="Blog Tab Section"] .framer-1lpg1ag,[data-framer-name="Instagram Section"] .framer-1hajl2m-container:not(.elfarm-2d-fallback-active),[data-framer-name="Instagram Section"]:has(#elfarm-scurve-gallery-wrap)>:not(#elfarm-scurve-gallery-wrap):not(.elfarm-2d-fallback-active){display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+    [data-framer-name="Blog Tab Block"],.framer-73kyao:has(.elfarm-toc-blog-wrap){display:block!important;width:100%!important;max-width:100%!important}
     [data-framer-name="Experience Badge"],.framer-1qu9lve{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important}
     .framer-2nqvvj-container{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;max-width:100%!important;z-index:120!important;opacity:1!important;visibility:visible!important;transform:none!important;isolation:isolate!important}
     .framer-2nqvvj-container::before{content:""!important;position:absolute!important;inset:0!important;z-index:-1!important;background:linear-gradient(180deg,rgba(7,13,15,0.96) 0%,rgba(11,19,21,0.92) 100%)!important;backdrop-filter:blur(16px) saturate(140%)!important;-webkit-backdrop-filter:blur(16px) saturate(140%)!important;border-bottom:1px solid rgba(239,201,164,0.24)!important;box-shadow:0 16px 36px -8px rgba(0,0,0,0.6)!important;opacity:0!important;transform:translateY(-100%)!important;transition:opacity 0.42s cubic-bezier(0.22,1,0.36,1),transform 0.46s cubic-bezier(0.22,1,0.36,1)!important;pointer-events:none!important}
@@ -9548,9 +9584,10 @@ for (const cfg of pageConfigs) {
     return cleaned;
   });
 
-  // Inject local GSAP + Swiper bundle (+ QR generator on download page) + protected elfarm-enhance.js + POS Floating Login Widget right before </body>
+  // Inject local Three.js r128 (blog & home), GSAP + Swiper bundle (+ QR generator on download page) + protected elfarm-enhance.js + POS Floating Login Widget right before </body>
+  const threeScriptTag = (cfg.out === 'index.html' || cfg.out === 'blog.html') ? '<script src="./assets/js/three.min.js"></script>' : '';
   const qrScriptTag = cfg.out === 'download.html' ? '<script src="./assets/js/qrcode.min.js"></script>' : '';
-  html = html.replace('</body>', `<script src="./assets/js/gsap.min.js"></script><script src="./assets/js/swiper-bundle.min.js"></script>${qrScriptTag}<script src="./pos/pos-widget.js?v=4"></script><script src="./assets/js/elfarm-enhance.js?v=34"></script></body>`);
+  html = html.replace('</body>', `${threeScriptTag}<script src="./assets/js/gsap.min.js"></script><script src="./assets/js/swiper-bundle.min.js"></script>${qrScriptTag}<script src="./pos/pos-widget.js?v=4"></script><script src="./assets/js/elfarm-enhance.js?v=36"></script></body>`);
 
   fs.writeFileSync(path.join(ROOT, cfg.out), html, 'utf8');
   console.log('Updated', cfg.out);

@@ -1,5 +1,5 @@
 /* El Farm Cafe & Restaurant — Edge-to-Edge Cross-Browser Service Worker (v7) */
-const CACHE_NAME = 'elfarm-pwa-v19';
+const CACHE_NAME = 'elfarm-pwa-v21';
 const SHELL_ASSETS = [
   '/',
   '/index.html',
@@ -14,6 +14,7 @@ const SHELL_ASSETS = [
   '/assets/images/favicon-192x192.png?v=2',
   '/assets/images/favicon-512x512.png?v=3',
   '/assets/css/swiper-bundle.min.css',
+  '/assets/js/three.min.js',
   '/assets/js/gsap.min.js',
   '/assets/js/swiper-bundle.min.js',
   '/assets/js/qrcode.min.js'
